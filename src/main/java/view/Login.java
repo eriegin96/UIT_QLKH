@@ -51,7 +51,8 @@ public class Login extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
 
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -112,6 +113,7 @@ public class Login extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 loginUserMouseEntered(evt);
             }
+
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 loginUserMousePressed(evt);
             }
@@ -145,15 +147,19 @@ public class Login extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 JPaneLoginMouseClicked(evt);
             }
+
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 JPaneLoginMouseEntered(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 JPaneLoginMouseExited(evt);
             }
+
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 JPaneLoginMousePressed(evt);
             }
+
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 JPaneLoginMouseReleased(evt);
             }
@@ -171,18 +177,18 @@ public class Login extends javax.swing.JFrame {
         javax.swing.GroupLayout JPaneLoginLayout = new javax.swing.GroupLayout(JPaneLogin);
         JPaneLogin.setLayout(JPaneLoginLayout);
         JPaneLoginLayout.setHorizontalGroup(
-            JPaneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPaneLoginLayout.createSequentialGroup()
-                .addContainerGap(88, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(77, 77, 77))
-        );
+                JPaneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPaneLoginLayout.createSequentialGroup()
+                                .addContainerGap(88, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 105,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(77, 77, 77)));
         JPaneLoginLayout.setVerticalGroup(
-            JPaneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPaneLoginLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+                JPaneLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPaneLoginLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)));
 
         jPanel1.add(JPaneLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 360, 270, 40));
 
@@ -205,88 +211,87 @@ public class Login extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 797, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 797,
+                                javax.swing.GroupLayout.PREFERRED_SIZE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 578, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 578,
+                                javax.swing.GroupLayout.PREFERRED_SIZE));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void loginUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginUserActionPerformed
+    private void loginUserActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_loginUserActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_loginUserActionPerformed
+    }// GEN-LAST:event_loginUserActionPerformed
 
-    private void JPaneLoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JPaneLoginMouseEntered
+    private void JPaneLoginMouseEntered(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_JPaneLoginMouseEntered
         // TODO add your handling code here:
         JPaneLogin.setBackground(panEnter);
-    }//GEN-LAST:event_JPaneLoginMouseEntered
+    }// GEN-LAST:event_JPaneLoginMouseEntered
 
-    private void JPaneLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JPaneLoginMouseClicked
+    private void JPaneLoginMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_JPaneLoginMouseClicked
         checkLogin();
 
+    }// GEN-LAST:event_JPaneLoginMouseClicked
 
-    }//GEN-LAST:event_JPaneLoginMouseClicked
-
-    private void JPaneLoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JPaneLoginMouseExited
+    private void JPaneLoginMouseExited(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_JPaneLoginMouseExited
         // TODO add your handling code here:
         JPaneLogin.setBackground(panClick);
-    }//GEN-LAST:event_JPaneLoginMouseExited
+    }// GEN-LAST:event_JPaneLoginMouseExited
 
-    private void JPaneLoginMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JPaneLoginMousePressed
+    private void JPaneLoginMousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_JPaneLoginMousePressed
         // TODO add your handling code here:
 
         JPaneLogin.setBackground(panEnter);
-    }//GEN-LAST:event_JPaneLoginMousePressed
+    }// GEN-LAST:event_JPaneLoginMousePressed
 
-    private void JPaneLoginMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JPaneLoginMouseReleased
+    private void JPaneLoginMouseReleased(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_JPaneLoginMouseReleased
         // TODO add your handling code here:
         JPaneLogin.setBackground(panClick);
-    }//GEN-LAST:event_JPaneLoginMouseReleased
+    }// GEN-LAST:event_JPaneLoginMouseReleased
 
-    private void loginUserMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginUserMouseEntered
-        // TODO add your handling code here:    
-    }//GEN-LAST:event_loginUserMouseEntered
+    private void loginUserMouseEntered(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_loginUserMouseEntered
+        // TODO add your handling code here:
+    }// GEN-LAST:event_loginUserMouseEntered
 
-    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_formKeyPressed
         // TODO add your handling code here:
         System.out.println(evt.getKeyCode());
 
-    }//GEN-LAST:event_formKeyPressed
+    }// GEN-LAST:event_formKeyPressed
 
-    private void JPaneLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JPaneLoginKeyPressed
+    private void JPaneLoginKeyPressed(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_JPaneLoginKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_JPaneLoginKeyPressed
+    }// GEN-LAST:event_JPaneLoginKeyPressed
 
-    private void loginUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_loginUserKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            // Enter was pressed. Your code goes here.
-            checkLogin();
-        }
-    }//GEN-LAST:event_loginUserKeyPressed
-
-    private void passwordUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordUserKeyPressed
+    private void loginUserKeyPressed(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_loginUserKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             // Enter was pressed. Your code goes here.
             checkLogin();
         }
-    }//GEN-LAST:event_passwordUserKeyPressed
+    }// GEN-LAST:event_loginUserKeyPressed
 
-    private void loginUserMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginUserMousePressed
+    private void passwordUserKeyPressed(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_passwordUserKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            // Enter was pressed. Your code goes here.
+            checkLogin();
+        }
+    }// GEN-LAST:event_passwordUserKeyPressed
+
+    private void loginUserMousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_loginUserMousePressed
         // TODO add your handling code here:
 
-    }//GEN-LAST:event_loginUserMousePressed
+    }// GEN-LAST:event_loginUserMousePressed
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jLabel7MouseClicked
         // TODO add your handling code here:
         RecoverPassword rcv = new RecoverPassword(this, rootPaneCheckingEnabled);
         rcv.setVisible(true);
-    }//GEN-LAST:event_jLabel7MouseClicked
+    }// GEN-LAST:event_jLabel7MouseClicked
 
     /**
      * @param args the command line arguments
@@ -308,10 +313,11 @@ public class Login extends javax.swing.JFrame {
         if (usercheck.equals("") || passwordcheck.equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
         } else {
-            try {                
-                Account acc = AccountDAO.getInstance().selectById(usercheck);                
+            try {
+                Account acc = AccountDAO.getInstance().selectById(usercheck);
                 if (acc == null) {
-                    JOptionPane.showMessageDialog(this, "Tài khoản không tồn tại trên hệ thống !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Tài khoản không tồn tại trên hệ thống !", "Cảnh báo !",
+                            JOptionPane.WARNING_MESSAGE);
                 } else {
                     if (BCrypt.checkpw(passwordcheck, acc.getPassword())) {
                         if (acc.getStatus() == 1) {
@@ -322,7 +328,7 @@ public class Login extends javax.swing.JFrame {
                                 if (role.equals("Admin")) {
                                     Admin ad = new Admin(acc);
                                     ad.setVisible(true);
-//                                    ad.setCurrentAcc(acc);
+                                    // ad.setCurrentAcc(acc);
                                     ad.setName(acc.getFullName());
                                 } else if (role.equals("Quản lý kho")) {
                                     QuanLiKho ql = new QuanLiKho();
@@ -342,10 +348,12 @@ public class Login extends javax.swing.JFrame {
                                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         } else {
-                            JOptionPane.showMessageDialog(this, "Tài khoản của bạn đã bị khóa !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(this, "Tài khoản của bạn đã bị khóa !", "Cảnh báo !",
+                                    JOptionPane.WARNING_MESSAGE);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(this, "Sai mật khẩu !", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Sai mật khẩu !", "Cảnh báo !",
+                                JOptionPane.WARNING_MESSAGE);
                     }
                 }
             } catch (Exception e) {

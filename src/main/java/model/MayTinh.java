@@ -14,20 +14,21 @@ public class MayTinh {
     private String tenCpu;
     private String ram;
     private String xuatXu;
-    private String cardManHinh;
+    private String vga;
     private String Rom;
     private int trangThai;
-    
 
     public MayTinh() {
-        
-    }
-    
-    public MayTinh(String maMay, String tenMay, int soLuong, double donGia, String boXuLi, String loaiMay, int trangThai){
-        
+
     }
 
-    public MayTinh(String maMay, String tenMay, int soLuong, double gia, String tenCpu, String ram, String xuatXu, String cardManHinh, String Rom,int trangThai) {
+    public MayTinh(String maMay, String tenMay, int soLuong, double donGia, String boXuLi, String loaiMay,
+            int trangThai) {
+
+    }
+
+    public MayTinh(String maMay, String tenMay, int soLuong, double gia, String tenCpu, String ram, String xuatXu,
+            String vga, String Rom, int trangThai) {
         this.maMay = maMay;
         this.tenMay = tenMay;
         this.soLuong = soLuong;
@@ -35,7 +36,7 @@ public class MayTinh {
         this.tenCpu = tenCpu;
         this.ram = ram;
         this.xuatXu = xuatXu;
-        this.cardManHinh = cardManHinh;
+        this.vga = vga;
         this.Rom = Rom;
         this.trangThai = trangThai;
     }
@@ -48,7 +49,7 @@ public class MayTinh {
         this.trangThai = trangThai;
     }
 
-    public MayTinh(String maMay, String tenMay, int soLuong, double gia,String tenCpu, String ram,String Rom) {
+    public MayTinh(String maMay, String tenMay, int soLuong, double gia, String tenCpu, String ram, String Rom) {
         this.maMay = maMay;
         this.tenMay = tenMay;
         this.soLuong = soLuong;
@@ -114,12 +115,12 @@ public class MayTinh {
         this.xuatXu = xuatXu;
     }
 
-    public String getCardManHinh() {
-        return cardManHinh;
+    public String getVga() {
+        return vga;
     }
 
-    public void setCardManHinh(String cardManHinh) {
-        this.cardManHinh = cardManHinh;
+    public void setVga(String vga) {
+        this.vga = vga;
     }
 
     public String getRom() {
@@ -133,10 +134,11 @@ public class MayTinh {
     public void xuatHang(int sl) {
         this.soLuong -= sl;
     }
-    
+
     @Override
     public String toString() {
-        return "MayTinh{" + "maMay=" + maMay + ", tenMay=" + tenMay + ", soLuong=" + soLuong + ", gia=" + gia + ", tenCpu=" + tenCpu + ", ram=" + ram + ", xuatXu=" + xuatXu + ", cardManHinh=" + cardManHinh + ", Rom=" + Rom + '}';
+        return "MayTinh{" + "maMay=" + maMay + ", tenMay=" + tenMay + ", soLuong=" + soLuong + ", gia=" + gia
+                + ", tenCpu=" + tenCpu + ", ram=" + ram + ", xuatXu=" + xuatXu + ", vga=" + vga + ", Rom=" + Rom + '}';
     }
 
     @Override
@@ -149,7 +151,7 @@ public class MayTinh {
         hash = 37 * hash + Objects.hashCode(this.tenCpu);
         hash = 37 * hash + Objects.hashCode(this.ram);
         hash = 37 * hash + Objects.hashCode(this.xuatXu);
-        hash = 37 * hash + Objects.hashCode(this.cardManHinh);
+        hash = 37 * hash + Objects.hashCode(this.vga);
         hash = 37 * hash + Objects.hashCode(this.Rom);
         return hash;
     }
@@ -187,7 +189,7 @@ public class MayTinh {
         if (!Objects.equals(this.xuatXu, other.xuatXu)) {
             return false;
         }
-        if (!Objects.equals(this.cardManHinh, other.cardManHinh)) {
+        if (!Objects.equals(this.vga, other.vga)) {
             return false;
         }
         return Objects.equals(this.Rom, other.Rom);

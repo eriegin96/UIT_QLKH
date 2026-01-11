@@ -10,7 +10,7 @@ import java.util.Objects;
  *
  * @author Tran Nhat Sinh
  */
-public class PC extends MayTinh{
+public class PC extends MayTinh {
     private String mainBoard;
     private int congSuatNguon;
 
@@ -19,14 +19,15 @@ public class PC extends MayTinh{
         this.congSuatNguon = congSuatNguon;
     }
 
-    public PC(String mainBoard, int congSuatNguon, String maMay, String tenMay, int soLuong, double gia, String tenCpu, String ram, String xuatXu, String cardManHinh, String Rom, int trangThai) {
-        super(maMay, tenMay, soLuong, gia, tenCpu, ram, xuatXu, cardManHinh, Rom,trangThai);
+    public PC(String mainBoard, int congSuatNguon, String maMay, String tenMay, int soLuong, double gia, String tenCpu,
+            String ram, String xuatXu, String vga, String Rom, int trangThai) {
+        super(maMay, tenMay, soLuong, gia, tenCpu, ram, xuatXu, vga, Rom, trangThai);
         this.mainBoard = mainBoard;
         this.congSuatNguon = congSuatNguon;
     }
 
     public PC() {
-        
+
     }
 
     public String getMainBoard() {
@@ -75,6 +76,5 @@ public class PC extends MayTinh{
     public String toString() {
         return "PC{" + "mainBoard=" + mainBoard + ", congSuatNguon=" + congSuatNguon + '}';
     }
-    
-    
+
 }

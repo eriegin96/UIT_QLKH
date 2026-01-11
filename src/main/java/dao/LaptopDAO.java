@@ -28,14 +28,14 @@ public class LaptopDAO implements DAOInterface<Laptop> {
         int ketQua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "INSERT INTO MayTinh (maMay, tenMay, soLuong, tenCpu, ram, cardManHinh, gia, dungLuongPin, kichThuocMan, xuatXu, loaiMay, rom, trangThai) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO MayTinh (maMay, tenMay, soLuong, tenCpu, ram, vga, gia, dungLuongPin, kichThuocMan, xuatXu, loaiMay, rom, trangThai) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, t.getMaMay());
             pst.setString(2, t.getTenMay());
             pst.setInt(3, t.getSoLuong());
             pst.setString(4, t.getTenCpu());
             pst.setString(5, t.getRam());
-            pst.setString(6, t.getCardManHinh());
+            pst.setString(6, t.getVga());
             pst.setDouble(7, t.getGia());
             pst.setString(8, t.getDungLuongPin());
             pst.setDouble(9, t.getkichThuocMan());
@@ -46,7 +46,7 @@ public class LaptopDAO implements DAOInterface<Laptop> {
             ketQua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Không thêm được " + t.getMaMay(),"Lỗi", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Không thêm được " + t.getMaMay(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
         return ketQua;
     }
@@ -56,15 +56,17 @@ public class LaptopDAO implements DAOInterface<Laptop> {
         int ketQua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            //String sql = "INSERT INTO MayTinh (maMay, tenMay, soLuong, tenCpu, ram, cardManHinh, gia, dungLuongPin, dungLuongPin, dungLuongPin, loaiMay, rom) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-            String sql = "UPDATE MayTinh SET maMay=?, tenMay=?, soLuong=?, tenCpu=?, ram=?, cardManHinh=?, gia=?, dungLuongPin=?, kichThuocMan=?, xuatXu=?, loaiMay = ?, rom = ?, trangThai = ? WHERE maMay=? ";
+            // String sql = "INSERT INTO MayTinh (maMay, tenMay, soLuong, tenCpu, ram, vga,
+            // gia, dungLuongPin, dungLuongPin, dungLuongPin, loaiMay, rom) VALUES
+            // (?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "UPDATE MayTinh SET maMay=?, tenMay=?, soLuong=?, tenCpu=?, ram=?, vga=?, gia=?, dungLuongPin=?, kichThuocMan=?, xuatXu=?, loaiMay = ?, rom = ?, trangThai = ? WHERE maMay=? ";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, t.getMaMay());
             pst.setString(2, t.getTenMay());
             pst.setInt(3, t.getSoLuong());
             pst.setString(4, t.getTenCpu());
             pst.setString(5, t.getRam());
-            pst.setString(6, t.getCardManHinh());
+            pst.setString(6, t.getVga());
             pst.setDouble(7, t.getGia());
             pst.setString(8, t.getDungLuongPin());
             pst.setDouble(9, t.getkichThuocMan());
@@ -112,14 +114,15 @@ public class LaptopDAO implements DAOInterface<Laptop> {
                 int soLuong = rs.getInt("soLuong");
                 String tenCpu = rs.getString("tenCpu");
                 String ram = rs.getString("ram");
-                String cardManHinh = rs.getString("cardManHinh");
+                String vga = rs.getString("vga");
                 double gia = rs.getDouble("gia");
                 double kichThuocMan = rs.getDouble("kichThuocMan");
                 String dungLuongPin = rs.getString("dungLuongPin");
                 String rom = rs.getString("rom");
                 String xuatXu = rs.getString("xuatXu");
                 int trangThai = rs.getInt("trangThai");
-                Laptop mt = new Laptop(kichThuocMan, dungLuongPin, maMay, tenMay, soLuong, gia, tenCpu, ram, xuatXu, cardManHinh, rom, trangThai);
+                Laptop mt = new Laptop(kichThuocMan, dungLuongPin, maMay, tenMay, soLuong, gia, tenCpu, ram, xuatXu,
+                        vga, rom, trangThai);
                 ketQua.add(mt);
             }
             JDBCUtil.closeConnection(con);
@@ -145,15 +148,18 @@ public class LaptopDAO implements DAOInterface<Laptop> {
                 int soLuong = rs.getInt("soLuong");
                 String tenCpu = rs.getString("tenCpu");
                 String ram = rs.getString("ram");
-                String cardManHinh = rs.getString("cardManHinh");
+                String vga = rs.getString("vga");
                 double gia = rs.getDouble("gia");
                 double kichThuocMan = rs.getDouble("kichThuocMan");
                 String dungLuongPin = rs.getString("dungLuongPin");
                 String rom = rs.getString("rom");
                 String xuatXu = rs.getString("xuatXu");
                 int trangThai = rs.getInt("trangThai");
-                //Laptop(String kichThuocMan, String dungLuongPin, String maMay, String tenMay, int soLuong, double gia, String tenCpu, String ram, String xuatXu, String cardManHinh, String Rom)
-                ketQua = new Laptop(kichThuocMan, dungLuongPin, maMay, tenMay, soLuong, gia, tenCpu, ram, xuatXu, cardManHinh, rom, trangThai);
+                // Laptop(String kichThuocMan, String dungLuongPin, String maMay, String tenMay,
+                // int soLuong, double gia, String tenCpu, String ram, String xuatXu, String
+                // vga, String Rom)
+                ketQua = new Laptop(kichThuocMan, dungLuongPin, maMay, tenMay, soLuong, gia, tenCpu, ram, xuatXu, vga,
+                        rom, trangThai);
             }
             JDBCUtil.closeConnection(con);
 

@@ -27,14 +27,14 @@ public class PCDAO implements DAOInterface<PC> {
         int ketQua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "INSERT INTO MayTinh (maMay, tenMay, soLuong, tenCpu, ram, cardManHinh, gia, mainBoard, congSuatNguon, xuatXu, loaiMay, rom, trangThai) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO MayTinh (maMay, tenMay, soLuong, tenCpu, ram, vga, gia, mainBoard, congSuatNguon, xuatXu, loaiMay, rom, trangThai) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, t.getMaMay());
             pst.setString(2, t.getTenMay());
             pst.setInt(3, t.getSoLuong());
             pst.setString(4, t.getTenCpu());
             pst.setString(5, t.getRam());
-            pst.setString(6, t.getCardManHinh());
+            pst.setString(6, t.getVga());
             pst.setDouble(7, t.getGia());
             pst.setString(8, t.getMainBoard());
             pst.setInt(9, t.getCongSuatNguon());
@@ -55,15 +55,17 @@ public class PCDAO implements DAOInterface<PC> {
         int ketQua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            //String sql = "INSERT INTO MayTinh (maMay, tenMay, soLuong, tenCpu, ram, cardManHinh, gia, dungLuongPin, dungLuongPin, dungLuongPin, loaiMay, rom) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-            String sql = "UPDATE MayTinh SET maMay=?, tenMay=?, soLuong=?, tenCpu=?, ram=?, cardManHinh=?, gia=?, mainBoard=?, congSuatNguon=?, xuatXu=?, loaiMay = ?, rom = ?, trangThai = ? WHERE maMay= ? ";
+            // String sql = "INSERT INTO MayTinh (maMay, tenMay, soLuong, tenCpu, ram, vga,
+            // gia, dungLuongPin, dungLuongPin, dungLuongPin, loaiMay, rom) VALUES
+            // (?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "UPDATE MayTinh SET maMay=?, tenMay=?, soLuong=?, tenCpu=?, ram=?, vga=?, gia=?, mainBoard=?, congSuatNguon=?, xuatXu=?, loaiMay = ?, rom = ?, trangThai = ? WHERE maMay= ? ";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, t.getMaMay()); 
+            pst.setString(1, t.getMaMay());
             pst.setString(2, t.getTenMay());
             pst.setInt(3, t.getSoLuong());
             pst.setString(4, t.getTenCpu());
             pst.setString(5, t.getRam());
-            pst.setString(6, t.getCardManHinh());
+            pst.setString(6, t.getVga());
             pst.setDouble(7, t.getGia());
             pst.setString(8, t.getMainBoard());
             pst.setInt(9, t.getCongSuatNguon());
@@ -111,14 +113,15 @@ public class PCDAO implements DAOInterface<PC> {
                 int soLuong = rs.getInt("soLuong");
                 String tenCpu = rs.getString("tenCpu");
                 String ram = rs.getString("ram");
-                String cardManHinh = rs.getString("cardManHinh");
+                String vga = rs.getString("vga");
                 double gia = rs.getDouble("gia");
                 String mainBoard = rs.getString("mainBoard");
                 int congSuatNguon = rs.getInt("congSuatNguon");
                 String rom = rs.getString("rom");
                 String xuatXu = rs.getString("xuatXu");
                 int trangThai = rs.getInt("trangThai");
-                PC mt = new PC(mainBoard, congSuatNguon, maMay, tenMay, soLuong, gia, tenCpu, ram, xuatXu, cardManHinh, rom,trangThai);
+                PC mt = new PC(mainBoard, congSuatNguon, maMay, tenMay, soLuong, gia, tenCpu, ram, xuatXu, vga, rom,
+                        trangThai);
                 ketQua.add(mt);
             }
         } catch (Exception e) {
@@ -143,15 +146,18 @@ public class PCDAO implements DAOInterface<PC> {
                 int soLuong = rs.getInt("soLuong");
                 String tenCpu = rs.getString("tenCpu");
                 String ram = rs.getString("ram");
-                String cardManHinh = rs.getString("cardManHinh");
+                String vga = rs.getString("vga");
                 double gia = rs.getDouble("gia");
                 String mainBoard = rs.getString("mainBoard");
                 int congSuatNguon = rs.getInt("congSuatNguon");
                 String rom = rs.getString("rom");
                 String xuatXu = rs.getString("xuatXu");
                 int trangThai = rs.getInt("trangThai");
-                //Laptop(String kichThuocMan, String dungLuongPin, String maMay, String tenMay, int soLuong, double gia, String tenCpu, String ram, String xuatXu, String cardManHinh, String Rom)
-                ketQua = new PC(mainBoard, congSuatNguon, maMay, tenMay, soLuong, gia, tenCpu, ram, xuatXu, cardManHinh, rom,trangThai);
+                // Laptop(String kichThuocMan, String dungLuongPin, String maMay, String tenMay,
+                // int soLuong, double gia, String tenCpu, String ram, String xuatXu, String
+                // vga, String Rom)
+                ketQua = new PC(mainBoard, congSuatNguon, maMay, tenMay, soLuong, gia, tenCpu, ram, xuatXu, vga, rom,
+                        trangThai);
             }
         } catch (Exception e) {
             // TODO: handle exception

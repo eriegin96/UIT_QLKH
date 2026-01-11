@@ -19,9 +19,10 @@ public class SearchProduct {
         ArrayList<MayTinh> armt = MayTinhDAO.getInstance().selectAllExist();
         for (var mt : armt) {
             if (mt.getTrangThai() == 1) {
-                if (mt.getMaMay().toLowerCase().contains(text.toLowerCase()) || mt.getTenMay().toLowerCase().contains(text.toLowerCase())
+                if (mt.getMaMay().toLowerCase().contains(text.toLowerCase())
+                        || mt.getTenMay().toLowerCase().contains(text.toLowerCase())
                         || mt.getTenCpu().toLowerCase().contains(text.toLowerCase())
-                        || mt.getCardManHinh().toLowerCase().contains(text.toLowerCase())
+                        || mt.getVga().toLowerCase().contains(text.toLowerCase())
                         || mt.getXuatXu().toLowerCase().contains(text.toLowerCase())) {
                     result.add(mt);
                 }
@@ -83,11 +84,10 @@ public class SearchProduct {
                     if (mt.getGia() > Integer.parseInt(text)) {
                         result.add(mt);
                     }
-                }
-                else {
+                } else {
                     result.add(mt);
                 }
-            } 
+            }
         }
         return result;
     }
@@ -129,13 +129,12 @@ public class SearchProduct {
         ArrayList<MayTinh> result = new ArrayList<>();
         ArrayList<MayTinh> armt = MayTinhDAO.getInstance().selectAllExist();
         for (var mt : armt) {
-            if (mt.getCardManHinh().toLowerCase().contains(text.toLowerCase())) {
+            if (mt.getVga().toLowerCase().contains(text.toLowerCase())) {
                 result.add(mt);
             }
         }
         return result;
     }
-
 
     public ArrayList<MayTinh> searchXuatXu(String text) {
         ArrayList<MayTinh> result = new ArrayList<>();

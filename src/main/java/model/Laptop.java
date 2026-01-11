@@ -10,18 +10,19 @@ import java.util.Objects;
  *
  * @author Tran Nhat Sinh
  */
-public class Laptop extends MayTinh{
+public class Laptop extends MayTinh {
     private double kichThuocMan;
     private String dungLuongPin;
 
-    public Laptop(double kichThuocMan, String dungLuongPin, String maMay, String tenMay, int soLuong, double gia, String tenCpu, String ram, String xuatXu, String cardManHinh, String Rom, int trangThai) {
-        super(maMay, tenMay, soLuong, gia, tenCpu, ram, xuatXu, cardManHinh, Rom,trangThai);
+    public Laptop(double kichThuocMan, String dungLuongPin, String maMay, String tenMay, int soLuong, double gia,
+            String tenCpu, String ram, String xuatXu, String vga, String Rom, int trangThai) {
+        super(maMay, tenMay, soLuong, gia, tenCpu, ram, xuatXu, vga, Rom, trangThai);
         this.kichThuocMan = kichThuocMan;
         this.dungLuongPin = dungLuongPin;
     }
 
     public Laptop() {
-        
+
     }
 
     public double getkichThuocMan() {
@@ -71,7 +72,4 @@ public class Laptop extends MayTinh{
         return "Laptop{" + "kichThuocMan=" + kichThuocMan + ", dungLuongPin=" + dungLuongPin + '}';
     }
 
-
-    
-    
 }
