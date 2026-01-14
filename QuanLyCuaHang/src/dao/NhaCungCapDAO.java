@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import com.sun.jdi.connect.spi.Connection;
@@ -14,10 +10,6 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import model.Phieu;
 
-/**
- *
- * @author kali
- */
 public class NhaCungCapDAO implements DAOInterface<NhaCungCap> {
 
     public static NhaCungCapDAO getInstance() {

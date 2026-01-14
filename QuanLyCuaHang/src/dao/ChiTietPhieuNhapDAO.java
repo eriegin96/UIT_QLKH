@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import java.sql.Connection;
@@ -10,7 +6,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import database.JDBCUtil;
-import model.ChiTietPhieu;
 import model.ChiTietPhieu;
 import model.Phieu;
 
@@ -25,10 +20,10 @@ public class ChiTietPhieuNhapDAO implements DAOInterface<ChiTietPhieu> {
         int ketQua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "INSERT INTO ChiTietPhieuNhap (maPhieu, maMay, soLuong, donGia) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO ChiTietPhieuNhap (maPhieu, maDienThoai, soLuong, donGia) VALUES (?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, t.getMaPhieu());
-            pst.setString(2, t.getMaMay());
+            pst.setString(2, t.getMaDienThoai());
             pst.setInt(3, t.getSoLuong());
             pst.setDouble(4, t.getDonGia());
             ketQua = pst.executeUpdate();
@@ -45,14 +40,14 @@ public class ChiTietPhieuNhapDAO implements DAOInterface<ChiTietPhieu> {
         int ketQua = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "UPDATE ChiTietPhieuNhap SET maPhieu=?, maMay=?, soLuong=?, donGia = ?  WHERE maPhieu=? AND maMay=?";
+            String sql = "UPDATE ChiTietPhieuNhap SET maPhieu=?, maDienThoai=?, soLuong=?, donGia = ?  WHERE maPhieu=? AND maDienThoai=?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, t.getMaPhieu());
-            pst.setString(2, t.getMaMay());
+            pst.setString(2, t.getMaDienThoai());
             pst.setInt(3, t.getSoLuong());
             pst.setDouble(4, t.getDonGia());
             pst.setString(5, t.getMaPhieu());
-            pst.setString(6, t.getMaMay());
+            pst.setString(6, t.getMaDienThoai());
             ketQua = pst.executeUpdate();
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
@@ -89,10 +84,10 @@ public class ChiTietPhieuNhapDAO implements DAOInterface<ChiTietPhieu> {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 String maPhieu = rs.getString("maPhieu");
-                String maMay = rs.getString("maMay");
+                String maDienThoai = rs.getString("maDienThoai");
                 int soLuong = rs.getInt("soLuong");
                 double donGia = rs.getDouble("donGia");
-                ChiTietPhieu ctp = new ChiTietPhieu(maPhieu, maMay, soLuong, donGia);
+                ChiTietPhieu ctp = new ChiTietPhieu(maPhieu, maDienThoai, soLuong, donGia);
                 ketQua.add(ctp);
             }
             JDBCUtil.closeConnection(con);
@@ -113,10 +108,10 @@ public class ChiTietPhieuNhapDAO implements DAOInterface<ChiTietPhieu> {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 String maPhieu = rs.getString("maPhieu");
-                String maMay = rs.getString("maMay");
+                String maDienThoai = rs.getString("maDienThoai");
                 int soLuong = rs.getInt("soLuong");
                 double donGia = rs.getDouble("donGia");
-                ChiTietPhieu ctp = new ChiTietPhieu(maPhieu, maMay, soLuong, donGia);
+                ChiTietPhieu ctp = new ChiTietPhieu(maPhieu, maDienThoai, soLuong, donGia);
                 ketQua.add(ctp);
             }
         } catch (Exception e) {
@@ -137,10 +132,10 @@ public class ChiTietPhieuNhapDAO implements DAOInterface<ChiTietPhieu> {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 String maPhieu = rs.getString("maPhieu");
-                String maMay = rs.getString("maMay");
+                String maDienThoai = rs.getString("maDienThoai");
                 int soLuong = rs.getInt("soLuong");
                 double donGia = rs.getDouble("donGia");
-                ketQua = new ChiTietPhieu(maPhieu, maMay, soLuong, donGia);
+                ketQua = new ChiTietPhieu(maPhieu, maDienThoai, soLuong, donGia);
             }
         } catch (Exception e) {
             // TODO: handle exception

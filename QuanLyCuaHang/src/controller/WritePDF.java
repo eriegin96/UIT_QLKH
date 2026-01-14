@@ -43,10 +43,6 @@ import model.MayTinh;
 import model.PhieuNhap;
 import model.PhieuXuat;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
 public class WritePDF {
 
     DecimalFormat formatter = new DecimalFormat("###,###,###");
