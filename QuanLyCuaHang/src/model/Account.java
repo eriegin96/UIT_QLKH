@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.util.Objects;
@@ -79,14 +75,7 @@ public class Account {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 47 * hash + Objects.hashCode(this.fullName);
-        hash = 47 * hash + Objects.hashCode(this.user);
-        hash = 47 * hash + Objects.hashCode(this.password);
-        hash = 47 * hash + Objects.hashCode(this.role);
-        hash = 47 * hash + this.status;
-        hash = 47 * hash + Objects.hashCode(this.email);
-        return hash;
+        return Objects.hash(fullName, user, password, role, status, email);
     }
 
     @Override

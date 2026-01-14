@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.util.Objects;
 
-/**
- *
- * @author kali
- */
 public class NhaCungCap {
     private String maNhaCungCap;
     private String tenNhaCungCap;
@@ -60,12 +52,7 @@ public class NhaCungCap {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 29 * hash + Objects.hashCode(this.maNhaCungCap);
-        hash = 29 * hash + Objects.hashCode(this.tenNhaCungCap);
-        hash = 29 * hash + Objects.hashCode(this.sdt);
-        hash = 29 * hash + Objects.hashCode(this.diaChi);
-        return hash;
+        return Objects.hash(maNhaCungCap, tenNhaCungCap, sdt, diaChi);
     }
 
     @Override

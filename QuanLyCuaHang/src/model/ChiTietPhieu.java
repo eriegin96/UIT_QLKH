@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.util.Objects;
@@ -9,16 +5,16 @@ import java.util.Objects;
 public class ChiTietPhieu {
 
     private String maPhieu;
-    private String maMay;
+    private String maDienThoai;
     private int soLuong;
     private double donGia;
 
     public ChiTietPhieu() {
     }
 
-    public ChiTietPhieu(String maPhieu, String maMay, int soLuong, double donGia) {
+    public ChiTietPhieu(String maPhieu, String maDienThoai, int soLuong, double donGia) {
         this.maPhieu = maPhieu;
-        this.maMay = maMay;
+        this.maDienThoai = maDienThoai;
         this.soLuong = soLuong;
         this.donGia = donGia;
     }
@@ -31,12 +27,12 @@ public class ChiTietPhieu {
         this.maPhieu = maPhieu;
     }
 
-    public String getMaMay() {
-        return maMay;
+    public String getMaDienThoai() {
+        return maDienThoai;
     }
 
-    public void setMaMay(String maMay) {
-        this.maMay = maMay;
+    public void setMaDienThoai(String maDienThoai) {
+        this.maDienThoai = maDienThoai;
     }
 
     public int getSoLuong() {
@@ -57,8 +53,7 @@ public class ChiTietPhieu {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        return hash;
+        return Objects.hash(maPhieu, maDienThoai, soLuong, donGia);
     }
 
     @Override
@@ -82,12 +77,12 @@ public class ChiTietPhieu {
         if (!Objects.equals(this.maPhieu, other.maPhieu)) {
             return false;
         }
-        return Objects.equals(this.maMay, other.maMay);
+        return Objects.equals(this.maDienThoai, other.maDienThoai);
     }
 
     @Override
     public String toString() {
-        return "ChiTietPhieu{" + "maPhieu=" + maPhieu + ", maMay=" + maMay + ", soLuong=" + soLuong + ", donGia=" + donGia + '}';
+        return "ChiTietPhieu{" + "maPhieu=" + maPhieu + ", maDienThoai=" + maDienThoai + ", soLuong=" + soLuong + ", donGia=" + donGia + '}';
     }
 
     

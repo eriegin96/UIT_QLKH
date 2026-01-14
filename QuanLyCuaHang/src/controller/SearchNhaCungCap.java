@@ -8,10 +8,6 @@ import dao.NhaCungCapDAO;
 import java.util.ArrayList;
 import model.NhaCungCap;
 
-/**
- *
- * @author sinh
- */
 public class SearchNhaCungCap {
 
     public static SearchNhaCungCap getInstance() {

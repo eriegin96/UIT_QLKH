@@ -1,45 +1,37 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.util.Objects;
 
-/**
- *
- * @author sinh
- */
 public class ThongKeProduct {
-    private String maMay;
-    private String tenMay;
+    private String maDienThoai;
+    private String tenDienThoai;
     private int slNhap;
     private int slXuat;
 
     public ThongKeProduct() {
     }
 
-    public ThongKeProduct(String maMay, String tenMay, int slNhap, int slXuat) {
-        this.maMay = maMay;
-        this.tenMay = tenMay;
+    public ThongKeProduct(String maDienThoai, String tenDienThoai, int slNhap, int slXuat) {
+        this.maDienThoai = maDienThoai;
+        this.tenDienThoai = tenDienThoai;
         this.slNhap = slNhap;
         this.slXuat = slXuat;
     }
 
-    public String getMaMay() {
-        return maMay;
+        public String getMaDienThoai() {
+        return maDienThoai;
     }
 
-    public void setMaMay(String maMay) {
-        this.maMay = maMay;
+    public void setMaDienThoai(String maDienThoai) {
+        this.maDienThoai = maDienThoai;
     }
 
-    public String getTenMay() {
-        return tenMay;
+    public String getTenDienThoai() {
+        return tenDienThoai;
     }
 
-    public void setTenMay(String tenMay) {
-        this.tenMay = tenMay;
+    public void setTenDienThoai(String tenDienThoai) {
+        this.tenDienThoai = tenDienThoai;
     }
 
     public int getSlNhap() {
@@ -60,12 +52,7 @@ public class ThongKeProduct {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 53 * hash + Objects.hashCode(this.maMay);
-        hash = 53 * hash + Objects.hashCode(this.tenMay);
-        hash = 53 * hash + this.slNhap;
-        hash = 53 * hash + this.slXuat;
-        return hash;
+        return Objects.hash(maDienThoai, tenDienThoai, slNhap, slXuat);
     }
 
     @Override
@@ -86,15 +73,15 @@ public class ThongKeProduct {
         if (this.slXuat != other.slXuat) {
             return false;
         }
-        if (!Objects.equals(this.maMay, other.maMay)) {
+        if (!Objects.equals(this.maDienThoai, other.maDienThoai)) {
             return false;
         }
-        return Objects.equals(this.tenMay, other.tenMay);
+        return Objects.equals(this.tenDienThoai, other.tenDienThoai);
     }
 
     @Override
     public String toString() {
-        return "ThongKeProduct{" + "maMay=" + maMay + ", tenMay=" + tenMay + ", slNhap=" + slNhap + ", slXuat=" + slXuat + '}';
+        return "ThongKeProduct{" + "maDienThoai=" + maDienThoai + ", tenDienThoai=" + tenDienThoai + ", slNhap=" + slNhap + ", slXuat=" + slXuat + '}';
     }
     
     

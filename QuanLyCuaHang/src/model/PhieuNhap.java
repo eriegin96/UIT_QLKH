@@ -1,17 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Objects;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
 public class PhieuNhap extends Phieu {
 
     private String nhaCungCap;
@@ -46,15 +38,9 @@ public class PhieuNhap extends Phieu {
         return "PhieuNhap{" + "nhaCungCap=" + nhaCungCap + " maPhieu"+ this.getMaPhieu()+'}';
     }
 
-    
-
-    
-
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 23 * hash + Objects.hashCode(this.nhaCungCap);
-        return hash;
+        return Objects.hash(nhaCungCap, getMaPhieu(), getTongTien());
     }
 
     @Override
