@@ -1,13 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package view;
 
-import controller.SearchProduct;
+import controller.SearchDienThoai;
 import controller.WritePDF;
 import dao.ChiTietPhieuXuatDAO;
-import dao.MayTinhDAO;
+import dao.DienThoaiDAO;
 import dao.PhieuNhapDAO;
 import dao.PhieuXuatDAO;
 import java.io.BufferedInputStream;
@@ -26,7 +22,7 @@ import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import model.ChiTietPhieu;
-import model.MayTinh;
+import model.DienThoai;
 import model.PhieuNhap;
 import model.PhieuXuat;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -34,10 +30,6 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
 public class XuatHangForm extends javax.swing.JInternalFrame {
 
     /**
@@ -45,7 +37,7 @@ public class XuatHangForm extends javax.swing.JInternalFrame {
      */
     private DefaultTableModel tblModel;
     DecimalFormat formatter = new DecimalFormat("###,###,###");
-    private ArrayList<MayTinh> allProduct;
+    private ArrayList<DienThoai> allProduct;
     private String MaPhieu;
     private ArrayList<ChiTietPhieu> CTPhieu;
 
@@ -53,7 +45,7 @@ public class XuatHangForm extends javax.swing.JInternalFrame {
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
         initComponents();
-        allProduct = MayTinhDAO.getInstance().selectAllExist();
+        allProduct = DienThoaiDAO.getInstance().selectAllExist();
         // Định dạng độ rộng
         initTable();
         loadDataToTableProduct(allProduct);
@@ -67,7 +59,7 @@ public class XuatHangForm extends javax.swing.JInternalFrame {
 
     public final void initTable() {
         tblModel = new DefaultTableModel();
-        String[] headerTbl = new String[]{"Mã máy", "Tên máy", "Số lượng", "Đơn giá"};
+        String[] headerTbl = new String[]{"Mã điện thoại", "Tên điện thoại", "Số lượng", "Đơn giá"};
         tblModel.setColumnIdentifiers(headerTbl);
         tblSanPham.setModel(tblModel);
         tblSanPham.getColumnModel().getColumn(0).setPreferredWidth(5);
@@ -78,12 +70,12 @@ public class XuatHangForm extends javax.swing.JInternalFrame {
         tblNhapHang.getColumnModel().getColumn(2).setPreferredWidth(250);
     }
 
-    private void loadDataToTableProduct(ArrayList<MayTinh> arrProd) {
+    private void loadDataToTableProduct(ArrayList<DienThoai> arrProd) {
         try {
             tblModel.setRowCount(0);
             for (var i : arrProd) {
                 tblModel.addRow(new Object[]{
-                    i.getMaMay(), i.getTenMay(), i.getSoLuong(), formatter.format(i.getGia()) + "đ"
+                    i.getMaDienThoai(), i.getTenDienThoai(), i.getSoLuong(), formatter.format(i.getGia()) + "đ"
                 });
             }
         } catch (Exception e) {
@@ -98,18 +90,18 @@ public class XuatHangForm extends javax.swing.JInternalFrame {
         return tt;
     }
 
-    public MayTinh findMayTinh(String maMay) {
+    public DienThoai findDienThoai(String maDienThoai) {
         for (var i : allProduct) {
-            if (maMay.equals(i.getMaMay())) {
+            if (maDienThoai.equals(i.getMaDienThoai())) {
                 return i;
             }
         }
         return null;
     }
 
-    public ChiTietPhieu findCTPhieu(String maMay) {
+    public ChiTietPhieu findCTPhieu(String maDienThoai) {
         for (var i : CTPhieu) {
-            if (maMay.equals(i.getMaMay())) {
+            if (maDienThoai.equals(i.getMaDienThoai())) {
                 return i;
             }
         }
@@ -124,7 +116,7 @@ public class XuatHangForm extends javax.swing.JInternalFrame {
 
             for (int i = 0; i < CTPhieu.size(); i++) {
                 tblNhapHangmd.addRow(new Object[]{
-                    i + 1, CTPhieu.get(i).getMaMay(), findMayTinh(CTPhieu.get(i).getMaMay()).getTenMay(), CTPhieu.get(i).getSoLuong(), formatter.format(CTPhieu.get(i).getDonGia()) + "đ"
+                    i + 1, CTPhieu.get(i).getMaDienThoai(), findDienThoai(CTPhieu.get(i).getMaDienThoai()).getTenDienThoai(), CTPhieu.get(i).getSoLuong(), formatter.format(CTPhieu.get(i).getDonGia()) + "đ"
                 });
                 sum += CTPhieu.get(i).getDonGia();
             }
@@ -273,7 +265,7 @@ public class XuatHangForm extends javax.swing.JInternalFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Mã máy", "Tên máy", "Số lượng", "Đơn giá"
+                "Mã điện thoại", "Tên điện thoại", "Số lượng", "Đơn giá"
             }
         ));
         jScrollPane2.setViewportView(tblSanPham);
@@ -397,14 +389,14 @@ public class XuatHangForm extends javax.swing.JInternalFrame {
                 // Lay thoi gian hien tai
                 long now = System.currentTimeMillis();
                 Timestamp sqlTimestamp = new Timestamp(now);
-                // Tao doi tuong phieu nhap
+                // Tao doi tuong phieu xuat
                 PhieuXuat pn = new PhieuXuat(MaPhieu, sqlTimestamp, txtNguoiTao.getText(), CTPhieu, tinhTongTien());
                 try {
                     PhieuXuatDAO.getInstance().insert(pn);
-                    MayTinhDAO mtdao = MayTinhDAO.getInstance();
+                    DienThoaiDAO dtdao = DienThoaiDAO.getInstance();
                     for (var i : CTPhieu) {
                         ChiTietPhieuXuatDAO.getInstance().insert(i);
-                        mtdao.updateSoLuong(i.getMaMay(), mtdao.selectById(i.getMaMay()).getSoLuong() - i.getSoLuong());
+                        dtdao.updateSoLuong(i.getMaDienThoai(), dtdao.selectById(i.getMaDienThoai()).getSoLuong() - i.getSoLuong());
                     }
 
                     JOptionPane.showMessageDialog(this, "Xuất hàng thành công !");
@@ -413,7 +405,7 @@ public class XuatHangForm extends javax.swing.JInternalFrame {
                         WritePDF writepdf = new WritePDF();
                         writepdf.writePhieuXuat(MaPhieu);
                     }
-                    allProduct = MayTinhDAO.getInstance().selectAllExist();
+                    allProduct = DienThoaiDAO.getInstance().selectAllExist();
                     loadDataToTableProduct(allProduct);
                     DefaultTableModel l = (DefaultTableModel) tblNhapHang.getModel();
                     l.setRowCount(0);
@@ -448,14 +440,14 @@ public class XuatHangForm extends javax.swing.JInternalFrame {
                         } else {
                             ChiTietPhieu mtl = findCTPhieu((String) tblSanPham.getValueAt(i_row, 0));
                             if (mtl != null) {
-                                if (findMayTinh((String) tblSanPham.getValueAt(i_row, 0)).getSoLuong() < mtl.getSoLuong() + soluong) {
-                                    JOptionPane.showMessageDialog(this, "Số lượng máy không đủ !");
+                                if (findDienThoai((String) tblSanPham.getValueAt(i_row, 0)).getSoLuong() < mtl.getSoLuong() + soluong) {
+                                    JOptionPane.showMessageDialog(this, "Số lượng điện thoại không đủ !");
                                 } else {
                                     mtl.setSoLuong(mtl.getSoLuong() + soluong);
                                 }
                             } else {
-                                MayTinh mt = SearchProduct.getInstance().searchId((String) tblSanPham.getValueAt(i_row, 0));
-                                ChiTietPhieu ctp = new ChiTietPhieu(MaPhieu, mt.getMaMay(), soluong, mt.getGia());
+                                DienThoai dt = SearchDienThoai.getInstance().searchId((String) tblSanPham.getValueAt(i_row, 0));
+                                ChiTietPhieu ctp = new ChiTietPhieu(MaPhieu, dt.getMaDienThoai(), soluong, dt.getGia());
                                 CTPhieu.add(ctp);
                             }
                             loadDataToTableNhapHang();
@@ -495,7 +487,7 @@ public class XuatHangForm extends javax.swing.JInternalFrame {
                 try {
                     soLuong = Integer.parseInt(newSL);
                     if (soLuong > 0) {
-                        if (soLuong > findMayTinh(CTPhieu.get(i_row).getMaMay()).getSoLuong()) {
+                        if (soLuong > findDienThoai(CTPhieu.get(i_row).getMaDienThoai()).getSoLuong()) {
                             JOptionPane.showMessageDialog(this, "Số lượng không đủ !");
                         } else {
                             CTPhieu.get(i_row).setSoLuong(soLuong);
@@ -517,13 +509,13 @@ public class XuatHangForm extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         DefaultTableModel tblsp = (DefaultTableModel) tblSanPham.getModel();
         String textSearch = txtSearch.getText().toLowerCase();
-        ArrayList<MayTinh> Mtkq = new ArrayList<>();
-        for (MayTinh i : allProduct) {
-            if (i.getMaMay().concat(i.getTenMay()).toLowerCase().contains(textSearch)) {
-                Mtkq.add(i);
+        ArrayList<DienThoai> dtkq = new ArrayList<>();
+        for (DienThoai i : allProduct) {
+            if (i.getMaDienThoai().concat(i.getTenDienThoai()).toLowerCase().contains(textSearch)) {
+                dtkq.add(i);
             }
         }
-        loadDataToTableProduct(Mtkq);
+        loadDataToTableProduct(dtkq);
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
@@ -561,7 +553,7 @@ public class XuatHangForm extends javax.swing.JInternalFrame {
                     String tenSanPham = excelRow.getCell(2).getStringCellValue();
                     int soLuong = (int) (excelRow.getCell(3).getNumericCellValue());
                 
-                    double donGia = MayTinhDAO.getInstance().selectById(maSanPham).getGia();
+                    double donGia = DienThoaiDAO.getInstance().selectById(maSanPham).getGia();
                     ChiTietPhieu ctpnew = new ChiTietPhieu(maPhieu, maSanPham, soLuong, donGia);
                     CTPhieu.add(ctpnew);
                 }

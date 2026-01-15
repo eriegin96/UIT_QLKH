@@ -1,14 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
+
 package view;
 
 import controller.WritePDF;
 import dao.AccountDAO;
 import dao.ChiTietPhieuNhapDAO;
 import dao.ChiTietPhieuXuatDAO;
-import dao.MayTinhDAO;
+import dao.DienThoaiDAO;
 import dao.NhaCungCapDAO;
 import dao.PhieuNhapDAO;
 import dao.PhieuXuatDAO;
@@ -22,10 +19,6 @@ import model.Phieu;
 import model.PhieuNhap;
 import model.PhieuXuat;
 
-/**
- *
- * @author Tran Nhat Sinh con lon
- */
 public class CTThongKe extends javax.swing.JDialog {
 
     /**
@@ -39,10 +32,10 @@ public class CTThongKe extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         Phieu pn = this.parent.findPhieu();
-        labelMaPhieu.setText(pn.getMaPhieu());
-        labelNguoiTao.setText(AccountDAO.getInstance().selectById(pn.getNguoiTao()).getFullName());
-        labelTongTien.setText(this.parent.getFormatter().format(pn.getTongTien()) + "đ");
-        labelThoiGianTao.setText(this.parent.getFormatDate().format(pn.getThoiGianTao()));
+        contentMaPhieu.setText(pn.getMaPhieu());
+        contentNguoiTao.setText(AccountDAO.getInstance().selectById(pn.getNguoiTao()).getFullName());
+        contentTongTien.setText(this.parent.getFormatter().format(pn.getTongTien()) + "đ");
+        contentThoiGianTao.setText(this.parent.getFormatDate().format(pn.getThoiGianTao()));
         loadDataToTableProduct();
         setWidthTable();
     }
@@ -64,8 +57,8 @@ public class CTThongKe extends javax.swing.JDialog {
                 for (int i = 0; i < CTPhieu.size(); i++) {
                     tblCTPhieumd.addRow(new Object[]{
                         i + 1,
-                        CTPhieu.get(i).getMaMay(),
-                        MayTinhDAO.getInstance().selectById(CTPhieu.get(i).getMaMay()).getTenMay(),
+                        CTPhieu.get(i).getMaDienThoai(),
+                        DienThoaiDAO.getInstance().selectById(CTPhieu.get(i).getMaDienThoai()).getTenDienThoai(),
                         CTPhieu.get(i).getSoLuong(),
                         parent.getFormatter().format(CTPhieu.get(i).getDonGia()) + "đ",
                         parent.getFormatter().format(CTPhieu.get(i).getDonGia() * CTPhieu.get(i).getSoLuong()) + "đ"
@@ -76,8 +69,8 @@ public class CTThongKe extends javax.swing.JDialog {
                 for (int i = 0; i < CTPhieu.size(); i++) {
                     tblCTPhieumd.addRow(new Object[]{
                         i + 1,
-                        CTPhieu.get(i).getMaMay(),
-                        MayTinhDAO.getInstance().selectById(CTPhieu.get(i).getMaMay()).getTenMay(),
+                        CTPhieu.get(i).getMaDienThoai(),
+                        DienThoaiDAO.getInstance().selectById(CTPhieu.get(i).getMaDienThoai()).getTenDienThoai(),
                         CTPhieu.get(i).getSoLuong(),
                         parent.getFormatter().format(CTPhieu.get(i).getDonGia()) + "đ",
                         parent.getFormatter().format(CTPhieu.get(i).getDonGia() * CTPhieu.get(i).getSoLuong()) + "đ"
@@ -124,16 +117,16 @@ public class CTThongKe extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblChiTietPhieu = new javax.swing.JTable();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        labelTongTien = new javax.swing.JLabel();
         labelMaPhieu = new javax.swing.JLabel();
         labelNguoiTao = new javax.swing.JLabel();
         labelThoiGianTao = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        contentTongTien = new javax.swing.JLabel();
+        contentMaPhieu = new javax.swing.JLabel();
+        contentNguoiTao = new javax.swing.JLabel();
+        contentThoiGianTao = new javax.swing.JLabel();
+        labelTongTien = new javax.swing.JLabel();
         btnExportPDF = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -154,7 +147,7 @@ public class CTThongKe extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(317, 317, 317)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(312, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,9 +156,6 @@ public class CTThongKe extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addContainerGap(15, Short.MAX_VALUE))
         );
-
-        jLabel2.setFont(new java.awt.Font("SF Pro Display", 0, 16)); // NOI18N
-        jLabel2.setText("Mã phiếu: ");
 
         tblChiTietPhieu.setFont(new java.awt.Font("SF Pro Display", 0, 16)); // NOI18N
         tblChiTietPhieu.setModel(new javax.swing.table.DefaultTableModel(
@@ -176,31 +166,34 @@ public class CTThongKe extends javax.swing.JDialog {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã máy", "Tên máy", "Số lượng", "Đơn giá", "Thành tiền"
+                "STT", "Mã điện thoại", "Tên điện thoại", "Số lượng", "Đơn giá", "Thành tiền"
             }
         ));
         jScrollPane1.setViewportView(tblChiTietPhieu);
 
-        jLabel4.setFont(new java.awt.Font("SF Pro Display", 0, 16)); // NOI18N
-        jLabel4.setText("Người tạo:");
-
-        jLabel5.setFont(new java.awt.Font("SF Pro Display", 0, 16)); // NOI18N
-        jLabel5.setText("Thời gian tạo:");
-
-        labelTongTien.setFont(new java.awt.Font("SF Pro Display", 1, 18)); // NOI18N
-        labelTongTien.setText("...đ");
-
         labelMaPhieu.setFont(new java.awt.Font("SF Pro Display", 0, 16)); // NOI18N
-        labelMaPhieu.setText("jLabel7");
+        labelMaPhieu.setText("Mã phiếu: ");
 
         labelNguoiTao.setFont(new java.awt.Font("SF Pro Display", 0, 16)); // NOI18N
-        labelNguoiTao.setText("jLabel7");
+        labelNguoiTao.setText("Người tạo:");
 
         labelThoiGianTao.setFont(new java.awt.Font("SF Pro Display", 0, 16)); // NOI18N
-        labelThoiGianTao.setText("jLabel7");
+        labelThoiGianTao.setText("Thời gian tạo:");
 
-        jLabel7.setFont(new java.awt.Font("SF Pro Display", 1, 18)); // NOI18N
-        jLabel7.setText("TỔNG TIỀN:");
+        contentTongTien.setFont(new java.awt.Font("SF Pro Display", 1, 18)); // NOI18N
+        contentTongTien.setText("...đ");
+
+        contentMaPhieu.setFont(new java.awt.Font("SF Pro Display", 0, 16)); // NOI18N
+        contentMaPhieu.setText("PN...");
+
+        contentNguoiTao.setFont(new java.awt.Font("SF Pro Display", 0, 16)); // NOI18N
+        contentNguoiTao.setText("Admin");
+
+        contentThoiGianTao.setFont(new java.awt.Font("SF Pro Display", 0, 16)); // NOI18N
+        contentThoiGianTao.setText("dd/MM/yyyy hh:mm");
+
+        labelTongTien.setFont(new java.awt.Font("SF Pro Display", 1, 18)); // NOI18N
+        labelTongTien.setText("TỔNG TIỀN:");
 
         btnExportPDF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_pdf_25px.png"))); // NOI18N
         btnExportPDF.setText("Xuất PDF");
@@ -219,32 +212,34 @@ public class CTThongKe extends javax.swing.JDialog {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(106, 106, 106)
-                        .addComponent(labelMaPhieu, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
-                        .addComponent(labelNguoiTao, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(66, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(409, 409, 409)
+                                .addComponent(labelNguoiTao, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(contentNguoiTao, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(labelMaPhieu)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(contentMaPhieu, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(labelThoiGianTao)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(contentThoiGianTao, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(385, 385, 385)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
+                                .addComponent(labelTongTien)
                                 .addGap(18, 18, 18)
-                                .addComponent(labelTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(contentTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnExportPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1))
                         .addGap(21, 21, 21))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
-                        .addComponent(labelThoiGianTao, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(451, 451, 451))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,20 +247,20 @@ public class CTThongKe extends javax.swing.JDialog {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4)
                     .addComponent(labelMaPhieu)
-                    .addComponent(labelNguoiTao))
+                    .addComponent(labelNguoiTao)
+                    .addComponent(contentMaPhieu)
+                    .addComponent(contentNguoiTao))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(labelThoiGianTao))
+                    .addComponent(labelThoiGianTao)
+                    .addComponent(contentThoiGianTao))
                 .addGap(25, 25, 25)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
                 .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
                     .addComponent(labelTongTien)
+                    .addComponent(contentTongTien)
                     .addComponent(btnExportPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16))
         );
@@ -323,11 +318,11 @@ public class CTThongKe extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExportPDF;
+    private javax.swing.JLabel contentMaPhieu;
+    private javax.swing.JLabel contentNguoiTao;
+    private javax.swing.JLabel contentThoiGianTao;
+    private javax.swing.JLabel contentTongTien;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

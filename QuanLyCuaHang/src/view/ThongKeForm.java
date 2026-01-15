@@ -1,13 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package view;
 
 import controller.ConvertDate;
 import controller.SearchAccount;
 import dao.AccountDAO;
-import dao.MayTinhDAO;
+import dao.DienThoaiDAO;
 import dao.NhaCungCapDAO;
 import dao.PhieuNhapDAO;
 import dao.PhieuXuatDAO;
@@ -33,10 +29,6 @@ import model.Phieu;
 import model.PhieuXuat;
 import model.ThongKeProduct;
 
-/**
- *
- * @author Robot
- */
 public class ThongKeForm extends javax.swing.JInternalFrame {
 
     private DefaultTableModel tblModel;
@@ -59,7 +51,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
         jDateChooserTo.setDateFormatString("dd/MM/yyyy");
         jDateChooserFromPr.setDateFormatString("dd/MM/yyyy");
         jDateChooserToPr.setDateFormatString("dd/MM/yyyy");
-        txtQuantityProduct.setText(Integer.toString(MayTinhDAO.getInstance().getSl()));
+        txtQuantityProduct.setText(Integer.toString(DienThoaiDAO.getInstance().selectAllExist().size()));
         txtQuantityNcc.setText(Integer.toString(NhaCungCapDAO.getInstance().selectAll().size()));
         txtQuantityUser.setText(Integer.toString(AccountDAO.getInstance().selectAll().size()));
         //
@@ -257,7 +249,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã máy", "Tên máy", "Số lượng nhập", "Số lượng xuất"
+                "STT", "Mã điện thoại", "Tên điện thoại", "Số lượng nhập", "Số lượng xuất"
             }
         ));
         tblThongKeProduct.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -963,16 +955,6 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
 
     private void tblAccountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAccountMouseClicked
         // TODO add your handling code here:
-        if (evt.getClickCount() == 2) {
-            DefaultTableModel tblAcc = (DefaultTableModel) tblAccount.getModel();
-            if (tblAccount.getSelectedRow() == -1) {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản");
-            } else {
-                CTThongKeAcc tk;
-                tk = new CTThongKeAcc(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
-                tk.setVisible(true);
-            }
-        }
     }//GEN-LAST:event_tblAccountMouseClicked
 
     private void txtNamePrKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNamePrKeyReleased
@@ -1282,7 +1264,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
             tblModelAcc.setRowCount(0);
             for (int i = 0; i < thongKe.size(); i++) {
                 tblModelAcc.addRow(new Object[]{
-                    (i + 1), thongKe.get(i).getMaMay(), thongKe.get(i).getTenMay(), thongKe.get(i).getSlNhap(), thongKe.get(i).getSlXuat()
+                    (i + 1), thongKe.get(i).getMaDienThoai(), thongKe.get(i).getTenDienThoai(), thongKe.get(i).getSlNhap(), thongKe.get(i).getSlXuat()
                 });
             }
             tblThongKeProduct.getColumnModel().getColumn(2).setPreferredWidth(400);
@@ -1293,7 +1275,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
     private ArrayList<ThongKeProduct> searchTenSanPhamThongKe(ArrayList<ThongKeProduct> arr, String name) {
         ArrayList<ThongKeProduct> result = new ArrayList<>();
         for (ThongKeProduct i : arr) {
-            if (i.getMaMay().toLowerCase().contains(name.toLowerCase()) || i.getTenMay().toLowerCase().contains(name.toLowerCase())) {
+            if (i.getMaDienThoai().toLowerCase().contains(name.toLowerCase()) || i.getTenDienThoai().toLowerCase().contains(name.toLowerCase())) {
                 result.add(i);
             }
         }

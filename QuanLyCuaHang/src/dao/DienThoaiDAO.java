@@ -210,4 +210,37 @@ public class DienThoaiDAO implements DAOInterface<DienThoai> {
         }
         return result;
     }
+
+    public int updateSoLuong(String maDienThoai, int soluong) {
+        int ketQua = 0;
+        try {
+            Connection con = JDBCUtil.getConnection();
+            //String sql = "INSERT INTO MayTinh (maMay, tenMay, soLuong, tenCpu, ram, cardManHinh, gia, dungLuongPin, dungLuongPin, dungLuongPin, loaiMay, rom) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "UPDATE DienThoai SET soLuong=? WHERE maDienThoai=? ";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, soluong);
+            pst.setString(2, maDienThoai);
+            ketQua = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ketQua;
+    }
+
+    public int deleteTrangThai(String maDienThoai){
+        int ketQua = 0;
+        try {
+            Connection con = JDBCUtil.getConnection();
+            //String sql = "INSERT INTO MayTinh (maMay, tenMay, soLuong, tenCpu, ram, cardManHinh, gia, dungLuongPin, dungLuongPin, dungLuongPin, loaiMay, rom) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "UPDATE DienThoai SET trangThai=0 WHERE maDienThoai=? ";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, maDienThoai);
+            ketQua = pst.executeUpdate();
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ketQua;
+    }
 }

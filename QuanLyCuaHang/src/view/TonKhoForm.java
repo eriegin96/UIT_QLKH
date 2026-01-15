@@ -4,10 +4,8 @@
  */
 package view;
 
-import controller.SearchProduct;
-import dao.LaptopDAO;
-import dao.MayTinhDAO;
-import dao.PCDAO;
+import controller.SearchDienThoai;
+import dao.DienThoaiDAO;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,17 +19,11 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
-import model.Laptop;
-import model.MayTinh;
-import model.PC;
+import model.DienThoai;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
@@ -57,35 +49,38 @@ public class TonKhoForm extends javax.swing.JInternalFrame {
 
     public final void initTable() {
         tblModel = new DefaultTableModel();
-        String[] headerTbl = new String[]{"Mã máy", "Tên máy", "Số lượng", "Đơn giá", "Bộ xử lí", "RAM", "Bộ nhớ", "Loại máy"};
+        String[] headerTbl = new String[]{"Mã điện thoại", "Tên điện thoại", "Hãng", "Số lượng", "RAM", "ROM", "Chip xử lý", "Giá"};
         tblModel.setColumnIdentifiers(headerTbl);
         tblSanPham.setModel(tblModel);
-        tblSanPham.getColumnModel().getColumn(0).setPreferredWidth(5);
+        tblSanPham.getColumnModel().getColumn(0).setPreferredWidth(100);
         tblSanPham.getColumnModel().getColumn(1).setPreferredWidth(200);
-        tblSanPham.getColumnModel().getColumn(2).setPreferredWidth(5);
-        tblSanPham.getColumnModel().getColumn(5).setPreferredWidth(5);
-        tblSanPham.getColumnModel().getColumn(6).setPreferredWidth(5);
+        tblSanPham.getColumnModel().getColumn(2).setPreferredWidth(80);
+        tblSanPham.getColumnModel().getColumn(3).setPreferredWidth(60);
+        tblSanPham.getColumnModel().getColumn(4).setPreferredWidth(60);
+        tblSanPham.getColumnModel().getColumn(5).setPreferredWidth(60);
+        tblSanPham.getColumnModel().getColumn(6).setPreferredWidth(120);
+        tblSanPham.getColumnModel().getColumn(7).setPreferredWidth(100);
     }
 
     public void loadDataToTable() {
         try {
-            MayTinhDAO mtdao = new MayTinhDAO();
-            ArrayList<MayTinh> armt = mtdao.selectAllE();
+            DienThoaiDAO dtdao = DienThoaiDAO.getInstance();
+            ArrayList<DienThoai> ardt = dtdao.selectAllExist();
             tblModel.setRowCount(0);
-            for (MayTinh i : armt) {
-                if (i.getTrangThai() == 1) {
-                    String loaimay;
-                    if (LaptopDAO.getInstance().isLaptop(i.getMaMay()) == true) {
-                        loaimay = "Laptop";
-                    } else {
-                        loaimay = "PC/Case";
-                    }
-                    tblModel.addRow(new Object[]{
-                        i.getMaMay(), i.getTenMay(), i.getSoLuong(), formatter.format(i.getGia()) + "đ", i.getTenCpu(), i.getRam(), i.getRom(), loaimay
-                    });
-                }
+            for (DienThoai dt : ardt) {
+                tblModel.addRow(new Object[]{
+                    dt.getMaDienThoai(), 
+                    dt.getTenDienThoai(), 
+                    dt.getHang(),
+                    dt.getSoLuong(), 
+                    dt.getRam(), 
+                    dt.getRom(), 
+                    dt.getChipXuLy(),
+                    formatter.format(dt.getGia()) + "đ"
+                });
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -194,7 +189,7 @@ public class TonKhoForm extends javax.swing.JInternalFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Tìm kiếm"));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jComboBoxLuaChon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Mã máy", "Tên máy", "Số lượng", "Đơn giá", "RAM", "CPU", "Dung lượng", "Card màn hình", "Xuất xứ" }));
+        jComboBoxLuaChon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Mã điện thoại", "Tên điện thoại", "Hãng", "Số lượng", "Giá", "RAM", "ROM", "Chip xử lý", "Xuất xứ" }));
         jComboBoxLuaChon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxLuaChonActionPerformed(evt);
@@ -273,9 +268,9 @@ public class TonKhoForm extends javax.swing.JInternalFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
         if (tblSanPham.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần xoá");
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn điện thoại cần xoá");
         } else {
-            xoaMayTinhSelect();
+            xoaDienThoaiSelect();
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -334,7 +329,7 @@ public class TonKhoForm extends javax.swing.JInternalFrame {
     private void btnDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailActionPerformed
         // TODO add your handling code here:
         if (tblSanPham.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm !");
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn điện thoại !");
         } else {
             DetailProduct a = new DetailProduct(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
             a.setVisible(true);
@@ -345,7 +340,7 @@ public class TonKhoForm extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         String luaChon = jComboBoxLuaChon.getSelectedItem().toString();
         String content = jTextFieldSearch.getText();
-        ArrayList<MayTinh> result = searchFn(luaChon, content);
+        ArrayList<DienThoai> result = searchFn(luaChon, content);
         loadDataToTableSearch(result);
     }//GEN-LAST:event_jTextFieldSearchKeyReleased
 
@@ -353,7 +348,7 @@ public class TonKhoForm extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         String luaChon = jComboBoxLuaChon.getSelectedItem().toString();
         String content = jTextFieldSearch.getText();
-        ArrayList<MayTinh> result = searchFn(luaChon, content);
+        ArrayList<DienThoai> result = searchFn(luaChon, content);
         loadDataToTableSearch(result);
     }//GEN-LAST:event_jComboBoxLuaChonActionPerformed
 
@@ -362,97 +357,123 @@ public class TonKhoForm extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jTextFieldSearchKeyPressed
 
-    public boolean checklap() {
-        if (LaptopDAO.getInstance().isLaptop(getMayTinhSelect().getMaMay()) == true) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public Laptop getDetailLapTop() {
-        Laptop a = LaptopDAO.getInstance().selectById(getMayTinhSelect().getMaMay());
+    public DienThoai getDetailDienThoai() {
+        DienThoai a = DienThoaiDAO.getInstance().selectById(getDienThoaiSelect().getMaDienThoai());
         return a;
     }
 
-    public PC getDetailPC() {
-        PC a = PCDAO.getInstance().selectById(getMayTinhSelect().getMaMay());
-        return a;
-    }
-
-    public void xoaMayTinhSelect() {
+    public void xoaDienThoaiSelect() {
         DefaultTableModel table_acc = (DefaultTableModel) tblSanPham.getModel();
         int i_row = tblSanPham.getSelectedRow();
-        int luaChon = JOptionPane.showConfirmDialog(this, "Bạn có muốn xoá sản phẩm này?", "Xoá sản phẩm",
+        int luaChon = JOptionPane.showConfirmDialog(this, "Bạn có muốn xoá điện thoại này?", "Xoá điện thoại",
                 JOptionPane.YES_NO_OPTION);
         if (luaChon == JOptionPane.YES_OPTION) {
-            MayTinhDAO.getInstance().delete(getMayTinhSelect());
+            DienThoai remove = getDienThoaiSelect();
+            DienThoaiDAO.getInstance().delete(remove);
             table_acc.removeRow(i_row);
         }
     }
 
-    public MayTinh getMayTinhSelect() {
+    public DienThoai getDienThoaiSelect() {
         int i_row = tblSanPham.getSelectedRow();
-        MayTinh acc = MayTinhDAO.getInstance().selectAll().get(i_row);
-        return acc;
+        DienThoai dt = DienThoaiDAO.getInstance().selectById(tblModel.getValueAt(i_row, 0).toString());
+        return dt;
     }
 
-    public void loadDataToTableSearch(ArrayList<MayTinh> result) {
+    public void loadDataToTableSearch(ArrayList<DienThoai> result) {
         try {
             tblModel.setRowCount(0);
-            for (MayTinh i : result) {
-                if (i.getTrangThai() == 1) {
-                    String loaimay;
-                    if (LaptopDAO.getInstance().isLaptop(i.getMaMay()) == true) {
-                        loaimay = "Laptop";
-                    } else {
-                        loaimay = "PC/Case";
-                    }
-                    tblModel.addRow(new Object[]{
-                        i.getMaMay(), i.getTenMay(), i.getSoLuong(), formatter.format(i.getGia()) + "đ", i.getTenCpu(), i.getRam(), i.getRom(), loaimay
-                    });
-                }
+            for (DienThoai dt : result) {
+                tblModel.addRow(new Object[]{
+                    dt.getMaDienThoai(), 
+                    dt.getTenDienThoai(), 
+                    dt.getHang(),
+                    dt.getSoLuong(), 
+                    dt.getRam(), 
+                    dt.getRom(), 
+                    dt.getChipXuLy(),
+                    formatter.format(dt.getGia()) + "đ"
+                });
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public ArrayList<MayTinh> searchFn(String luaChon, String content) {
-        ArrayList<MayTinh> result = new ArrayList<>();
-        SearchProduct searchPr = new SearchProduct();
+    public ArrayList<DienThoai> searchFn(String luaChon, String content) {
+        ArrayList<DienThoai> result = new ArrayList<>();
+        DienThoaiDAO dtDao = DienThoaiDAO.getInstance();
+        
         switch (luaChon) {
             case "Tất cả":
-                result = searchPr.searchTatCa(content);
+                result = dtDao.selectAllExist();
+                if (content != null && !content.trim().isEmpty()) {
+                    result = result.stream()
+                        .filter(dt -> dt.getMaDienThoai().toLowerCase().contains(content.toLowerCase())
+                            || dt.getTenDienThoai().toLowerCase().contains(content.toLowerCase())
+                            || dt.getHang().toLowerCase().contains(content.toLowerCase())
+                            || dt.getRam().toLowerCase().contains(content.toLowerCase())
+                            || dt.getRom().toLowerCase().contains(content.toLowerCase())
+                            || dt.getChipXuLy().toLowerCase().contains(content.toLowerCase())
+                            || dt.getXuatXu().toLowerCase().contains(content.toLowerCase()))
+                        .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
+                }
                 break;
-            case "Mã máy":
-                result = searchPr.searchMaMay(content);
+            case "Mã điện thoại":
+                result = dtDao.selectAllExist().stream()
+                    .filter(dt -> dt.getMaDienThoai().toLowerCase().contains(content.toLowerCase()))
+                    .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
                 break;
-            case "Tên máy":
-                result = searchPr.searchTenMay(content);
+            case "Tên điện thoại":
+                result = dtDao.selectAllExist().stream()
+                    .filter(dt -> dt.getTenDienThoai().toLowerCase().contains(content.toLowerCase()))
+                    .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
+                break;
+            case "Hãng":
+                result = dtDao.selectAllExist().stream()
+                    .filter(dt -> dt.getHang().toLowerCase().contains(content.toLowerCase()))
+                    .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
                 break;
             case "Số lượng":
-                result = searchPr.searchSoLuong(content);
+                try {
+                    int soLuong = Integer.parseInt(content);
+                    result = dtDao.selectAllExist().stream()
+                        .filter(dt -> dt.getSoLuong() == soLuong)
+                        .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
+                } catch (NumberFormatException e) {
+                    result = new ArrayList<>();
+                }
                 break;
-            case "Đơn giá":
-                result = searchPr.searchDonGia(content);
+            case "Giá":
+                try {
+                    double gia = Double.parseDouble(content.replaceAll("[,đ\\s]", ""));
+                    result = dtDao.selectAllExist().stream()
+                        .filter(dt -> dt.getGia() == gia)
+                        .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
+                } catch (NumberFormatException e) {
+                    result = new ArrayList<>();
+                }
                 break;
             case "RAM":
-                result = searchPr.searchRam(content);
+                result = dtDao.selectAllExist().stream()
+                    .filter(dt -> dt.getRam().toLowerCase().contains(content.toLowerCase()))
+                    .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
                 break;
-            case "CPU":
-                result = searchPr.searchCpu(content);
+            case "ROM":
+                result = dtDao.selectAllExist().stream()
+                    .filter(dt -> dt.getRom().toLowerCase().contains(content.toLowerCase()))
+                    .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
                 break;
-            case "Dung lượng":
-                result = searchPr.searchDungLuong(content);
-                break;
-            case "Card màn hình":
-                result = searchPr.searchCard(content);
+            case "Chip xử lý":
+                result = dtDao.selectAllExist().stream()
+                    .filter(dt -> dt.getChipXuLy().toLowerCase().contains(content.toLowerCase()))
+                    .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
                 break;
             case "Xuất xứ":
-                result = searchPr.searchXuatXu(content);
+                result = dtDao.selectAllExist().stream()
+                    .filter(dt -> dt.getXuatXu().toLowerCase().contains(content.toLowerCase()))
+                    .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
                 break;
-            case "Đã xóa":
-                result = searchPr.searchDaXoa(content);
         }
         return result;
     }

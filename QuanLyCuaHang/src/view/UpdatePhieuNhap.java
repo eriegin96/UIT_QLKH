@@ -1,15 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import controller.SearchProduct;
+import controller.SearchDienThoai;
 import dao.AccountDAO;
 import java.sql.Timestamp;
 import dao.ChiTietPhieuNhapDAO;
-import dao.MayTinhDAO;
+import dao.DienThoaiDAO;
 import dao.NhaCungCapDAO;
 import dao.PhieuNhapDAO;
 import java.text.DecimalFormat;
@@ -21,14 +17,10 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import model.ChiTietPhieu;
-import model.MayTinh;
+import model.DienThoai;
 import model.NhaCungCap;
 import model.PhieuNhap;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
 public class UpdatePhieuNhap extends javax.swing.JDialog {
 
     /**
@@ -36,7 +28,7 @@ public class UpdatePhieuNhap extends javax.swing.JDialog {
      */
     private DefaultTableModel tblModel;
     DecimalFormat formatter = new DecimalFormat("###,###,###");
-    private ArrayList<MayTinh> allProduct;
+    private ArrayList<DienThoai> allProduct;
     private PhieuNhap phieunhap;
     private ArrayList<ChiTietPhieu> CTPhieu;
     private ArrayList<ChiTietPhieu> CTPhieuOld;
@@ -49,7 +41,7 @@ public class UpdatePhieuNhap extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         // Lay thong tin 
-        allProduct = MayTinhDAO.getInstance().selectAllExist();
+        allProduct = DienThoaiDAO.getInstance().selectAllExist();
         this.parent = (PhieuNhapForm) parent;
         this.phieunhap = this.parent.getPhieuNhapSelect();
         CTPhieu = ChiTietPhieuNhapDAO.getInstance().selectAll(phieunhap.getMaPhieu());
@@ -88,7 +80,7 @@ public class UpdatePhieuNhap extends javax.swing.JDialog {
 
     public final void initTable() {
         tblModel = new DefaultTableModel();
-        String[] headerTbl = new String[]{"Mã máy", "Tên máy", "Số lượng", "Đơn giá"};
+        String[] headerTbl = new String[]{"Mã điện thoại", "Tên điện thoại", "Số lượng", "Đơn giá"};
         tblModel.setColumnIdentifiers(headerTbl);
         tblSanPham.setModel(tblModel);
         tblSanPham.getColumnModel().getColumn(0).setPreferredWidth(5);
@@ -100,12 +92,12 @@ public class UpdatePhieuNhap extends javax.swing.JDialog {
         tblSanPham.setDefaultEditor(Object.class, null);
     }
 
-    private void loadDataToTableProduct(ArrayList<MayTinh> arrProd) {
+    private void loadDataToTableProduct(ArrayList<DienThoai> arrProd) {
         try {
             tblModel.setRowCount(0);
             for (var i : arrProd) {
                 tblModel.addRow(new Object[]{
-                    i.getMaMay(), i.getTenMay(), i.getSoLuong(), formatter.format(i.getGia()) + "đ"
+                    i.getMaDienThoai(), i.getTenDienThoai(), i.getSoLuong(), formatter.format(i.getGia()) + "đ"
                 });
             }
         } catch (Exception e) {
@@ -120,18 +112,18 @@ public class UpdatePhieuNhap extends javax.swing.JDialog {
         return tt;
     }
 
-    public MayTinh findMayTinh(String maMay) {
+    public DienThoai findDienThoai(String maDienThoai) {
         for (var i : allProduct) {
-            if (maMay.equals(i.getMaMay())) {
+            if (maDienThoai.equals(i.getMaDienThoai())) {
                 return i;
             }
         }
         return null;
     }
 
-    public ChiTietPhieu findCTPhieu(String maMay) {
+    public ChiTietPhieu findCTPhieu(String maDienThoai) {
         for (var i : CTPhieu) {
-            if (maMay.equals(i.getMaMay())) {
+            if (maDienThoai.equals(i.getMaDienThoai())) {
                 return i;
             }
         }
@@ -145,7 +137,7 @@ public class UpdatePhieuNhap extends javax.swing.JDialog {
 
             for (int i = 0; i < CTPhieu.size(); i++) {
                 tblNhapHangmd.addRow(new Object[]{
-                    i + 1, CTPhieu.get(i).getMaMay(), findMayTinh(CTPhieu.get(i).getMaMay()).getTenMay(), CTPhieu.get(i).getSoLuong(), formatter.format(CTPhieu.get(i).getDonGia()) + "đ"
+                    i + 1, CTPhieu.get(i).getMaDienThoai(), findDienThoai(CTPhieu.get(i).getMaDienThoai()).getTenDienThoai(), CTPhieu.get(i).getSoLuong(), formatter.format(CTPhieu.get(i).getDonGia()) + "đ"
                 });
             }
         } catch (Exception e) {
@@ -280,7 +272,7 @@ public class UpdatePhieuNhap extends javax.swing.JDialog {
                 {null, null, null, null}
             },
             new String [] {
-                "Mã máy", "Tên máy", "Số lượng", "Đơn giá"
+                "Mã điện thoại", "Tên điện thoại", "Số lượng", "Đơn giá"
             }
         ));
         jScrollPane2.setViewportView(tblSanPham);
@@ -397,12 +389,17 @@ public class UpdatePhieuNhap extends javax.swing.JDialog {
         if (CTPhieu.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Bạn chưa chọn sản phẩm để nhập hàng !","Cảnh báo", JOptionPane.WARNING_MESSAGE);
         } else {
+            DienThoaiDAO dtDao = DienThoaiDAO.getInstance();
             for (var ct : CTPhieuOld) {
-                MayTinhDAO.getInstance().updateSoLuong(ct.getMaMay(), MayTinhDAO.getInstance().selectById(ct.getMaMay()).getSoLuong() - ct.getSoLuong());
+                DienThoai dt = dtDao.selectById(ct.getMaDienThoai());
+                dt.setSoLuong(dt.getSoLuong() - ct.getSoLuong());
+                dtDao.update(dt);
                 System.out.println(ct.getSoLuong());
             }
             for (var ct : CTPhieu) {
-                MayTinhDAO.getInstance().updateSoLuong(ct.getMaMay(), MayTinhDAO.getInstance().selectById(ct.getMaMay()).getSoLuong() + ct.getSoLuong());
+                DienThoai dt = dtDao.selectById(ct.getMaDienThoai());
+                dt.setSoLuong(dt.getSoLuong() + ct.getSoLuong());
+                dtDao.update(dt);
                 System.out.println(ct.getSoLuong());
             }
             // Lay thoi gian hien tai
@@ -469,8 +466,8 @@ public class UpdatePhieuNhap extends javax.swing.JDialog {
             if (mtl != null) {
                 mtl.setSoLuong(mtl.getSoLuong() + soluong);
             } else {
-                MayTinh mt = SearchProduct.getInstance().searchId((String) tblSanPham.getValueAt(i_row, 0));
-                ChiTietPhieu ctp = new ChiTietPhieu(phieunhap.getMaPhieu(), mt.getMaMay(), soluong, mt.getGia());
+                DienThoai dt = SearchDienThoai.getInstance().searchId((String) tblSanPham.getValueAt(i_row, 0));
+                ChiTietPhieu ctp = new ChiTietPhieu(phieunhap.getMaPhieu(), dt.getMaDienThoai(), soluong, dt.getGia());
                 CTPhieu.add(ctp);
             }
             loadDataToTableNhapHang();
@@ -482,13 +479,13 @@ public class UpdatePhieuNhap extends javax.swing.JDialog {
         // TODO add your handling code here:
         DefaultTableModel tblsp = (DefaultTableModel) tblSanPham.getModel();
         String textSearch = txtSearch.getText().toLowerCase();
-        ArrayList<MayTinh> Mtkq = new ArrayList<>();
-        for (MayTinh i : allProduct) {
-            if (i.getMaMay().concat(i.getTenMay()).toLowerCase().contains(textSearch)) {
-                Mtkq.add(i);
+        ArrayList<DienThoai> Dtkq = new ArrayList<>();
+        for (DienThoai i : allProduct) {
+            if (i.getMaDienThoai().concat(i.getTenDienThoai()).toLowerCase().contains(textSearch)) {
+                Dtkq.add(i);
             }
         }
-        loadDataToTableProduct(Mtkq);
+        loadDataToTableProduct(Dtkq);
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
