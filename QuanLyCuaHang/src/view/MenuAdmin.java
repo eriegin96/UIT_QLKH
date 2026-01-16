@@ -2,8 +2,6 @@ package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -91,7 +89,7 @@ public class MenuAdmin extends javax.swing.JFrame {
         MainContent = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Phần mềm quản lý cửa hàng điện thoại");
+        setTitle("Phẩn mềm quản lý kho hàng điện thoại");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -124,9 +122,9 @@ public class MenuAdmin extends javax.swing.JFrame {
         SanPhamLayout.setHorizontalGroup(
             SanPhamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SanPhamLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addGap(31, 31, 31)
                 .addComponent(jLabel1)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
         SanPhamLayout.setVerticalGroup(
             SanPhamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -312,17 +310,18 @@ public class MenuAdmin extends javax.swing.JFrame {
 
         NavbarMenu.add(NhaCungCap, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 240, 40));
 
-        NameUser.setFont(new java.awt.Font("SF Pro Display", 1, 18)); // NOI18N
+        NameUser.setFont(new java.awt.Font("SF Pro Display", 1, 16)); // NOI18N
         NameUser.setForeground(new java.awt.Color(255, 255, 255));
         NameUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         NameUser.setText("ADMIN");
         NameUser.setToolTipText("");
-        NavbarMenu.add(NameUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 160, -1));
+        NameUser.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        NavbarMenu.add(NameUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 210, 50));
 
         jLabel8.setFont(new java.awt.Font("SF Pro Display", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("HI !");
-        NavbarMenu.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 40, -1));
+        jLabel8.setText("XIN CHÀO");
+        NavbarMenu.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, -1, -1));
 
         PhieuXuat.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Green"));
         PhieuXuat.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));

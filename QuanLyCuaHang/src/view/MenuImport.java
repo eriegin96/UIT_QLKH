@@ -71,7 +71,7 @@ public class MenuImport extends javax.swing.JFrame {
         MainContent = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Quản lý kho hàng máy tính");
+        setTitle("Quản lý kho hàng điện thoại");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -116,7 +116,7 @@ public class MenuImport extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        NavbarMenu.add(NhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 240, -1));
+        NavbarMenu.add(NhapHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 240, 40));
 
         PhieuNhap.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Green"));
         PhieuNhap.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -151,7 +151,7 @@ public class MenuImport extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        NavbarMenu.add(PhieuNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 240, 40));
+        NavbarMenu.add(PhieuNhap, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 240, 40));
 
         DangXuat.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Green"));
         DangXuat.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -187,17 +187,18 @@ public class MenuImport extends javax.swing.JFrame {
 
         NavbarMenu.add(DangXuat, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 690, 240, -1));
 
-        NameUser.setFont(new java.awt.Font("SF Pro Display", 1, 18)); // NOI18N
+        NameUser.setFont(new java.awt.Font("SF Pro Display", 1, 16)); // NOI18N
         NameUser.setForeground(new java.awt.Color(255, 255, 255));
         NameUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         NameUser.setText("ADMIN");
         NameUser.setToolTipText("");
-        NavbarMenu.add(NameUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 160, -1));
+        NameUser.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        NavbarMenu.add(NameUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 210, 50));
 
         jLabel8.setFont(new java.awt.Font("SF Pro Display", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("HI !");
-        NavbarMenu.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 40, -1));
+        jLabel8.setText("XIN CHÀO");
+        NavbarMenu.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, -1, -1));
 
         Account.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Green"));
         Account.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -213,7 +214,7 @@ public class MenuImport extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("SF Pro Display", 1, 18)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8-information-25.png"))); // NOI18N
-        jLabel14.setText("THÔNG TIN");
+        jLabel14.setText("ĐỔI THÔNG TIN");
 
         javax.swing.GroupLayout AccountLayout = new javax.swing.GroupLayout(Account);
         Account.setLayout(AccountLayout);
