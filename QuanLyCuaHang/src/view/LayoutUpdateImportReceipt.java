@@ -21,10 +21,10 @@ import model.DienThoai;
 import model.NhaCungCap;
 import model.PhieuNhap;
 
-public class UpdatePhieuNhap extends javax.swing.JDialog {
+public class LayoutUpdateImportReceipt extends javax.swing.JDialog {
 
     /**
-     * Creates new form UpdatePhieuNhap
+     * Creates new form LayoutUpdateImportReceipt
      */
     private DefaultTableModel tblModel;
     DecimalFormat formatter = new DecimalFormat("###,###,###");
@@ -32,17 +32,17 @@ public class UpdatePhieuNhap extends javax.swing.JDialog {
     private PhieuNhap phieunhap;
     private ArrayList<ChiTietPhieu> CTPhieu;
     private ArrayList<ChiTietPhieu> CTPhieuOld;
-    private PhieuNhapForm parent;
+    private LayoutImportReceipt parent;
     private static final ArrayList<NhaCungCap> arrNcc = NhaCungCapDAO.getInstance().selectAll();
 
-    public UpdatePhieuNhap(javax.swing.JInternalFrame parent, javax.swing.JFrame owner, boolean modal) throws UnsupportedLookAndFeelException {
+    public LayoutUpdateImportReceipt(javax.swing.JInternalFrame parent, javax.swing.JFrame owner, boolean modal) throws UnsupportedLookAndFeelException {
         super(owner, modal);
         UIManager.setLookAndFeel(new FlatLightLaf());
         initComponents();
         setLocationRelativeTo(null);
         // Lay thong tin 
         allProduct = DienThoaiDAO.getInstance().selectAllExist();
-        this.parent = (PhieuNhapForm) parent;
+        this.parent = (LayoutImportReceipt) parent;
         this.phieunhap = this.parent.getPhieuNhapSelect();
         CTPhieu = ChiTietPhieuNhapDAO.getInstance().selectAll(phieunhap.getMaPhieu());
         CTPhieuOld = ChiTietPhieuNhapDAO.getInstance().selectAll(phieunhap.getMaPhieu());
@@ -53,7 +53,7 @@ public class UpdatePhieuNhap extends javax.swing.JDialog {
         displayInfo();
     }
 
-    private UpdatePhieuNhap(JFrame jFrame, boolean b) {
+    private LayoutUpdateImportReceipt(JFrame jFrame, boolean b) {
         super(jFrame, b);
         initComponents();
         setLocationRelativeTo(null);
@@ -272,7 +272,7 @@ public class UpdatePhieuNhap extends javax.swing.JDialog {
                 {null, null, null, null}
             },
             new String [] {
-                "Mã điện thoại", "Tên điện thoại", "Số lượng", "Đơn giá"
+                "Mã máy", "Tên máy", "Số lượng", "Đơn giá"
             }
         ));
         jScrollPane2.setViewportView(tblSanPham);
@@ -502,7 +502,7 @@ public class UpdatePhieuNhap extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                UpdatePhieuNhap dialog = new UpdatePhieuNhap(new javax.swing.JFrame(), true);
+                LayoutUpdateImportReceipt dialog = new LayoutUpdateImportReceipt(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

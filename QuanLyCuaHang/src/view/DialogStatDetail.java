@@ -19,16 +19,16 @@ import model.Phieu;
 import model.PhieuNhap;
 import model.PhieuXuat;
 
-public class CTThongKe extends javax.swing.JDialog {
+public class DialogStatDetail extends javax.swing.JDialog {
 
     /**
      * Creates new form CTPhieuDialog
      */
-    private ThongKeForm parent;
+    private LayoutStat parent;
 
-    public CTThongKe(javax.swing.JInternalFrame parent, javax.swing.JFrame owner, boolean modal) {
+    public DialogStatDetail(javax.swing.JInternalFrame parent, javax.swing.JFrame owner, boolean modal) {
         super(owner, modal);
-        this.parent = (ThongKeForm) parent;
+        this.parent = (LayoutStat) parent;
         initComponents();
         setLocationRelativeTo(null);
         Phieu pn = this.parent.findPhieu();
@@ -302,14 +302,18 @@ public class CTThongKe extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CTThongKe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogStatDetail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CTThongKe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogStatDetail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CTThongKe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogStatDetail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CTThongKe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogStatDetail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

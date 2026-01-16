@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package view;
 
 import controller.BCrypt;
@@ -9,25 +5,21 @@ import javax.swing.JOptionPane;
 import model.Account;
 import dao.AccountDAO;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
-public class AddAccount extends javax.swing.JDialog {
+public class FormAddAccount extends javax.swing.JDialog {
 
     /**
-     * Creates new form AddAccount
+     * Creates new form FormAddAccount
      */
-    private AccountForm homeAcc;
+    private LayoutAccount homeAcc;
 
-    public AddAccount(javax.swing.JInternalFrame parent, javax.swing.JFrame owner, boolean modal) {
+    public FormAddAccount(javax.swing.JInternalFrame parent, javax.swing.JFrame owner, boolean modal) {
         super(owner, modal);
         initComponents();
         setLocationRelativeTo(null);
-        homeAcc = (AccountForm) parent;
+        homeAcc = (LayoutAccount) parent;
     }
 
-    AddAccount() {
+    FormAddAccount() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -213,7 +205,7 @@ public class AddAccount extends javax.swing.JDialog {
 //        /* Create and display the dialog */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                AddAccount dialog = new AddAccount(new javax.swing.JFrame(), true);
+//                FormAddAccount dialog = new FormAddAccount(new javax.swing.JFrame(), true);
 //                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 //                    @Override
 //                    public void windowClosing(java.awt.event.WindowEvent e) {

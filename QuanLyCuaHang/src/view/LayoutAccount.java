@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package view;
 
 import controller.BCrypt;
@@ -24,7 +20,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import javax.swing.JFrame;
-import model.NhaCungCap;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -33,19 +28,15 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
-public class AccountForm extends javax.swing.JInternalFrame {
+public class LayoutAccount extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form AccountForm
+     * Creates new form LayoutAccount
      */
     private DefaultTableModel tblModel;
     private ArrayList<Account> accounts = AccountDAO.getInstance().selectAll();
 
-    public AccountForm() {
+    public LayoutAccount() {
         initComponents();
         UIManager.put("Table.showVerticalLines", true);
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
@@ -360,8 +351,8 @@ public class AccountForm extends javax.swing.JInternalFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        AddAccount a;
-        a = new AddAccount(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
+        FormAddAccount a;
+        a = new FormAddAccount(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
         a.setVisible(true);
 
 
@@ -375,7 +366,7 @@ public class AccountForm extends javax.swing.JInternalFrame {
             if (getAccountSelect().getRole().equals("Admin")) {
                 JOptionPane.showMessageDialog(this, "Không thể sửa tài khoản admin tại đây !", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             } else {
-                UpdateAccount u = new UpdateAccount(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
+                FormUpdateAccount u = new FormUpdateAccount(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
                 u.setVisible(true);
             }
         }
@@ -468,9 +459,9 @@ public class AccountForm extends javax.swing.JInternalFrame {
                 }
                 loadDataToTable(listAccExcel);
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(AccountForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LayoutAccount.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(AccountForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LayoutAccount.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }

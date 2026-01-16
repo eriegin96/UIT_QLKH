@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
@@ -12,29 +8,25 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import model.NhaCungCap;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
-public class AddNhaCungCap extends javax.swing.JDialog {
+public class FormAddSupplier extends javax.swing.JDialog {
 
     /**
      * Creates new form AddAccount
      */
-    private NhaCungCapForm parent;
+    private LayoutSupplier parent;
 
-    public AddNhaCungCap(javax.swing.JInternalFrame parent, javax.swing.JFrame owner, boolean modal) {
+    public FormAddSupplier(javax.swing.JInternalFrame parent, javax.swing.JFrame owner, boolean modal) {
         super(owner, modal);
-        this.parent = (NhaCungCapForm) parent;
+        this.parent = (LayoutSupplier) parent;
         initComponents();
         setLocationRelativeTo(null);
     }
 
-    AddNhaCungCap() {
+    FormAddSupplier() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    private AddNhaCungCap(JFrame jFrame, boolean b) {
+    private FormAddSupplier(JFrame jFrame, boolean b) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -204,7 +196,7 @@ public class AddNhaCungCap extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AddNhaCungCap dialog = new AddNhaCungCap(new javax.swing.JFrame(), true);
+                FormAddSupplier dialog = new FormAddSupplier(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

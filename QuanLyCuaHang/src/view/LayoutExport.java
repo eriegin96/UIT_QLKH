@@ -30,7 +30,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class XuatHangForm extends javax.swing.JInternalFrame {
+public class LayoutExport extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form NhapHang
@@ -41,7 +41,7 @@ public class XuatHangForm extends javax.swing.JInternalFrame {
     private String MaPhieu;
     private ArrayList<ChiTietPhieu> CTPhieu;
 
-    public XuatHangForm() {
+    public LayoutExport() {
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
         initComponents();
@@ -559,9 +559,9 @@ public class XuatHangForm extends javax.swing.JInternalFrame {
                 }
                 loadDataToTableNhapHang();
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(AccountForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LayoutAccount.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(AccountForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LayoutAccount.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         loadDataToTableNhapHang();

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
@@ -15,19 +11,15 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import model.Account;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
-public class XuatKho extends javax.swing.JFrame {
+public class MenuExport extends javax.swing.JFrame {
 
     /**
-     * Creates new form Navbar
+     * Creates new form MenuExport
      */
     Color DefaultColor, ClickedColor;
     private Account currentAcc;
 
-    private XuatKho() {
+    private MenuExport() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -35,14 +27,14 @@ public class XuatKho extends javax.swing.JFrame {
         return currentAcc;
     }
 
-    public XuatKho(Account t) throws UnsupportedLookAndFeelException {
+    public MenuExport(Account t) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new FlatLightLaf());
         UIManager.put("Table.showVerticalLines", true);
         UIManager.put("Table.showHorizontalLines", true);
         initComponents();
         setLocationRelativeTo(null);
         this.currentAcc = t;
-        XuatHangForm xh = new XuatHangForm();
+        LayoutExport xh = new LayoutExport();
         xh.setNguoiTao(t.getUser());
         MainContent.add(xh).setVisible(true);
         DefaultColor = new Color(89, 168, 105);
@@ -282,7 +274,7 @@ public class XuatKho extends javax.swing.JFrame {
 
     private void XuatHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_XuatHangMouseClicked
         // TODO add your handling code here:
-        XuatHangForm xh = new XuatHangForm();
+        LayoutExport xh = new LayoutExport();
         xh.setNguoiTao(this.currentAcc.getUser());
         MainContent.removeAll();
         MainContent.add(xh).setVisible(true);
@@ -290,7 +282,7 @@ public class XuatKho extends javax.swing.JFrame {
 
     private void PhieuXuatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PhieuXuatMouseClicked
         // TODO add your handling code here:
-        PhieuXuatForm px = new PhieuXuatForm(this.getCurrentAcc());
+        LayoutExportReceipt px = new LayoutExportReceipt(this.getCurrentAcc());
         MainContent.removeAll();
         MainContent.add(px).setVisible(true);
     }//GEN-LAST:event_PhieuXuatMouseClicked
@@ -313,7 +305,7 @@ public class XuatKho extends javax.swing.JFrame {
 
     private void AccountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AccountMouseClicked
         // TODO add your handling code here:
-        ChangePassword cp = new ChangePassword(this, rootPaneCheckingEnabled, getCurrentAcc());
+        FormChangeInfo cp = new FormChangeInfo(this, rootPaneCheckingEnabled, getCurrentAcc());
         cp.setVisible(true);
     }//GEN-LAST:event_AccountMouseClicked
 
@@ -338,7 +330,7 @@ public class XuatKho extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new XuatKho().setVisible(true);
+                new MenuExport().setVisible(true);
             }
         });
     }

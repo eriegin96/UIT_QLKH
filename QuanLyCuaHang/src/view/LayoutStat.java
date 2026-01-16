@@ -29,7 +29,7 @@ import model.Phieu;
 import model.PhieuXuat;
 import model.ThongKeProduct;
 
-public class ThongKeForm extends javax.swing.JInternalFrame {
+public class LayoutStat extends javax.swing.JInternalFrame {
 
     private DefaultTableModel tblModel;
     DecimalFormat formatter = new DecimalFormat("###,###,###");
@@ -43,7 +43,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
         return formatDate;
     }
 
-    public ThongKeForm() {
+    public LayoutStat() {
         initComponents();
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
@@ -249,7 +249,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã điện thoại", "Tên điện thoại", "Số lượng nhập", "Số lượng xuất"
+                "STT", "Mã máy", "Tên máy", "Số lượng nhập", "Số lượng xuất"
             }
         ));
         tblThongKeProduct.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -791,7 +791,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -833,7 +833,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
         try {
             searchAllRepect();
         } catch (ParseException ex) {
-            Logger.getLogger(ThongKeForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LayoutStat.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jComboBoxLuaChonActionPerformed
@@ -843,7 +843,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
             // TODO add your handling code here:
             searchAllRepect();
         } catch (ParseException ex) {
-            Logger.getLogger(ThongKeForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LayoutStat.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 
@@ -859,7 +859,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
             // TODO add your handling code here:
             searchAllRepect();
         } catch (ParseException ex) {
-            Logger.getLogger(ThongKeForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LayoutStat.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_giaTuKeyReleased
 
@@ -868,7 +868,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
             // TODO add your handling code here:
             searchAllRepect();
         } catch (ParseException ex) {
-            Logger.getLogger(ThongKeForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LayoutStat.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jDateChooserFromKeyReleased
 
@@ -877,7 +877,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
             // TODO add your handling code here:
             searchAllRepect();
         } catch (ParseException ex) {
-            Logger.getLogger(ThongKeForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LayoutStat.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jDateChooserToKeyReleased
 
@@ -886,7 +886,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
             // TODO add your handling code here:
             searchAllRepect();
         } catch (ParseException ex) {
-            Logger.getLogger(ThongKeForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LayoutStat.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_giaDenKeyReleased
 
@@ -895,7 +895,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
             // TODO add your handling code here:
             searchAllRepect();
         } catch (ParseException ex) {
-            Logger.getLogger(ThongKeForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LayoutStat.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jDateChooserFromPropertyChange
 
@@ -904,7 +904,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
             // TODO add your handling code here:
             searchAllRepect();
         } catch (ParseException ex) {
-            Logger.getLogger(ThongKeForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LayoutStat.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jDateChooserToPropertyChange
 
@@ -913,7 +913,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
         if (tblPhieuNhap.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu !");
         } else {
-            CTThongKe a = new CTThongKe(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
+            DialogStatDetail a = new DialogStatDetail(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
             a.setVisible(true);
         }
     }//GEN-LAST:event_btnDetailActionPerformed
@@ -962,7 +962,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
             // TODO add your handling code here:
             filterThongKeSanPham();
         } catch (ParseException ex) {
-            Logger.getLogger(ThongKeForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LayoutStat.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_txtNamePrKeyReleased
 
@@ -975,7 +975,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
             // TODO add your handling code here:
             filterThongKeSanPham();
         } catch (ParseException ex) {
-            Logger.getLogger(ThongKeForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LayoutStat.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jDateChooserFromPrPropertyChange
 
@@ -988,7 +988,7 @@ public class ThongKeForm extends javax.swing.JInternalFrame {
             // TODO add your handling code here:
             filterThongKeSanPham();
         } catch (ParseException ex) {
-            Logger.getLogger(ThongKeForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LayoutStat.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jDateChooserToPrPropertyChange
 

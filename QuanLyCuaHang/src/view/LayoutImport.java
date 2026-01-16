@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package view;
 
 import controller.SearchDienThoai;
@@ -38,11 +34,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
-public class NhapHangForm extends javax.swing.JInternalFrame {
+public class LayoutImport extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form NhapHang
@@ -54,7 +46,7 @@ public class NhapHangForm extends javax.swing.JInternalFrame {
     private ArrayList<ChiTietPhieu> CTPhieu;
     private static final ArrayList<NhaCungCap> arrNcc = NhaCungCapDAO.getInstance().selectAll();
 
-    public NhapHangForm() {
+    public LayoutImport() {
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
         initComponents();
@@ -552,9 +544,9 @@ public class NhapHangForm extends javax.swing.JInternalFrame {
                 }
                 loadDataToTableNhapHang();
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(AccountForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LayoutAccount.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(AccountForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LayoutAccount.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         loadDataToTableNhapHang();

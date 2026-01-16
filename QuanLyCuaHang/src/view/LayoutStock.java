@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package view;
 
 import controller.SearchDienThoai;
@@ -26,18 +22,12 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
-
-
-public class TonKhoForm extends javax.swing.JInternalFrame {
+public class LayoutStock extends javax.swing.JInternalFrame {
 
     private DefaultTableModel tblModel;
     DecimalFormat formatter = new DecimalFormat("###,###,###");
 
-    public TonKhoForm() {
+    public LayoutStock() {
         initComponents();
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
@@ -189,7 +179,7 @@ public class TonKhoForm extends javax.swing.JInternalFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Tìm kiếm"));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jComboBoxLuaChon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Mã điện thoại", "Tên điện thoại", "Hãng", "Số lượng", "Giá", "RAM", "ROM", "Chip xử lý", "Xuất xứ" }));
+        jComboBoxLuaChon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Mã máy", "Tên máy", "Số lượng", "Đơn giá", "RAM", "CPU", "Dung lượng", "Card màn hình", "Xuất xứ" }));
         jComboBoxLuaChon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxLuaChonActionPerformed(evt);
@@ -260,7 +250,7 @@ public class TonKhoForm extends javax.swing.JInternalFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
 
-        AddProduct a = new AddProduct(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
+        FormAddProduct a = new FormAddProduct(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
         a.setVisible(true);
 
     }//GEN-LAST:event_btnAddActionPerformed
@@ -279,7 +269,7 @@ public class TonKhoForm extends javax.swing.JInternalFrame {
         if (tblSanPham.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần sửa");
         } else {
-            UpdateProduct a = new UpdateProduct(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
+            FormUpdateProduct a = new FormUpdateProduct(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
             a.setVisible(true);
         }
     }//GEN-LAST:event_btnEditActionPerformed
@@ -331,7 +321,7 @@ public class TonKhoForm extends javax.swing.JInternalFrame {
         if (tblSanPham.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn điện thoại !");
         } else {
-            DetailProduct a = new DetailProduct(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
+            DialogProductDetail a = new DialogProductDetail(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
             a.setVisible(true);
         }
     }//GEN-LAST:event_btnDetailActionPerformed

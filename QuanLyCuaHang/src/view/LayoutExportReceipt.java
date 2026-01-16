@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package view;
 
 import dao.AccountDAO;
@@ -39,11 +35,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
-public class PhieuXuatForm extends javax.swing.JInternalFrame {
+public class LayoutExportReceipt extends javax.swing.JInternalFrame {
 
     private DefaultTableModel tblModel;
     DecimalFormat formatter = new DecimalFormat("###,###,###");
@@ -57,7 +49,7 @@ public class PhieuXuatForm extends javax.swing.JInternalFrame {
         return formatDate;
     }
 
-    public PhieuXuatForm(Account accCur) {
+    public LayoutExportReceipt(Account accCur) {
         initComponents();
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
@@ -417,10 +409,10 @@ public class PhieuXuatForm extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu cần sửa");
         } else {
             try {
-                UpdatePhieuXuat a = new UpdatePhieuXuat(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
+                LayoutUpdateExportReceipt a = new LayoutUpdateExportReceipt(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
                 a.setVisible(true);
             } catch (UnsupportedLookAndFeelException ex) {
-                Logger.getLogger(PhieuXuatForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LayoutExportReceipt.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btnEditActionPerformed
@@ -500,11 +492,11 @@ public class PhieuXuatForm extends javax.swing.JInternalFrame {
                     });
                 }
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(ProductForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LayoutProduct.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(ProductForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LayoutProduct.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ParseException ex) {
-                Logger.getLogger(PhieuXuatForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LayoutExportReceipt.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btnImportExcelActionPerformed
@@ -525,7 +517,7 @@ public class PhieuXuatForm extends javax.swing.JInternalFrame {
         if (tblPhieuXuat.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu !");
         } else {
-            CTPhieuXuat a = new CTPhieuXuat(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
+            DialogExportDetail a = new DialogExportDetail(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
             a.setVisible(true);
         }
     }//GEN-LAST:event_btnDetailActionPerformed
@@ -653,7 +645,7 @@ public class PhieuXuatForm extends javax.swing.JInternalFrame {
                         }
                     }
                 } catch (ParseException ex) {
-                    Logger.getLogger(PhieuXuatForm.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(LayoutExportReceipt.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else if (jDateChooserTo.getDate() != null && jDateChooserFrom.getDate() == null) {
                 try {
@@ -667,7 +659,7 @@ public class PhieuXuatForm extends javax.swing.JInternalFrame {
                         }
                     }
                 } catch (ParseException ex) {
-                    Logger.getLogger(PhieuXuatForm.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(LayoutExportReceipt.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 try {
@@ -686,7 +678,7 @@ public class PhieuXuatForm extends javax.swing.JInternalFrame {
                         }
                     }
                 } catch (ParseException ex) {
-                    Logger.getLogger(PhieuXuatForm.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(LayoutExportReceipt.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

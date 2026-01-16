@@ -1,24 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package view;
 
-import com.formdev.flatlaf.FlatLightLaf;
+
 import controller.BCrypt;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.table.DefaultTableModel;
-import view.AccountForm;
 import model.Account;
 import dao.AccountDAO;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
-public class ChangePassword extends javax.swing.JDialog {
+public class FormChangeInfo extends javax.swing.JDialog {
 
     /**
      * Creates new form AddAccount
@@ -33,13 +21,13 @@ public class ChangePassword extends javax.swing.JDialog {
         this.accCur = accCur;
     }
 
-    public ChangePassword(javax.swing.JFrame parent, boolean modal) {
+    public FormChangeInfo(javax.swing.JFrame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
     }
 
-    public ChangePassword(javax.swing.JFrame parent, boolean modal, Account t) {
+    public FormChangeInfo(javax.swing.JFrame parent, boolean modal, Account t) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
@@ -48,7 +36,7 @@ public class ChangePassword extends javax.swing.JDialog {
         email.setText(this.accCur.getEmail());
     }
 
-    ChangePassword() {
+    FormChangeInfo() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

@@ -1,28 +1,51 @@
 package view;
 
 import dao.DienThoaiDAO;
-import java.util.ArrayList;
+import java.text.DecimalFormat;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.DienThoai;
 
-public class AddProduct extends javax.swing.JDialog {
+public class FormUpdateProduct extends javax.swing.JDialog {
 
     /**
      * Creates new form ThemSP
      */
-    private ProductForm owner;
-
-    public AddProduct(javax.swing.JInternalFrame parent, javax.swing.JFrame owner, boolean modal) {
+    private LayoutProduct owner;
+    private DienThoai currentDienThoai;
+    DecimalFormat formatterE = new DecimalFormat("0");
+    
+    public FormUpdateProduct(javax.swing.JInternalFrame parent, javax.swing.JFrame owner, boolean modal) {
         super(owner, modal);
-        this.owner = (ProductForm) parent;
+        this.owner = (LayoutProduct) parent;
         initComponents();
         setLocationRelativeTo(null);
-        txtMaDienThoai.setText(createIdDienThoai());
+        
+        // Load DienThoai data
+        currentDienThoai = this.owner.getDienThoaiSelect();
+        if (currentDienThoai != null) {
+            txtMaSanPham.setText(currentDienThoai.getMaDienThoai());
+            txtTenSanPham.setText(currentDienThoai.getTenDienThoai());
+            txtDonGia.setText(formatterE.format(currentDienThoai.getGia()));
+            
+            // Set combo boxes
+            cbxHang.setSelectedItem(currentDienThoai.getHang());
+            cbxRAM.setSelectedItem(currentDienThoai.getRam());
+            cbxROM.setSelectedItem(currentDienThoai.getRom());
+            cbxXuatXu.setSelectedItem(currentDienThoai.getXuatXu());
+            
+            // Set text fields
+            txtCPU.setText(currentDienThoai.getChipXuLy());
+            txtKichThuocMan.setText(String.valueOf(currentDienThoai.getKichThuocMan()));
+            txtDungLuongPin.setText(currentDienThoai.getDungLuongPin());
+            txtHeDieuHanh.setText(currentDienThoai.getHeDieuHanh());
+            txtCameraChinh.setText(currentDienThoai.getCameraChinh());
+            txtCameraPhu.setText(currentDienThoai.getCameraPhu());
+        }
     }
-
-    private AddProduct(JFrame jFrame, boolean b) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    
+    private FormUpdateProduct(JFrame jFrame, boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
@@ -35,31 +58,31 @@ public class AddProduct extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        labelMaDienThoai = new javax.swing.JLabel();
-        txtMaDienThoai = new javax.swing.JTextField();
-        labelTenDienThoai = new javax.swing.JLabel();
-        txtTenDienThoai = new javax.swing.JTextField();
-        labelGia = new javax.swing.JLabel();
-        txtGia = new javax.swing.JTextField();
-        labelHang = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtMaSanPham = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtTenSanPham = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        txtDonGia = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
         cbxHang = new javax.swing.JComboBox<>();
-        labelChipXuLy = new javax.swing.JLabel();
-        txtChipXuLy = new javax.swing.JTextField();
-        labelRAM = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtCPU = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
         cbxRAM = new javax.swing.JComboBox<>();
-        labelROM = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         cbxROM = new javax.swing.JComboBox<>();
-        labelHeDieuHanh = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
         txtHeDieuHanh = new javax.swing.JTextField();
-        labelCameraChinh = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
         txtCameraChinh = new javax.swing.JTextField();
-        labelCameraPhu = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         txtCameraPhu = new javax.swing.JTextField();
-        labelKichThuocMan = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         txtKichThuocMan = new javax.swing.JTextField();
-        labelDungLuongPin = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
         txtDungLuongPin = new javax.swing.JTextField();
-        labelXuatXu = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
         cbxXuatXu = new javax.swing.JComboBox<>();
         btnAddProduct = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
@@ -67,55 +90,50 @@ public class AddProduct extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Thêm điện thoại mới");
+        setTitle("Cập nhật điện thoại");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        labelMaDienThoai.setText("Mã điện thoại");
+        jLabel2.setText("Mã điện thoại");
 
-        txtMaDienThoai.setEditable(false);
-        txtMaDienThoai.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMaDienThoaiActionPerformed(evt);
-            }
-        });
+        txtMaSanPham.setEditable(false);
 
-        labelTenDienThoai.setText("Tên điện thoại");
+        jLabel3.setText("Tên điện thoại");
 
-        labelGia.setText("Giá");
+        jLabel16.setText("Giá");
 
-        labelHang.setText("Hãng");
+        jLabel10.setText("Hãng");
 
         cbxHang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Apple", "Samsung", "Xiaomi", "OPPO", "Vivo", "Realme", "Nokia", "Sony", "Motorola", "Honor" }));
 
-        labelChipXuLy.setText("Chip xử lý");
+        jLabel6.setText("Chip xử lý");
 
-        labelRAM.setText("RAM");
+        jLabel7.setText("RAM");
 
         cbxRAM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2 GB", "3 GB", "4 GB", "6 GB", "8 GB", "12 GB", "16 GB", "18 GB", "24 GB", "32 GB" }));
 
-        labelROM.setText("ROM");
+        jLabel8.setText("ROM");
 
         cbxROM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "32 GB", "64 GB", "128 GB", "256 GB", "512 GB", "1 TB", "2 TB", "4 TB", "8 TB", "16 TB" }));
 
-        labelHeDieuHanh.setText("Hệ điều hành");
+        jLabel13.setText("Hệ điều hành");
 
-        labelCameraChinh.setText("Camera chính");
+        jLabel14.setText("Camera chính");
 
-        labelCameraPhu.setText("Camera phụ");
+        jLabel9.setText("Camera phụ");
 
-        labelKichThuocMan.setText("Kích thước màn");
+        jLabel11.setText("Kích thước màn");
 
-        labelDungLuongPin.setText("Dung lượng PIN");
+        jLabel12.setText("Dung lượng PIN");
 
-        labelXuatXu.setText("Xuất xứ");
+        jLabel15.setText("Xuất xứ");
 
         cbxXuatXu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Trung Quốc", "Việt Nam", "Hàn Quốc", "Nhật Bản", "Mỹ", "Đài Loan", "Thái Lan", "Ấn Độ", "Phần Lan", "Indonesia" }));
 
         btnAddProduct.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Green"));
         btnAddProduct.setForeground(new java.awt.Color(255, 255, 255));
-        btnAddProduct.setText("Thêm điện thoại");
+        btnAddProduct.setText("Lưu thay đổi");
         btnAddProduct.setBorder(null);
         btnAddProduct.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAddProduct.addActionListener(new java.awt.event.ActionListener() {
@@ -150,47 +168,47 @@ public class AddProduct extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtMaDienThoai, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelMaDienThoai))
+                            .addComponent(txtMaSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
                         .addGap(91, 91, 91)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTenDienThoai, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelTenDienThoai)))
+                            .addComponent(txtTenSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelChipXuLy)
-                            .addComponent(txtChipXuLy, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel6)
+                            .addComponent(txtCPU, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(91, 91, 91)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelRAM, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cbxRAM, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(labelGia, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtGia, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDonGia, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelKichThuocMan)
+                            .addComponent(jLabel11)
                             .addComponent(txtKichThuocMan, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(91, 91, 91)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelCameraChinh)
+                            .addComponent(jLabel14)
                             .addComponent(txtCameraChinh, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelDungLuongPin, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtDungLuongPin, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(91, 91, 91)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelHeDieuHanh)
+                            .addComponent(jLabel13)
                             .addComponent(txtHeDieuHanh, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelXuatXu, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbxXuatXu, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelHang, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbxHang, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelCameraPhu)
+                    .addComponent(jLabel9)
                     .addComponent(txtCameraPhu, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelROM)
+                    .addComponent(jLabel8)
                     .addComponent(cbxROM, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(82, 82, 82))
         );
@@ -201,64 +219,64 @@ public class AddProduct extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelMaDienThoai)
-                            .addComponent(labelHang))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel10))
                         .addGap(5, 5, 5)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtMaDienThoai, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMaSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cbxHang, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(labelTenDienThoai)
+                        .addComponent(jLabel3)
                         .addGap(6, 6, 6)
-                        .addComponent(txtTenDienThoai, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtTenSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(labelRAM)
+                            .addComponent(jLabel7)
                             .addGap(6, 6, 6)
                             .addComponent(cbxRAM, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(labelChipXuLy)
+                            .addComponent(jLabel6)
                             .addGap(4, 4, 4)
-                            .addComponent(txtChipXuLy, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtCPU, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(labelROM)
+                        .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbxROM, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(labelKichThuocMan)
+                        .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtKichThuocMan, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(labelCameraChinh)
+                        .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtCameraChinh, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(labelCameraPhu)
+                        .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtCameraPhu, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(labelDungLuongPin)
+                        .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtDungLuongPin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(2, 2, 2)
-                        .addComponent(labelHeDieuHanh)
+                        .addComponent(jLabel13)
                         .addGap(4, 4, 4)
                         .addComponent(txtHeDieuHanh, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(labelXuatXu)
+                        .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbxXuatXu, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(labelGia)
+                .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtGia, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtDonGia, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -272,16 +290,16 @@ public class AddProduct extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("SF Pro Display", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("THÊM ĐIỆN THOẠI MỚI");
+        jLabel1.setText("CẬP NHẬT ĐIỆN THOẠI");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(287, Short.MAX_VALUE)
+                .addContainerGap(252, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(285, 285, 285))
+                .addGap(250, 250, 250))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,143 +314,75 @@ public class AddProduct extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
+    private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
+        // TODO add your handling code here:
+        String maDienThoai = txtMaSanPham.getText();
+        String tenDienThoai = txtTenSanPham.getText();
+        String hang = (String) cbxHang.getSelectedItem();
+        String chipXuLy = txtCPU.getText();
+        String ram = (String) cbxRAM.getSelectedItem();
+        String rom = (String) cbxROM.getSelectedItem();
+        String heDieuHanh = txtHeDieuHanh.getText();
+        String cameraChinh = txtCameraChinh.getText();
+        String cameraPhu = txtCameraPhu.getText();
+        String dungLuongPin = txtDungLuongPin.getText();
+        String xuatXu = (String) cbxXuatXu.getSelectedItem();
+        
+        int soLuong = currentDienThoai.getSoLuong(); // Keep existing quantity
+        double gia = 0;
+        double kichThuocMan = 0;
+        
+        try {
+            gia = Double.parseDouble(txtDonGia.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập giá ở dạng số !", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        try {
+            kichThuocMan = Double.parseDouble(txtKichThuocMan.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập kích thước màn ở dạng số !", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Validation
+        if (maDienThoai.trim().isEmpty() || tenDienThoai.trim().isEmpty() || hang == null || 
+            chipXuLy.trim().isEmpty() || ram == null || rom == null || 
+            xuatXu == null || dungLuongPin.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin !", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // Create DienThoai object with status 1 (active)
+        DienThoai dt = new DienThoai(maDienThoai, tenDienThoai, soLuong, hang, dungLuongPin,
+                                     ram, rom, kichThuocMan, cameraChinh, cameraPhu,
+                                     chipXuLy, heDieuHanh, gia, xuatXu, 1);
+        
+        try {
+            int result = DienThoaiDAO.getInstance().update(dt);
+            if (result > 0) {
+                JOptionPane.showMessageDialog(this, "Cập nhật điện thoại thành công !", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                owner.loadDataToTable();
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Cập nhật điện thoại thất bại !", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnAddProductActionPerformed
+
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
-    private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
-        // Get all values from form
-        String maDienThoai = txtMaDienThoai.getText().trim();
-        String tenDienThoai = txtTenDienThoai.getText().trim();
-        String hang = (String) cbxHang.getSelectedItem();
-        String ram = (String) cbxRAM.getSelectedItem();
-        String rom = (String) cbxROM.getSelectedItem();
-        String chipXuLy = txtChipXuLy.getText().trim();
-        String heDieuHanh = txtHeDieuHanh.getText().trim();
-        String cameraChinh = txtCameraChinh.getText().trim();
-        String cameraPhu = txtCameraPhu.getText().trim();
-        String dungLuongPin = txtDungLuongPin.getText().trim();
-        String xuatXu = (String) cbxXuatXu.getSelectedItem();
-        
-        // Validate required fields
-        if (tenDienThoai.isEmpty() || chipXuLy.isEmpty() || heDieuHanh.isEmpty() || 
-            cameraChinh.isEmpty() || cameraPhu.isEmpty() || dungLuongPin.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!", 
-                                        "Lỗi", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        // Validate and parse price
-        double gia = 0;
-        try {
-            String giaText = txtGia.getText().trim();
-            if (giaText.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập giá sản phẩm!", 
-                                            "Lỗi", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            gia = Double.parseDouble(giaText);
-            if (gia <= 0) {
-                JOptionPane.showMessageDialog(this, "Giá sản phẩm phải lớn hơn 0!", 
-                                            "Lỗi", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập giá ở dạng số!", 
-                                        "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        // Validate and parse screen size
-        double kichThuocMan = 0;
-        try {
-            String kichThuocText = txtKichThuocMan.getText().trim();
-            if (kichThuocText.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập kích thước màn hình!", 
-                                            "Lỗi", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            kichThuocMan = Double.parseDouble(kichThuocText);
-            if (kichThuocMan <= 0) {
-                JOptionPane.showMessageDialog(this, "Kích thước màn hình phải lớn hơn 0!", 
-                                            "Lỗi", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập kích thước màn hình ở dạng số!", 
-                                        "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        // Create DienThoai object
-        DienThoai dt = new DienThoai(
-            maDienThoai,
-            tenDienThoai,
-            0,              // soLuong starts at 0
-            hang,
-            dungLuongPin,
-            ram,
-            rom,
-            kichThuocMan,
-            cameraChinh,
-            cameraPhu,
-            chipXuLy,
-            heDieuHanh,
-            gia,
-            xuatXu,
-            1               // trangThai = 1 (active)
-        );
-        
-        // Insert into database
-        try {
-            int result = DienThoaiDAO.getInstance().insert(dt);
-            if (result > 0) {
-                JOptionPane.showMessageDialog(this, "Thêm điện thoại thành công!", 
-                                            "Thành công", JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
-                if (owner != null) {
-                    owner.loadDataToTable();
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Thêm điện thoại thất bại!", 
-                                            "Lỗi", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage(), 
-                                        "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btnAddProductActionPerformed
-
-    private void txtMaDienThoaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaDienThoaiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMaDienThoaiActionPerformed
-
     /**
-     * Generate unique ID for new phone
+     * @param args the command line arguments
      */
-    public String createIdDienThoai() {
-        ArrayList<DienThoai> dtAll = DienThoaiDAO.getInstance().selectAll();
-        int i = dtAll.size() + 1;
-        String newId = "DT" + i;
-        
-        // Check if ID already exists
-        boolean exists = true;
-        while (exists) {
-            exists = false;
-            for (DienThoai dt : dtAll) {
-                if (dt.getMaDienThoai().equals(newId)) {
-                    exists = true;
-                    i++;
-                    newId = "DT" + i;
-                    break;
-                }
-            }
-        }
-        return newId;
-    }
-
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -447,20 +397,27 @@ public class AddProduct extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormUpdateProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormUpdateProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormUpdateProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormUpdateProduct.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AddProduct dialog = new AddProduct(new javax.swing.JFrame(), true);
+                FormUpdateProduct dialog = new FormUpdateProduct(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -480,29 +437,29 @@ public class AddProduct extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> cbxROM;
     private javax.swing.JComboBox<String> cbxXuatXu;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel labelCameraChinh;
-    private javax.swing.JLabel labelCameraPhu;
-    private javax.swing.JLabel labelChipXuLy;
-    private javax.swing.JLabel labelDungLuongPin;
-    private javax.swing.JLabel labelGia;
-    private javax.swing.JLabel labelHang;
-    private javax.swing.JLabel labelHeDieuHanh;
-    private javax.swing.JLabel labelKichThuocMan;
-    private javax.swing.JLabel labelMaDienThoai;
-    private javax.swing.JLabel labelRAM;
-    private javax.swing.JLabel labelROM;
-    private javax.swing.JLabel labelTenDienThoai;
-    private javax.swing.JLabel labelXuatXu;
+    private javax.swing.JTextField txtCPU;
     private javax.swing.JTextField txtCameraChinh;
     private javax.swing.JTextField txtCameraPhu;
-    private javax.swing.JTextField txtChipXuLy;
+    private javax.swing.JTextField txtDonGia;
     private javax.swing.JTextField txtDungLuongPin;
-    private javax.swing.JTextField txtGia;
     private javax.swing.JTextField txtHeDieuHanh;
     private javax.swing.JTextField txtKichThuocMan;
-    private javax.swing.JTextField txtMaDienThoai;
-    private javax.swing.JTextField txtTenDienThoai;
+    private javax.swing.JTextField txtMaSanPham;
+    private javax.swing.JTextField txtTenSanPham;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
@@ -19,10 +15,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import model.Account;
 
-/**
- *
- * @author kali
- */
+
 public class Login extends javax.swing.JFrame {
 
     /**
@@ -284,7 +277,7 @@ public class Login extends javax.swing.JFrame {
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
         // TODO add your handling code here:
-        RecoverPassword rcv = new RecoverPassword(this, rootPaneCheckingEnabled);
+        FormRecoverPassword rcv = new FormRecoverPassword(this, rootPaneCheckingEnabled);
         rcv.setVisible(true);
     }//GEN-LAST:event_jLabel7MouseClicked
 
@@ -320,21 +313,21 @@ public class Login extends javax.swing.JFrame {
                                 this.dispose();
                                 String role = acc.getRole();
                                 if (role.equals("Admin")) {
-                                    Admin ad = new Admin(acc);
+                                    MenuAdmin ad = new MenuAdmin(acc);
                                     ad.setVisible(true);
 //                                    ad.setCurrentAcc(acc);
                                     ad.setName(acc.getFullName());
                                 } else if (role.equals("Quản lý kho")) {
-                                    QuanLiKho ql = new QuanLiKho();
+                                    MenuStock ql = new MenuStock();
                                     ql.setVisible(true);
                                     ql.setCurrentAcc(acc);
                                     ql.setName(acc.getFullName());
                                 } else if (role.equals("Nhân viên nhập")) {
-                                    NhapKho ql = new NhapKho(acc);
+                                    MenuImport ql = new MenuImport(acc);
                                     ql.setVisible(true);
                                     ql.setName(acc.getFullName());
                                 } else if (role.equals("Nhân viên xuất")) {
-                                    XuatKho ql = new XuatKho(acc);
+                                    MenuExport ql = new MenuExport(acc);
                                     ql.setVisible(true);
                                     ql.setName(acc.getFullName());
                                 }

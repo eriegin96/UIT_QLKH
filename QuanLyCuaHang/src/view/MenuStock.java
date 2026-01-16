@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
@@ -15,14 +11,10 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import model.Account;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
-public class QuanLiKho extends javax.swing.JFrame {
+public class MenuStock extends javax.swing.JFrame {
 
     /**
-     * Creates new form Navbar
+     * Creates new form MenuStock
      */
     Color DefaultColor, ClickedColor;
     private Account currentAcc;
@@ -35,13 +27,13 @@ public class QuanLiKho extends javax.swing.JFrame {
         this.currentAcc = currentAcc;
     }
 
-    public QuanLiKho() throws UnsupportedLookAndFeelException {
+    public MenuStock() throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new FlatLightLaf());
         UIManager.put("Table.showVerticalLines", true);
         UIManager.put("Table.showHorizontalLines", true);
         initComponents();
         setLocationRelativeTo(null);
-        ProductForm pf = new ProductForm();
+        LayoutProduct pf = new LayoutProduct();
         MainContent.add(pf).setVisible(true);
         DefaultColor = new Color(89, 168, 105);
         ClickedColor = new Color(26, 188, 156);
@@ -497,7 +489,7 @@ public class QuanLiKho extends javax.swing.JFrame {
         TonKho.setBackground(DefaultColor);
         ThongKe.setBackground(DefaultColor);
         MainContent.removeAll();
-        ProductForm p = new ProductForm();
+        LayoutProduct p = new LayoutProduct();
         MainContent.add(p).setVisible(true);
     }//GEN-LAST:event_SanPhamMousePressed
 
@@ -563,7 +555,7 @@ public class QuanLiKho extends javax.swing.JFrame {
 
     private void SanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SanPhamMouseClicked
         // TODO add your handling code here:
-        ProductForm ac = new ProductForm();
+        LayoutProduct ac = new LayoutProduct();
         MainContent.removeAll();
         MainContent.add(ac).setVisible(true);
     }//GEN-LAST:event_SanPhamMouseClicked
@@ -586,14 +578,14 @@ public class QuanLiKho extends javax.swing.JFrame {
 
     private void NhaCungCapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NhaCungCapMouseClicked
         // TODO add your handling code here:
-        NhaCungCapForm af = new NhaCungCapForm();
+        LayoutSupplier af = new LayoutSupplier();
         MainContent.removeAll();
         MainContent.add(af).setVisible(true);
     }//GEN-LAST:event_NhaCungCapMouseClicked
 
     private void TonKhoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TonKhoMouseClicked
         // TODO add your handling code here:
-        TonKhoForm px = new TonKhoForm();
+        LayoutStock px = new LayoutStock();
         MainContent.removeAll();
         MainContent.add(px).setVisible(true);
 
@@ -601,7 +593,7 @@ public class QuanLiKho extends javax.swing.JFrame {
 
     private void NhapHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NhapHangMouseClicked
         // TODO add your handling code here:
-        NhapHangForm nhaphang = new NhapHangForm();
+        LayoutImport nhaphang = new LayoutImport();
         nhaphang.setNguoiNhapHang(this.currentAcc.getUser());
         MainContent.removeAll();
         MainContent.add(nhaphang).setVisible(true);
@@ -609,14 +601,14 @@ public class QuanLiKho extends javax.swing.JFrame {
 
     private void PhieuNhapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PhieuNhapMouseClicked
         // TODO add your handling code here:
-        PhieuNhapForm pn = new PhieuNhapForm(this.getCurrentAcc());
+        LayoutImportReceipt pn = new LayoutImportReceipt(this.getCurrentAcc());
         MainContent.removeAll();
         MainContent.add(pn).setVisible(true);
     }//GEN-LAST:event_PhieuNhapMouseClicked
 
     private void XuatHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_XuatHangMouseClicked
         // TODO add your handling code here:
-        XuatHangForm xh = new XuatHangForm();
+        LayoutExport xh = new LayoutExport();
         xh.setNguoiTao(this.currentAcc.getFullName());
         MainContent.removeAll();
         MainContent.add(xh).setVisible(true);
@@ -624,7 +616,7 @@ public class QuanLiKho extends javax.swing.JFrame {
 
     private void PhieuXuatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PhieuXuatMouseClicked
         // TODO add your handling code here:
-        PhieuXuatForm px = new PhieuXuatForm(this.getCurrentAcc());
+        LayoutExportReceipt px = new LayoutExportReceipt(this.getCurrentAcc());
         MainContent.removeAll();
         MainContent.add(px).setVisible(true);
     }//GEN-LAST:event_PhieuXuatMouseClicked
@@ -647,7 +639,7 @@ public class QuanLiKho extends javax.swing.JFrame {
 
     private void ThongKeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ThongKeMouseClicked
         // TODO add your handling code here:
-        ThongKeForm tk = new ThongKeForm();
+        LayoutStat tk = new LayoutStat();
         MainContent.removeAll();
         MainContent.add(tk).setVisible(true);
     }//GEN-LAST:event_ThongKeMouseClicked
@@ -666,7 +658,7 @@ public class QuanLiKho extends javax.swing.JFrame {
 
     private void AccountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AccountMouseClicked
         // TODO add your handling code here:
-        ChangePassword cp = new ChangePassword(this, rootPaneCheckingEnabled, getCurrentAcc());
+        FormChangeInfo cp = new FormChangeInfo(this, rootPaneCheckingEnabled, getCurrentAcc());
         cp.setVisible(true);
     }//GEN-LAST:event_AccountMouseClicked
 
@@ -691,9 +683,9 @@ public class QuanLiKho extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new QuanLiKho().setVisible(true);
+                    new MenuStock().setVisible(true);
                 } catch (UnsupportedLookAndFeelException ex) {
-                    Logger.getLogger(QuanLiKho.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MenuStock.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

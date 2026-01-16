@@ -2,59 +2,44 @@ package view;
 
 import controller.WritePDF;
 import dao.AccountDAO;
-import dao.ChiTietPhieuNhapDAO;
+import dao.ChiTietPhieuXuatDAO;
 import dao.DienThoaiDAO;
-import java.awt.Desktop;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import model.ChiTietPhieu;
-import model.PhieuNhap;
+import model.PhieuXuat;
 
-public class CTPhieuNhap extends javax.swing.JDialog {
+public class DialogExportDetail extends javax.swing.JDialog {
 
     /**
      * Creates new form CTPhieuDialog
      */
-    private PhieuNhapForm parent;
+    private LayoutExportReceipt parent;
 
-    public CTPhieuNhap(javax.swing.JInternalFrame parent, javax.swing.JFrame owner, boolean modal) {
+    public DialogExportDetail(javax.swing.JInternalFrame parent, javax.swing.JFrame owner, boolean modal) {
         super(owner, modal);
-        this.parent = (PhieuNhapForm) parent;
-        System.out.println(this.parent.getPhieuNhapSelect().getMaPhieu().toString());
+        this.parent = (LayoutExportReceipt) parent;
         initComponents();
         setLocationRelativeTo(null);
-        PhieuNhap pn = this.parent.getPhieuNhapSelect();
+        PhieuXuat pn = this.parent.getPhieuXuatSelect();
         contentMaPhieu.setText(pn.getMaPhieu());
         contentNguoiTao.setText(AccountDAO.getInstance().selectById(pn.getNguoiTao()).getFullName());
         contentTongTien.setText(this.parent.getFormatter().format(pn.getTongTien()) + "đ");
-        contentNhaCungCap.setText(pn.getNhaCungCap());
         contentThoiGianTao.setText(this.parent.getFormatDate().format(pn.getThoiGianTao()));
         loadDataToTableProduct();
         setWidthTable();
     }
-    
-    private void openFile(String file) {
-        try {
-            File path = new File(file);
-            Desktop.getDesktop().open(path);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-    }
 
     public void setWidthTable() {
-        tableChiTietPhieu.getColumnModel().getColumn(0).setPreferredWidth(5);
-        tableChiTietPhieu.getColumnModel().getColumn(1).setPreferredWidth(10);
-        tableChiTietPhieu.getColumnModel().getColumn(2).setPreferredWidth(250);
+        tblChiTietPhieu.getColumnModel().getColumn(0).setPreferredWidth(5);
+        tblChiTietPhieu.getColumnModel().getColumn(1).setPreferredWidth(10);
+        tblChiTietPhieu.getColumnModel().getColumn(2).setPreferredWidth(250);
     }
 
     public void loadDataToTableProduct() {
         try {
-            
-            ArrayList<ChiTietPhieu> CTPhieu = ChiTietPhieuNhapDAO.getInstance().selectAll(this.parent.getPhieuNhapSelect().getMaPhieu().toString());
-            DefaultTableModel tblCTPhieumd = (DefaultTableModel) tableChiTietPhieu.getModel();
+            ArrayList<ChiTietPhieu> CTPhieu = ChiTietPhieuXuatDAO.getInstance().selectAll(this.parent.getPhieuXuatSelect().getMaPhieu());
+            DefaultTableModel tblCTPhieumd = (DefaultTableModel) tblChiTietPhieu.getModel();
             tblCTPhieumd.setRowCount(0);
             for (int i = 0; i < CTPhieu.size(); i++) {
                 tblCTPhieumd.addRow(new Object[]{
@@ -83,15 +68,13 @@ public class CTPhieuNhap extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableChiTietPhieu = new javax.swing.JTable();
+        tblChiTietPhieu = new javax.swing.JTable();
         labelMaPhieu = new javax.swing.JLabel();
-        labelNhaCungCap = new javax.swing.JLabel();
         labelNguoiTao = new javax.swing.JLabel();
         labelThoiGianTao = new javax.swing.JLabel();
         contentTongTien = new javax.swing.JLabel();
         contentMaPhieu = new javax.swing.JLabel();
         contentNguoiTao = new javax.swing.JLabel();
-        contentNhaCungCap = new javax.swing.JLabel();
         contentThoiGianTao = new javax.swing.JLabel();
         labelTongTien = new javax.swing.JLabel();
         btnExportPDF = new javax.swing.JButton();
@@ -105,15 +88,15 @@ public class CTPhieuNhap extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("SF Pro Display", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("CHI TIẾT PHIẾU NHẬP");
+        jLabel1.setText("CHI TIẾT PHIẾU XUẤT");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(280, 280, 280)
-                .addComponent(jLabel1)
+                .addGap(286, 286, 286)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -124,7 +107,7 @@ public class CTPhieuNhap extends javax.swing.JDialog {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        tableChiTietPhieu.setModel(new javax.swing.table.DefaultTableModel(
+        tblChiTietPhieu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -132,14 +115,12 @@ public class CTPhieuNhap extends javax.swing.JDialog {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã điện thoại", "Tên điện thoại", "Số lượng", "Đơn giá", "Thành tiền"
+                "STT", "Mã máy", "Tên máy", "Số lượng", "Đơn giá", "Thành tiền"
             }
         ));
-        jScrollPane1.setViewportView(tableChiTietPhieu);
+        jScrollPane1.setViewportView(tblChiTietPhieu);
 
         labelMaPhieu.setText("Mã phiếu: ");
-
-        labelNhaCungCap.setText("Nhà cung cấp:");
 
         labelNguoiTao.setText("Người tạo:");
 
@@ -148,11 +129,9 @@ public class CTPhieuNhap extends javax.swing.JDialog {
         contentTongTien.setFont(new java.awt.Font("SF Pro Display", 1, 18)); // NOI18N
         contentTongTien.setText("...đ");
 
-        contentMaPhieu.setText("PN...");
+        contentMaPhieu.setText("PX...");
 
         contentNguoiTao.setText("Admin");
-
-        contentNhaCungCap.setText("ABC");
 
         contentThoiGianTao.setText("dd/MM/yyyy hh:mm");
 
@@ -161,6 +140,7 @@ public class CTPhieuNhap extends javax.swing.JDialog {
 
         btnExportPDF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_pdf_25px.png"))); // NOI18N
         btnExportPDF.setText("Xuất PDF");
+        btnExportPDF.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnExportPDF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExportPDFActionPerformed(evt);
@@ -174,36 +154,30 @@ public class CTPhieuNhap extends javax.swing.JDialog {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(labelTongTien)
-                                .addGap(18, 18, 18)
-                                .addComponent(contentTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnExportPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1))
-                        .addGap(21, 21, 21))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelMaPhieu)
                             .addComponent(labelNguoiTao, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGap(32, 32, 32)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(contentNguoiTao, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(contentMaPhieu, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(73, 73, 73)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(43, 43, 43)
+                        .addComponent(labelThoiGianTao)
+                        .addGap(18, 18, 18)
+                        .addComponent(contentThoiGianTao, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(65, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(labelThoiGianTao)
-                                .addGap(18, 18, 18)
-                                .addComponent(contentThoiGianTao, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(labelNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(contentNhaCungCap, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 37, Short.MAX_VALUE))))
+                                .addComponent(labelTongTien)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(contentTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnExportPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1))
+                        .addGap(21, 21, 21))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -212,23 +186,20 @@ public class CTPhieuNhap extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelMaPhieu)
-                    .addComponent(contentMaPhieu)
-                    .addComponent(labelNhaCungCap)
-                    .addComponent(contentNhaCungCap))
+                    .addComponent(contentMaPhieu))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelThoiGianTao)
                     .addComponent(contentThoiGianTao)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(labelNguoiTao)
-                        .addComponent(contentNguoiTao)))
+                    .addComponent(labelNguoiTao)
+                    .addComponent(contentNguoiTao))
                 .addGap(31, 31, 31)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
                 .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelTongTien)
                     .addComponent(contentTongTien)
-                    .addComponent(btnExportPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnExportPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26))
         );
 
@@ -249,7 +220,7 @@ public class CTPhieuNhap extends javax.swing.JDialog {
     private void btnExportPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportPDFActionPerformed
         // TODO add your handling code here:
         WritePDF writepdf = new WritePDF();
-        writepdf.writePhieuNhap(this.parent.getPhieuNhapSelect().getMaPhieu());
+        writepdf.writePhieuXuat(this.parent.getPhieuXuatSelect().getMaPhieu());
     }//GEN-LAST:event_btnExportPDFActionPerformed
 
     /**
@@ -269,13 +240,13 @@ public class CTPhieuNhap extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CTPhieuNhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogExportDetail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CTPhieuNhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogExportDetail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CTPhieuNhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogExportDetail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CTPhieuNhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogExportDetail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -285,7 +256,6 @@ public class CTPhieuNhap extends javax.swing.JDialog {
     private javax.swing.JButton btnExportPDF;
     private javax.swing.JLabel contentMaPhieu;
     private javax.swing.JLabel contentNguoiTao;
-    private javax.swing.JLabel contentNhaCungCap;
     private javax.swing.JLabel contentThoiGianTao;
     private javax.swing.JLabel contentTongTien;
     private javax.swing.JLabel jLabel1;
@@ -294,9 +264,8 @@ public class CTPhieuNhap extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelMaPhieu;
     private javax.swing.JLabel labelNguoiTao;
-    private javax.swing.JLabel labelNhaCungCap;
     private javax.swing.JLabel labelThoiGianTao;
     private javax.swing.JLabel labelTongTien;
-    private javax.swing.JTable tableChiTietPhieu;
+    private javax.swing.JTable tblChiTietPhieu;
     // End of variables declaration//GEN-END:variables
 }

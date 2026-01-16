@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
@@ -15,19 +11,15 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import model.Account;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
-public class Admin extends javax.swing.JFrame {
+public class MenuAdmin extends javax.swing.JFrame {
 
     /**
-     * Creates new form Navbar
+     * Creates new form MenuAdmin
      */
     Color DefaultColor, ClickedColor;
     private Account currentAcc;
 
-    private Admin() {
+    private MenuAdmin() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -36,7 +28,7 @@ public class Admin extends javax.swing.JFrame {
     }
 
 
-    public Admin(Account t) throws UnsupportedLookAndFeelException {
+    public MenuAdmin(Account t) throws UnsupportedLookAndFeelException {
         ImageIcon logo = new ImageIcon(getClass().getResource("/icon/logo.png"));
         setIconImage(logo.getImage());
         UIManager.setLookAndFeel(new FlatLightLaf());
@@ -45,7 +37,7 @@ public class Admin extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         this.currentAcc = t;
-        ProductForm pf = new ProductForm();
+        LayoutProduct pf = new LayoutProduct();
         MainContent.add(pf).setVisible(true);
 //        pf.checkRole(currentAcc);
         DefaultColor = new Color(89, 168, 105);
@@ -99,7 +91,7 @@ public class Admin extends javax.swing.JFrame {
         MainContent = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Phẩn mềm quản lý kho hàng máy tính");
+        setTitle("Phần mềm quản lý cửa hàng điện thoại");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -539,7 +531,7 @@ public class Admin extends javax.swing.JFrame {
         TaiKhoan1.setBackground(DefaultColor);
         ThongKe.setBackground(DefaultColor);
         MainContent.removeAll();
-        ProductForm p = new ProductForm();
+        LayoutProduct p = new LayoutProduct();
         MainContent.add(p).setVisible(true);
     }//GEN-LAST:event_SanPhamMousePressed
 
@@ -610,7 +602,7 @@ public class Admin extends javax.swing.JFrame {
 
     private void SanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SanPhamMouseClicked
         // TODO add your handling code here:
-        ProductForm ac = new ProductForm();
+        LayoutProduct ac = new LayoutProduct();
         MainContent.removeAll();
         MainContent.add(ac).setVisible(true);
     }//GEN-LAST:event_SanPhamMouseClicked
@@ -634,14 +626,14 @@ public class Admin extends javax.swing.JFrame {
 
     private void NhaCungCapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NhaCungCapMouseClicked
         // TODO add your handling code here:
-        NhaCungCapForm af = new NhaCungCapForm();
+        LayoutSupplier af = new LayoutSupplier();
         MainContent.removeAll();
         MainContent.add(af).setVisible(true);
     }//GEN-LAST:event_NhaCungCapMouseClicked
 
     private void TonKhoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TonKhoMouseClicked
         // TODO add your handling code here:
-        TonKhoForm px = new TonKhoForm();
+        LayoutStock px = new LayoutStock();
         MainContent.removeAll();
         MainContent.add(px).setVisible(true);
 
@@ -649,7 +641,7 @@ public class Admin extends javax.swing.JFrame {
 
     private void NhapHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NhapHangMouseClicked
         // TODO add your handling code here:
-        NhapHangForm nhaphang = new NhapHangForm();
+        LayoutImport nhaphang = new LayoutImport();
         nhaphang.setNguoiNhapHang(this.currentAcc.getUser());
         MainContent.removeAll();
         MainContent.add(nhaphang).setVisible(true);
@@ -657,14 +649,14 @@ public class Admin extends javax.swing.JFrame {
 
     private void PhieuNhapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PhieuNhapMouseClicked
         // TODO add your handling code here:
-        PhieuNhapForm pn = new PhieuNhapForm(this.getCurrentAcc());
+        LayoutImportReceipt pn = new LayoutImportReceipt(this.getCurrentAcc());
         MainContent.removeAll();
         MainContent.add(pn).setVisible(true);
     }//GEN-LAST:event_PhieuNhapMouseClicked
 
     private void XuatHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_XuatHangMouseClicked
         // TODO add your handling code here:
-        XuatHangForm xh = new XuatHangForm();
+        LayoutExport xh = new LayoutExport();
         xh.setNguoiTao(this.currentAcc.getFullName());
         MainContent.removeAll();
         MainContent.add(xh).setVisible(true);
@@ -672,7 +664,7 @@ public class Admin extends javax.swing.JFrame {
 
     private void PhieuXuatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PhieuXuatMouseClicked
         // TODO add your handling code here:
-        PhieuXuatForm px = new PhieuXuatForm(this.getCurrentAcc());
+        LayoutExportReceipt px = new LayoutExportReceipt(this.getCurrentAcc());
         MainContent.removeAll();
         MainContent.add(px).setVisible(true);
     }//GEN-LAST:event_PhieuXuatMouseClicked
@@ -695,7 +687,7 @@ public class Admin extends javax.swing.JFrame {
 
     private void TaiKhoan1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TaiKhoan1MouseClicked
         // TODO add your handling code here:
-        AccountForm ac = new AccountForm();
+        LayoutAccount ac = new LayoutAccount();
         MainContent.removeAll();
         MainContent.add(ac).setVisible(true);
     }//GEN-LAST:event_TaiKhoan1MouseClicked
@@ -715,7 +707,7 @@ public class Admin extends javax.swing.JFrame {
 
     private void ThongKeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ThongKeMouseClicked
         // TODO add your handling code here:
-        ThongKeForm tk = new ThongKeForm();
+        LayoutStat tk = new LayoutStat();
         MainContent.removeAll();
         MainContent.add(tk).setVisible(true);
     }//GEN-LAST:event_ThongKeMouseClicked
@@ -735,7 +727,7 @@ public class Admin extends javax.swing.JFrame {
 
     private void AccountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AccountMouseClicked
         // TODO add your handling code here:
-        ChangePassword cp = new ChangePassword(this, rootPaneCheckingEnabled, getCurrentAcc());
+        FormChangeInfo cp = new FormChangeInfo(this, rootPaneCheckingEnabled, getCurrentAcc());
         cp.setVisible(true);
     }//GEN-LAST:event_AccountMouseClicked
 
@@ -760,7 +752,7 @@ public class Admin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Admin().setVisible(true);
+                new MenuAdmin().setVisible(true);
             }
         });
     }

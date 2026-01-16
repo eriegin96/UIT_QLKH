@@ -1,34 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package view;
 
-import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.table.DefaultTableModel;
-import view.AccountForm;
+import view.LayoutAccount;
 import model.Account;
 import dao.AccountDAO;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
-public class UpdateAccount extends javax.swing.JDialog {
+public class FormUpdateAccount extends javax.swing.JDialog {
 
     /**
      * Creates new form AddAccount
      */
-    private AccountForm homeAcc;
+    private LayoutAccount homeAcc;
 
-    public UpdateAccount(javax.swing.JInternalFrame parent, javax.swing.JFrame owner, boolean modal) {
+    public FormUpdateAccount(javax.swing.JInternalFrame parent, javax.swing.JFrame owner, boolean modal) {
         super(owner, modal);
         initComponents();
         setLocationRelativeTo(null);
-        homeAcc = (AccountForm) parent;
+        homeAcc = (LayoutAccount) parent;
         Account acc = homeAcc.getAccountSelect();
         txtfullname.setText(acc.getFullName());
         txtusername.setText(acc.getUser());
@@ -38,7 +26,7 @@ public class UpdateAccount extends javax.swing.JDialog {
         trangthai.setSelectedIndex(acc.getStatus());
     }
 
-    UpdateAccount() {
+    FormUpdateAccount() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

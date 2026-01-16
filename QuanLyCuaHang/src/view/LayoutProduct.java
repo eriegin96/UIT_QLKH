@@ -30,12 +30,12 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class ProductForm extends javax.swing.JInternalFrame {
+public class LayoutProduct extends javax.swing.JInternalFrame {
 
     private DefaultTableModel tblModel;
     DecimalFormat formatter = new DecimalFormat("###,###,###");
     
-    public ProductForm() {
+    public LayoutProduct() {
         initComponents();
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
@@ -209,7 +209,7 @@ public class ProductForm extends javax.swing.JInternalFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Tìm kiếm"));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jComboBoxLuaChon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Mã điện thoại", "Tên điện thoại", "Hãng", "Số lượng", "Giá", "RAM", "ROM", "Chip xử lý", "Xuất xứ", "Đã xóa" }));
+        jComboBoxLuaChon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Mã máy", "Tên máy", "Số lượng", "Đơn giá", "RAM", "CPU", "Dung lượng", "Card màn hình", "Xuất xứ", "Đã xóa" }));
         jComboBoxLuaChon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxLuaChonActionPerformed(evt);
@@ -285,7 +285,7 @@ public class ProductForm extends javax.swing.JInternalFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
 
-        AddProduct a = new AddProduct(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
+        FormAddProduct a = new FormAddProduct(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
         a.setVisible(true);
 
     }//GEN-LAST:event_btnAddActionPerformed
@@ -304,7 +304,7 @@ public class ProductForm extends javax.swing.JInternalFrame {
         if (tblSanPham.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần sửa");
         } else {
-            UpdateProduct a = new UpdateProduct(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
+            FormUpdateProduct a = new FormUpdateProduct(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
             a.setVisible(true);
         }
     }//GEN-LAST:event_btnEditActionPerformed
@@ -389,13 +389,13 @@ public class ProductForm extends javax.swing.JInternalFrame {
                 loadDataToTableSearch(listDTExcel);
                 
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(ProductForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LayoutProduct.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(this, "Không tìm thấy file!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             } catch (IOException ex) {
-                Logger.getLogger(ProductForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LayoutProduct.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(this, "Lỗi đọc file!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
-                Logger.getLogger(ProductForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LayoutProduct.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(this, "Lỗi xử lý dữ liệu: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -437,7 +437,7 @@ public class ProductForm extends javax.swing.JInternalFrame {
         if (tblSanPham.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn điện thoại !");
         } else {
-            DetailProduct a = new DetailProduct(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
+            DialogProductDetail a = new DialogProductDetail(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
             a.setVisible(true);
         }
     }//GEN-LAST:event_btnDetailActionPerformed

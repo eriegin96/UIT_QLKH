@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
@@ -15,19 +11,15 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import model.Account;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
-public class NhapKho extends javax.swing.JFrame {
+public class MenuImport extends javax.swing.JFrame {
 
     /**
-     * Creates new form Navbar
+     * Creates new form MenuImport
      */
     Color DefaultColor, ClickedColor;
     private Account currentAcc;
 
-    private NhapKho() {
+    private MenuImport() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -36,14 +28,14 @@ public class NhapKho extends javax.swing.JFrame {
     }
 
 
-    public NhapKho(Account t) throws UnsupportedLookAndFeelException {
+    public MenuImport(Account t) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new FlatLightLaf());
         UIManager.put("Table.showVerticalLines", true);
         UIManager.put("Table.showHorizontalLines", true);
         initComponents();
         setLocationRelativeTo(null);
         this.currentAcc = t;
-        NhapHangForm nhaphang = new NhapHangForm();
+        LayoutImport nhaphang = new LayoutImport();
         nhaphang.setNguoiNhapHang(this.currentAcc.getUser());
         MainContent.removeAll();
         MainContent.add(nhaphang).setVisible(true);
@@ -282,7 +274,7 @@ public class NhapKho extends javax.swing.JFrame {
 
     private void NhapHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NhapHangMouseClicked
         // TODO add your handling code here:
-        NhapHangForm nhaphang = new NhapHangForm();
+        LayoutImport nhaphang = new LayoutImport();
         nhaphang.setNguoiNhapHang(this.currentAcc.getUser());
         MainContent.removeAll();
         MainContent.add(nhaphang).setVisible(true);
@@ -290,7 +282,7 @@ public class NhapKho extends javax.swing.JFrame {
 
     private void PhieuNhapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PhieuNhapMouseClicked
         // TODO add your handling code here:
-        PhieuNhapForm pn = new PhieuNhapForm(this.getCurrentAcc());
+        LayoutImportReceipt pn = new LayoutImportReceipt(this.getCurrentAcc());
         MainContent.removeAll();
         MainContent.add(pn).setVisible(true);
     }//GEN-LAST:event_PhieuNhapMouseClicked
@@ -313,7 +305,7 @@ public class NhapKho extends javax.swing.JFrame {
 
     private void AccountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AccountMouseClicked
         // TODO add your handling code here:
-        ChangePassword cp = new ChangePassword(this, rootPaneCheckingEnabled, getCurrentAcc());
+        FormChangeInfo cp = new FormChangeInfo(this, rootPaneCheckingEnabled, getCurrentAcc());
         cp.setVisible(true);
     }//GEN-LAST:event_AccountMouseClicked
 
@@ -337,7 +329,7 @@ public class NhapKho extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NhapKho().setVisible(true);
+                new MenuImport().setVisible(true);
             }
         });
     }

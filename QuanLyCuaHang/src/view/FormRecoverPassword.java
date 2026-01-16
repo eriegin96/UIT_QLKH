@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
@@ -15,18 +11,14 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import model.Account;
 
-/**
- *
- * @author sinh
- */
-public class RecoverPassword extends javax.swing.JDialog {
+public class FormRecoverPassword extends javax.swing.JDialog {
 
     /**
-     * Creates new form RecoverPassword
+     * Creates new form FormRecoverPassword
      */
     private String otpNumber;
 
-    public RecoverPassword(java.awt.Frame parent, boolean modal) {
+    public FormRecoverPassword(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
@@ -289,7 +281,7 @@ public class RecoverPassword extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                RecoverPassword dialog = new RecoverPassword(new javax.swing.JFrame(), true);
+                FormRecoverPassword dialog = new FormRecoverPassword(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package view;
 
 import controller.SearchNhaCungCap;
@@ -30,19 +26,15 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-/**
- *
- * @author Tran Nhat Sinh
- */
-public class NhaCungCapForm extends javax.swing.JInternalFrame {
+public class LayoutSupplier extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form NhaCungCapForm
+     * Creates new form LayoutSupplier
      */
     private DefaultTableModel tblModel;
     private static ArrayList<NhaCungCap> armt;
 
-    public NhaCungCapForm() {
+    public LayoutSupplier() {
         initComponents();
         BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
         ui.setNorthPane(null);
@@ -338,7 +330,7 @@ public class NhaCungCapForm extends javax.swing.JInternalFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        AddNhaCungCap a = new AddNhaCungCap(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
+        FormAddSupplier a = new FormAddSupplier(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
         a.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -346,7 +338,7 @@ public class NhaCungCapForm extends javax.swing.JInternalFrame {
         if (tblNCC.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp muốn sửa");
         } else {
-            UpdateNhaCungCap up = new UpdateNhaCungCap(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
+            FormUpdateSupplier up = new FormUpdateSupplier(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
             up.setVisible(true);
         }
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -435,9 +427,9 @@ public class NhaCungCapForm extends javax.swing.JInternalFrame {
                     loadDataToTable(listAccExcel);
                 }
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(NhaCungCapForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LayoutSupplier.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(NhaCungCapForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LayoutSupplier.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         try {
