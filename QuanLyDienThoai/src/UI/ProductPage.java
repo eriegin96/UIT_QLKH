@@ -68,15 +68,20 @@ public class ProductPage extends javax.swing.JPanel {
         searchText = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
 
-        jLabel1.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
-        jLabel1.setText("PRODUCTS");
+        jLabel1.setFont(new java.awt.Font("Helvetica", 0, 24)); // NOI18N
+        jLabel1.setText("SẢN PHẨM");
 
-        entryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Enter Product Details"));
+        entryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Thông tin sản phẩm"));
 
-        suppCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select a supplier" }));
-        suppCombo.setToolTipText("Select a supplier");
+        suppCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chọn nhà cung cấp" }));
+        suppCombo.setToolTipText("Chọn nhà cung cấp");
+        suppCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                suppComboActionPerformed(evt);
+            }
+        });
 
-        addSuppButton.setText("Click to add a New Supplier");
+        addSuppButton.setText("Thêm Nhà cung cấp");
         addSuppButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addSuppButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,23 +89,23 @@ public class ProductPage extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setText("Product Code:");
+        jLabel2.setText("Mã SP:");
 
-        jLabel3.setText("Product Name:");
+        jLabel3.setText("Tên sản phẩm:");
 
-        jLabel4.setText("Date:");
+        jLabel4.setText("Ngày:");
 
-        jLabel5.setText("Quantity:");
+        jLabel5.setText("Số lượng:");
 
-        jLabel6.setText("Cost Price:");
+        jLabel6.setText("Giá gốc:");
 
-        jLabel7.setText("Selling Price:");
+        jLabel7.setText("Giá bán:");
 
-        jLabel8.setText("Brand:");
+        jLabel8.setText("Hãng:");
 
         jDateChooser1.setForeground(new java.awt.Color(102, 102, 102));
 
-        addButton.setText("Add");
+        addButton.setText("Thêm");
         addButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,7 +113,7 @@ public class ProductPage extends javax.swing.JPanel {
             }
         });
 
-        editButton.setText("Edit");
+        editButton.setText("Sửa");
         editButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -116,7 +121,7 @@ public class ProductPage extends javax.swing.JPanel {
             }
         });
 
-        deleteButton.setText("Delete");
+        deleteButton.setText("Xoá");
         deleteButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,7 +130,7 @@ public class ProductPage extends javax.swing.JPanel {
         });
 
         clearButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        clearButton.setText("CLEAR");
+        clearButton.setText("LÀM MỚI");
         clearButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         clearButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -244,7 +249,7 @@ public class ProductPage extends javax.swing.JPanel {
         jScrollPane1.setViewportView(productTable);
 
         refreshButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        refreshButton.setText("REFRESH");
+        refreshButton.setText("LÀM MỚI");
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshButtonActionPerformed(evt);
@@ -257,7 +262,7 @@ public class ProductPage extends javax.swing.JPanel {
             }
         });
 
-        jLabel9.setText("Search:");
+        jLabel9.setText("Tìm kiếm");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -410,6 +415,10 @@ public class ProductPage extends javax.swing.JPanel {
     private void searchTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTextKeyReleased
         loadSearchData(searchText.getText());
     }//GEN-LAST:event_searchTextKeyReleased
+
+    private void suppComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_suppComboActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_suppComboActionPerformed
 
     // Method to update combo box containing supplier names
     public void loadComboBox() {

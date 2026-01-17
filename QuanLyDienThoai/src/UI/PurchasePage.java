@@ -65,35 +65,35 @@ public class PurchasePage extends javax.swing.JPanel {
         searchText = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
 
-        jLabel1.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
-        jLabel1.setText("PURCHASE");
+        jLabel1.setFont(new java.awt.Font("Helvetica", 0, 24)); // NOI18N
+        jLabel1.setText("NHẬP HÀNG");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Purchase Product"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Nhập hàng"));
 
-        jLabel2.setText("Supplier:");
+        jLabel2.setText("Nhà cung cấp:");
 
         suppCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        addSuppButton.setText("Click to add a new Supplier");
+        addSuppButton.setText("Thêm nhà cung cấp");
         addSuppButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addSuppButtonActionPerformed(evt);
             }
         });
 
-        jLabel3.setText("Product Code:");
+        jLabel3.setText("Mã Sản phẩm:");
 
-        jLabel4.setText("Product Name:");
+        jLabel4.setText("Tên Sản phẩm:");
 
-        jLabel5.setText("Date:");
+        jLabel5.setText("Ngày:");
 
-        jLabel6.setText("Quantity:");
+        jLabel6.setText("Số lượng:");
 
-        jLabel7.setText("Cost Price:");
+        jLabel7.setText("Giá gốc:");
 
-        jLabel8.setText("Selling Price:");
+        jLabel8.setText("GIá mua:");
 
-        jLabel9.setText("Brand:");
+        jLabel9.setText("Hãng:");
 
         codeText.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -101,21 +101,21 @@ public class PurchasePage extends javax.swing.JPanel {
             }
         });
 
-        purchaseButton.setText("Purchase");
+        purchaseButton.setText("Mua");
         purchaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 purchaseButtonActionPerformed(evt);
             }
         });
 
-        deleteButton.setText("Delete");
+        deleteButton.setText("Xóa");
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteButtonActionPerformed(evt);
             }
         });
 
-        clearButton.setText("CLEAR");
+        clearButton.setText("XÓA FORM");
         clearButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clearButtonActionPerformed(evt);
@@ -158,12 +158,12 @@ public class PurchasePage extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(sellText))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(brandText))))
+                                .addComponent(brandText))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(purchaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -236,7 +236,7 @@ public class PurchasePage extends javax.swing.JPanel {
         jScrollPane1.setViewportView(purchaseTable);
 
         refreshButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        refreshButton.setText("REFRESH");
+        refreshButton.setText("LÀM MỚI");
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshButtonActionPerformed(evt);
@@ -249,7 +249,7 @@ public class PurchasePage extends javax.swing.JPanel {
             }
         });
 
-        jLabel10.setText("Search:");
+        jLabel10.setText("Tìm kiếm");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -260,9 +260,9 @@ public class PurchasePage extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)

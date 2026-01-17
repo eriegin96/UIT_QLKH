@@ -44,24 +44,30 @@ public class UsersPage extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         userTable = new javax.swing.JTable();
 
-        jLabel1.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
-        jLabel1.setText("USERS");
+        jLabel1.setFont(new java.awt.Font("Helvetica", 0, 24)); // NOI18N
+        jLabel1.setText("TÀI KHOẢN");
 
-        entryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Enter User Details"));
+        entryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Thông tin tài khoản"));
 
-        jLabel2.setText("Full Name:");
+        jLabel2.setText("Tên:");
 
-        jLabel3.setText("Location:");
+        jLabel3.setText("Địa chỉ:");
 
-        jLabel4.setText("Contact:");
+        jLabel4.setText("SĐT:");
 
-        jLabel5.setText("Username:");
+        jLabel5.setText("Tài khoản:");
 
-        jLabel6.setText("Password:");
+        jLabel6.setText("Mật khẩu:");
 
-        userTypeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMINISTRATOR" }));
+        nameText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameTextActionPerformed(evt);
+            }
+        });
 
-        addButton.setText("Add");
+        userTypeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN" }));
+
+        addButton.setText("Thêm");
         addButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,7 +75,7 @@ public class UsersPage extends javax.swing.JPanel {
             }
         });
 
-        deleteButton.setText("Delete");
+        deleteButton.setText("Xóa");
         deleteButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,7 +83,7 @@ public class UsersPage extends javax.swing.JPanel {
             }
         });
 
-        clearButton.setText("Clear");
+        clearButton.setText("Xóa form");
         clearButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         clearButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,7 +205,7 @@ public class UsersPage extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(entryPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -279,6 +285,10 @@ public class UsersPage extends javax.swing.JPanel {
         usernameText.setText(val[4].toString());
         userTypeCombo.setSelectedItem(val[6].toString());
     }//GEN-LAST:event_userTableMouseClicked
+
+    private void nameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameTextActionPerformed
 
     public void loadDataSet() {
         try {

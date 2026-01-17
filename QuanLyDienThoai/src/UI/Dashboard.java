@@ -47,7 +47,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        setTitle("WAREHOUSE INVENTORY-DASHBOARD");
+        setTitle("QUẢN LÝ CỬA HÀNG ĐIỆN THOẠI");
         setVisible(true);
     }
 
@@ -119,7 +119,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        prodButton.setText("Products");
+        prodButton.setText("Sản phẩm");
         prodButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         prodButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,7 +127,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        stockButton.setText("Current Stock");
+        stockButton.setText("Tồn kho");
         stockButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         stockButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,7 +135,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        custButton.setText("Customers");
+        custButton.setText("Khách hàng");
         custButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         custButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,7 +143,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        suppButton.setText("Suppliers");
+        suppButton.setText("NCC");
         suppButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         suppButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -151,7 +151,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        salesButton.setText("Sales");
+        salesButton.setText("Bán hàng");
         salesButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         salesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -159,7 +159,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        usersButton.setText("Users");
+        usersButton.setText("Tài khoản");
         usersButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         usersButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -167,7 +167,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        purchaseButton.setText("Purchase");
+        purchaseButton.setText("Nhập hàng");
         purchaseButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         purchaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -220,11 +220,11 @@ public class Dashboard extends javax.swing.JFrame {
 
         nameLabel.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         nameLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/user_icon_150670.png"))); // NOI18N
-        nameLabel.setText("User: ");
+        nameLabel.setText("Tài khoản:");
         nameLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/log-out_icon-icons.com_50106.png"))); // NOI18N
-        logoutButton.setText("Sign out");
+        logoutButton.setText("Đăng xuất");
         logoutButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -343,7 +343,7 @@ public class Dashboard extends javax.swing.JFrame {
     public void currentUserSession() {
         User userDTO = new User();
         new UserDAO().getFullName(userDTO, username);
-        nameLabel.setText("User: " + userDTO.getFullName() + " (ADMINISTRATOR)");
+        nameLabel.setText("Tài khoản: " + userDTO.getFullName() + " (ADMIN)");
     }
 
     

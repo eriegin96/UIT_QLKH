@@ -85,7 +85,7 @@ public class UserDAO {
             prepStatement.setString(6, userDTO.getUserType());
             prepStatement.executeUpdate();
 
-            if("ADMINISTRATOR".equals(userType))
+            if("ADMIN".equals(userType))
                 JOptionPane.showMessageDialog(null, "New administrator added.");
             else JOptionPane.showMessageDialog(null, "New employee added.");
 

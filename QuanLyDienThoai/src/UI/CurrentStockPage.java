@@ -32,8 +32,8 @@ public class CurrentStockPage extends javax.swing.JPanel {
         stockTable = new javax.swing.JTable();
         refreshButton = new javax.swing.JButton();
 
-        jLabel1.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
-        jLabel1.setText("CURRENT STOCK");
+        jLabel1.setFont(new java.awt.Font("Helvetica", 0, 24)); // NOI18N
+        jLabel1.setText("KHO");
         jLabel1.setToolTipText("");
 
         stockTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -50,7 +50,7 @@ public class CurrentStockPage extends javax.swing.JPanel {
         jScrollPane1.setViewportView(stockTable);
 
         refreshButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        refreshButton.setText("REFRESH");
+        refreshButton.setText("LÀM MỚI");
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshButtonActionPerformed(evt);

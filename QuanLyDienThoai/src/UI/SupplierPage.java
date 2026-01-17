@@ -48,24 +48,24 @@ public class SupplierPage extends javax.swing.JPanel {
         searchText = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
 
-        jLabel1.setFont(new java.awt.Font("Impact", 0, 24)); // NOI18N
-        jLabel1.setText("SUPPLIERS");
+        jLabel1.setFont(new java.awt.Font("Helvetica", 0, 24)); // NOI18N
+        jLabel1.setText("NHÀ CUNG CẤP");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Enter Supplier Details"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Thông tin Nhà cung cấp"));
 
-        jLabel2.setText("Supplier Code:");
+        jLabel2.setText("Mã NCC:");
 
-        jLabel3.setText("Full Name:");
+        jLabel3.setText("Tên đầy đủ:");
 
-        jLabel4.setText("Location:");
+        jLabel4.setText("Địa chỉ:");
 
-        jLabel5.setText("Contact:");
+        jLabel5.setText("SĐT:");
 
         jLabel6.setText("Debit Amount:");
 
         jLabel7.setText("Credit Amount:");
 
-        addButton.setText("Add");
+        addButton.setText("Thêm");
         addButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -73,7 +73,7 @@ public class SupplierPage extends javax.swing.JPanel {
             }
         });
 
-        deleteButton.setText("Delete");
+        deleteButton.setText("Xóa");
         deleteButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,7 +81,7 @@ public class SupplierPage extends javax.swing.JPanel {
             }
         });
 
-        editButton.setText("Edit");
+        editButton.setText("Sửa");
         editButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,7 +90,7 @@ public class SupplierPage extends javax.swing.JPanel {
         });
 
         clearButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        clearButton.setText("CLEAR");
+        clearButton.setText("XÓA FORM");
         clearButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         clearButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,7 +200,7 @@ public class SupplierPage extends javax.swing.JPanel {
             }
         });
 
-        jLabel8.setText("Search:");
+        jLabel8.setText("Tìm kiếm");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -211,7 +211,7 @@ public class SupplierPage extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

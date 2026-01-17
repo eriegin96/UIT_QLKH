@@ -11,7 +11,7 @@ import java.util.Properties;
 public class ConnectionFactory {
 
     private static final String driver = "com.mysql.cj.jdbc.Driver";
-    private static final String url = "jdbc:mysql://localhost:3306/inventory";
+    private static final String url = "jdbc:mysql://localhost:3306/quanlydienthoai";
     private static ConnectionFactory instance;
     private Properties prop;
     private Connection conn;
