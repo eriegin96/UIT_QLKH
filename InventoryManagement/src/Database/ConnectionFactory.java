@@ -23,7 +23,7 @@ public class ConnectionFactory {
         try {
             // Username and Password saved as configurable properties
             prop = new Properties();
-            prop.loadFromXML(new FileInputStream("lib/DBCredentials.xml"));
+            prop.loadFromXML(new FileInputStream("Database/DBCredentials.xml"));
             Class.forName(driver);
             conn = DriverManager.getConnection(url, prop.getProperty("username"), prop.getProperty("password"));
             statement = conn.createStatement();
