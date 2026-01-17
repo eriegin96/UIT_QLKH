@@ -23,12 +23,18 @@ public class ConnectionFactory {
         try {
             // Username and Password saved as configurable properties
             prop = new Properties();
-            prop.loadFromXML(new FileInputStream("Database/DBCredentials.xml"));
+            // Load from classpath instead of file system
+            java.io.InputStream is = getClass().getClassLoader().getResourceAsStream("Database/DBCredentials.xml");
+            if (is == null) {
+                throw new IOException("Could not find Database/DBCredentials.xml in classpath");
+            }
+            prop.loadFromXML(is);
             Class.forName(driver);
             conn = DriverManager.getConnection(url, prop.getProperty("username"), prop.getProperty("password"));
             statement = conn.createStatement();
         } catch (Exception e) {
-            throw new RuntimeException("Error initializing connection factory", e);
+            e.printStackTrace(); // Print the full stack trace for debugging
+            throw new RuntimeException("Error initializing connection factory: " + e.getMessage(), e);
         }
     }
 
