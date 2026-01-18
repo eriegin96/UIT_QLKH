@@ -121,7 +121,7 @@ public class PurchasePage extends javax.swing.JPanel {
             }
         });
 
-        purchaseButton.setText("Mua");
+        purchaseButton.setText("Nhập");
         purchaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 purchaseButtonActionPerformed(evt);
@@ -236,6 +236,8 @@ public class PurchasePage extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(clearButton))
         );
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         purchaseTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

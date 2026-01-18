@@ -10,6 +10,7 @@ import java.sql.SQLException;
 public class SupplierPage extends javax.swing.JPanel {
 
     private DefaultTableModel tblModel;
+    private String originalSuppCode = "";
     
     /**
      * Creates new form SupplierPage
@@ -267,6 +268,7 @@ public class SupplierPage extends javax.swing.JPanel {
 
         for (int i=0; i<col; i++)
             data[i] = suppTable.getValueAt(row, i);
+        originalSuppCode = (String) data[0];
         codeText.setText((String) data[0]);
         nameText.setText((String) data[1]);
         locationText.setText((String) data[2]);
@@ -285,6 +287,7 @@ public class SupplierPage extends javax.swing.JPanel {
             supplierDTO.setPhone(phoneText.getText());
             new SupplierDAO().addSupplierDAO(supplierDTO);
             loadDataSet();
+            clearButtonActionPerformed(evt);
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
@@ -301,8 +304,9 @@ public class SupplierPage extends javax.swing.JPanel {
                 supplierDTO.setFullName(nameText.getText());
                 supplierDTO.setLocation(locationText.getText());
                 supplierDTO.setPhone(phoneText.getText());
-                new SupplierDAO().editSupplierDAO(supplierDTO);
+                new SupplierDAO().editSupplierDAO(supplierDTO, originalSuppCode);
                 loadDataSet();
+                clearButtonActionPerformed(evt);
             }
         }
     }//GEN-LAST:event_editButtonActionPerformed
@@ -319,6 +323,7 @@ public class SupplierPage extends javax.swing.JPanel {
             if (opt==JOptionPane.YES_OPTION) {
                 new SupplierDAO().deleteSupplierDAO(suppTable.getValueAt(suppTable.getSelectedRow(),0).toString());
                 loadDataSet();
+                clearButtonActionPerformed(evt);
             }
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
@@ -329,6 +334,7 @@ public class SupplierPage extends javax.swing.JPanel {
         locationText.setText("");
         phoneText.setText("");
         searchText.setText("");
+        originalSuppCode = "";
     }//GEN-LAST:event_clearButtonActionPerformed
 
     private void searchTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTextKeyReleased

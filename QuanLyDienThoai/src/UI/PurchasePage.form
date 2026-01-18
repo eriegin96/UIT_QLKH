@@ -283,7 +283,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="purchaseButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Mua"/>
+            <Property name="text" type="java.lang.String" value="Nh&#x1ead;p"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="purchaseButtonActionPerformed"/>

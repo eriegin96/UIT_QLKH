@@ -3,6 +3,7 @@ package UI;
 import DAO.ProductDAO;
 import DAO.SupplierDAO;
 import Model.Product;
+import Util.ErrorHandler;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
@@ -333,63 +334,92 @@ public class ProductPage extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        if (productTable.getSelectedRow()<0)
-            JOptionPane.showMessageDialog(null, "Please select product from the table.");
-        else{
+        if (productTable.getSelectedRow()<0) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm từ bảng.");
+            return;
+        }
+        
+        if (nameText.getText().equals("") || costText.getText().equals("")
+                || sellText.getText().equals("") || brandText.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin bắt buộc.");
+            return;
+        }
+        
+        try {
             productDTO = new Product();
-            if (nameText.getText().equals("") || costText.getText().equals("")
-                    || sellText.getText().equals("") || brandText.getText().equals(""))
-                JOptionPane.showMessageDialog(null, "Please enter all the required details.");
-            else {
-                productDTO.setProdCode(codeText.getText());
-                productDTO.setProdName(nameText.getText());
-                productDTO.setDate(jDateChooser1.getDateFormatString());
-                productDTO.setQuantity(Integer.parseInt(quantityText.getText()));
-                productDTO.setCostPrice(Double.parseDouble(costText.getText()));
-                productDTO.setSellPrice(Double.parseDouble(sellText.getText()));
-                productDTO.setBrand(brandText.getText());
-                productDTO.setUserID(userID);
+            productDTO.setProdCode(codeText.getText().trim());
+            productDTO.setProdName(nameText.getText().trim());
+            productDTO.setDate(jDateChooser1.getDateFormatString());
+            productDTO.setQuantity(Integer.parseInt(quantityText.getText()));
+            productDTO.setCostPrice(Double.parseDouble(costText.getText().replace(".", "")));
+            productDTO.setSellPrice(Double.parseDouble(sellText.getText().replace(".", "")));
+            productDTO.setBrand(brandText.getText().trim());
+            productDTO.setUserID(userID);
 
-                new ProductDAO().editProdDAO(productDTO);
-            }
+            new ProductDAO().editProdDAO(productDTO);
             loadDataSet();
+            clearButtonActionPerformed(evt);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, 
+                "Vui lòng nhập giá trị số hợp lệ cho số lượng và giá.", 
+                "Lỗi nhập liệu", 
+                JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            ErrorHandler.handleDatabaseError(e, "cập nhật", "sản phẩm");
         }
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        productDTO = new Product();
         if (nameText.getText().equals("") || costText.getText().equals("")
-                || sellText.getText().equals("") || brandText.getText().equals(""))
-            JOptionPane.showMessageDialog(null, "Please enter all the required details.");
-        else {
-            productDTO.setProdCode(codeText.getText());
-            productDTO.setProdName(nameText.getText());
+                || sellText.getText().equals("") || brandText.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin bắt buộc.");
+            return;
+        }
+        
+        try {
+            productDTO = new Product();
+            productDTO.setProdCode(codeText.getText().trim());
+            productDTO.setProdName(nameText.getText().trim());
             productDTO.setDate(jDateChooser1.getDateFormatString());
             productDTO.setQuantity(Integer.parseInt(quantityText.getText()));
-            productDTO.setCostPrice(Double.parseDouble(costText.getText()));
-            productDTO.setSellPrice(Double.parseDouble(sellText.getText()));
-            productDTO.setBrand(brandText.getText());
+            productDTO.setCostPrice(Double.parseDouble(costText.getText().replace(".", "")));
+            productDTO.setSellPrice(Double.parseDouble(sellText.getText().replace(".", "")));
+            productDTO.setBrand(brandText.getText().trim());
             productDTO.setUserID(userID);
 
             new ProductDAO().addProductDAO(productDTO);
             loadDataSet();
+            clearButtonActionPerformed(evt);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, 
+                "Vui lòng nhập giá trị số hợp lệ cho số lượng và giá.", 
+                "Lỗi nhập liệu", 
+                JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            ErrorHandler.handleDatabaseError(e, "thêm", "sản phẩm");
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        if (productTable.getSelectedRow()<0)
-            JOptionPane.showMessageDialog(null, "Please select product from the table.");
-        else {
-            int opt = JOptionPane.showConfirmDialog(
-                    null,
-                    "Are you sure you want to delete this product?",
-                    "Confirmation",
-                    JOptionPane.YES_NO_OPTION);
-            if(opt==JOptionPane.YES_OPTION) {
+        if (productTable.getSelectedRow()<0) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một sản phẩm từ bảng.");
+            return;
+        }
+        
+        int opt = JOptionPane.showConfirmDialog(
+                null,
+                "Bạn có chắc chắn muốn xóa sản phẩm này?",
+                "Xác nhận",
+                JOptionPane.YES_NO_OPTION);
+        if(opt==JOptionPane.YES_OPTION) {
+            try {
                 new ProductDAO().deleteProductDAO(
                         (String) productTable.getValueAt(
                                 productTable.getSelectedRow(),0));
                 loadDataSet();
+                clearButtonActionPerformed(evt);
+            } catch (Exception e) {
+                ErrorHandler.handleDatabaseError(e, "xóa", "sản phẩm");
             }
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
@@ -449,7 +479,7 @@ public class ProductPage extends javax.swing.JPanel {
             SupplierDAO supplierDAO = new SupplierDAO();
             suppCombo.setModel(supplierDAO.setComboItems(supplierDAO.getQueryResult()));
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
     }
 
@@ -472,8 +502,8 @@ public class ProductPage extends javax.swing.JPanel {
                 
                 tblModel.addRow(new Object[]{productCode, productName, formattedCost, formattedSell, brand});
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
         }
     }
 
@@ -496,8 +526,8 @@ public class ProductPage extends javax.swing.JPanel {
                 
                 tblModel.addRow(new Object[]{productCode, productName, formattedCost, formattedSell, brand});
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
         }
     }
 

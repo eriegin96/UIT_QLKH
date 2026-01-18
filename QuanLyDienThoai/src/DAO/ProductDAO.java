@@ -2,6 +2,7 @@ package DAO;
 
 import Model.Product;
 import Database.ConnectionFactory;
+import Util.ErrorHandler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -24,7 +25,7 @@ public class ProductDAO {
             statement = conn.createStatement();
             statement2 = conn.createStatement();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ErrorHandler.handleConnectionError(ex);
         }
     }
 
@@ -33,7 +34,7 @@ public class ProductDAO {
             String query = "SELECT * FROM suppliers";
             resultSet = statement.executeQuery(query);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }
@@ -43,7 +44,7 @@ public class ProductDAO {
             String query = "SELECT * FROM customers";
             resultSet = statement.executeQuery(query);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }
@@ -53,7 +54,7 @@ public class ProductDAO {
             String query = "SELECT * FROM currentstock";
             resultSet = statement.executeQuery(query);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }
@@ -63,7 +64,7 @@ public class ProductDAO {
             String query = "SELECT * FROM products";
             resultSet = statement.executeQuery(query);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }
@@ -76,7 +77,7 @@ public class ProductDAO {
             if (resultSet.next())
                 costPrice = resultSet.getDouble("costprice");
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return costPrice;
     }
@@ -89,7 +90,7 @@ public class ProductDAO {
             if (resultSet.next())
                 sellPrice = resultSet.getDouble("sellprice");
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return sellPrice;
     }
@@ -103,7 +104,7 @@ public class ProductDAO {
                 suppCode = resultSet.getString("suppliercode");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return suppCode;
     }
@@ -117,7 +118,7 @@ public class ProductDAO {
                 suppCode = resultSet.getString("productcode");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return prodCode;
     }
@@ -131,7 +132,7 @@ public class ProductDAO {
                 suppCode = resultSet.getString("customercode");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return custCode;
     }
@@ -146,7 +147,7 @@ public class ProductDAO {
                 flag = true;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return flag;
     }
@@ -165,16 +166,16 @@ public class ProductDAO {
                     + "'";
             resultSet = statement.executeQuery(query);
             if (resultSet.next())
-                JOptionPane.showMessageDialog(null, "Product has already been added.");
+                JOptionPane.showMessageDialog(null, "Sản phẩm đã tồn tại.");
             else
                 addFunction(productDTO);
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
     }
     public void addFunction(Product productDTO) {
         try {
-            String query = "INSERT INTO products VALUES(null,?,?,?,?,?)";
+            String query = "INSERT INTO products (productcode, productname, costprice, sellprice, brand) VALUES(?,?,?,?,?)";
             prepStatement = (PreparedStatement) conn.prepareStatement(query);
             prepStatement.setString(1, productDTO.getProdCode());
             prepStatement.setString(2, productDTO.getProdName());
@@ -182,23 +183,23 @@ public class ProductDAO {
             prepStatement.setDouble(4, productDTO.getSellPrice());
             prepStatement.setString(5, productDTO.getBrand());
 
-            String query2 = "INSERT INTO currentstock VALUES(?,?)";
+            String query2 = "INSERT INTO currentstock (productcode, quantity) VALUES(?,?)";
             prepStatement2 = conn.prepareStatement(query2);
             prepStatement2.setString(1, productDTO.getProdCode());
             prepStatement2.setInt(2, productDTO.getQuantity());
 
             prepStatement.executeUpdate();
             prepStatement2.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Product added and ready for sale.");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Sản phẩm đã được thêm và sẵn sàng để bán.");
+        } catch (SQLException e) {
+            ErrorHandler.handleDatabaseError(e, "thêm", "sản phẩm");
         }
     }
 
     // Method to add a new purchase transaction
     public void addPurchaseDAO(Product productDTO) {
         try {
-            String query = "INSERT INTO purchaseinfo VALUES(null,?,?,?,?,?)";
+            String query = "INSERT INTO purchaseinfo (suppliercode, productcode, date, quantity, totalcost) VALUES(?,?,?,?,?)";
             prepStatement = conn.prepareStatement(query);
             prepStatement.setString(1, productDTO.getSuppCode());
             prepStatement.setString(2, productDTO.getProdCode());
@@ -207,9 +208,9 @@ public class ProductDAO {
             prepStatement.setDouble(5, productDTO.getTotalCost());
 
             prepStatement.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Purchase log added.");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Nhật ký mua hàng đã được thêm.");
+        } catch (SQLException e) {
+            ErrorHandler.handleDatabaseError(e, "thêm", "giao dịch mua hàng");
         }
 
         String prodCode = productDTO.getProdCode();
@@ -221,20 +222,20 @@ public class ProductDAO {
                 prepStatement.setString(2, prodCode);
 
                 prepStatement.executeUpdate();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException e) {
+                ErrorHandler.handleError(e);
             }
         }
         else if (!checkStock(prodCode)) {
             try {
-                String query = "INSERT INTO currentstock VALUES(?,?)";
+                String query = "INSERT INTO currentstock (productcode, quantity) VALUES(?,?)";
                 prepStatement = (PreparedStatement) conn.prepareStatement(query);
                 prepStatement.setString(1, productDTO.getProdCode());
                 prepStatement.setInt(2, productDTO.getQuantity());
 
                 prepStatement.executeUpdate();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException e) {
+                ErrorHandler.handleError(e);
             }
         }
         deleteStock();
@@ -258,9 +259,9 @@ public class ProductDAO {
 
             prepStatement.executeUpdate();
             prepStatement2.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Product details updated.");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Chi tiết sản phẩm đã được cập nhật.");
+        } catch (SQLException e) {
+            ErrorHandler.handleDatabaseError(e, "cập nhật", "sản phẩm");
         }
     }
 
@@ -276,8 +277,8 @@ public class ProductDAO {
                 prepStatement.setString(2, code);
                 prepStatement.executeUpdate();
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
         }
     }
     public void editSoldStock(String code, int quantity) {
@@ -291,8 +292,8 @@ public class ProductDAO {
                 prepStatement.setString(2, code);
                 prepStatement.executeUpdate();
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
         }
     }
     public void deleteStock() {
@@ -301,8 +302,8 @@ public class ProductDAO {
             String query2 = "DELETE FROM salesinfo WHERE productcode NOT IN(SELECT productcode FROM products)";
             statement.executeUpdate(query);
             statement.executeUpdate(query2);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
         }
     }
 
@@ -320,9 +321,9 @@ public class ProductDAO {
             prepStatement.executeUpdate();
             prepStatement2.executeUpdate();
 
-            JOptionPane.showMessageDialog(null, "Product has been removed.");
+            JOptionPane.showMessageDialog(null, "Sản phẩm đã được xóa.");
         } catch (SQLException e){
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         deleteStock();
     }
@@ -334,9 +335,9 @@ public class ProductDAO {
             prepStatement.setInt(1, ID);
             prepStatement.executeUpdate();
 
-            JOptionPane.showMessageDialog(null, "Transaction has been removed.");
+            JOptionPane.showMessageDialog(null, "Giao dịch đã được xóa.");
         } catch (SQLException e){
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         deleteStock();
     }
@@ -348,9 +349,9 @@ public class ProductDAO {
             prepStatement.setInt(1, ID);
             prepStatement.executeUpdate();
 
-            JOptionPane.showMessageDialog(null, "Transaction has been removed.");
+            JOptionPane.showMessageDialog(null, "Giao dịch đã được xóa.");
         } catch (SQLException e){
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         deleteStock();
     }
@@ -367,9 +368,9 @@ public class ProductDAO {
                 quantity = resultSet.getInt("quantity");
             }
             if (productDTO.getQuantity()>quantity)
-                JOptionPane.showMessageDialog(null, "Insufficient stock for this product.");
+                JOptionPane.showMessageDialog(null, "Không đủ hàng trong kho cho sản phẩm này.");
             else if (productDTO.getQuantity()<=0)
-                JOptionPane.showMessageDialog(null, "Please enter a valid quantity");
+                JOptionPane.showMessageDialog(null, "Vui lòng nhập số lượng hợp lệ.");
             else {
                 String stockQuery = "UPDATE currentstock SET quantity=quantity-'"
                         +productDTO.getQuantity()
@@ -381,10 +382,10 @@ public class ProductDAO {
                         "','"+productDTO.getQuantity()+"','"+productDTO.getTotalRevenue()+"','"+username+"')";
                 statement.executeUpdate(stockQuery);
                 statement.executeUpdate(salesQuery);
-                JOptionPane.showMessageDialog(null, "Product sold.");
+                JOptionPane.showMessageDialog(null, "Sản phẩm đã được bán.");
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            ErrorHandler.handleDatabaseError(e, "bán", "sản phẩm");
         }
     }
 
@@ -393,8 +394,8 @@ public class ProductDAO {
         try {
             String query = "SELECT productcode,productname,costprice,sellprice,brand FROM products ORDER BY pid";
             resultSet = statement.executeQuery(query);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }
@@ -406,8 +407,8 @@ public class ProductDAO {
                     "FROM purchaseinfo INNER JOIN products " +
                     "ON products.productcode=purchaseinfo.productcode ORDER BY purchaseid;";
             resultSet = statement.executeQuery(query);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }
@@ -420,8 +421,8 @@ public class ProductDAO {
 "                    FROM currentstock INNER JOIN products\n" +
 "                    ON currentstock.productcode=products.productcode;";
             resultSet = statement.executeQuery(query);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }
@@ -436,8 +437,8 @@ public class ProductDAO {
 "                    INNER JOIN users\n" +
 "                    ON salesinfo.soldby=users.username;";
             resultSet = statement.executeQuery(query);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }
@@ -449,7 +450,7 @@ public class ProductDAO {
                     "WHERE productcode LIKE '%"+text+"%' OR productname LIKE '%"+text+"%' OR brand LIKE '%"+text+"%'";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }
@@ -460,7 +461,7 @@ public class ProductDAO {
                     "WHERE productcode='" +text+ "' LIMIT 1";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }
@@ -480,7 +481,7 @@ public class ProductDAO {
                     "OR users.name LIKE '%"+text+"%' OR customers.fullname LIKE '%"+text+"%' ORDER BY salesid;";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }
@@ -496,7 +497,7 @@ public class ProductDAO {
                     "OR date LIKE '%"+text+"%' ORDER BY purchaseid";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }
@@ -505,8 +506,8 @@ public class ProductDAO {
         try {
             String query = "SELECT productname FROM products WHERE productcode='" +code+ "'";
             resultSet = statement.executeQuery(query);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }
@@ -520,8 +521,8 @@ public class ProductDAO {
             resultSet = statement.executeQuery(query);
             if (resultSet.next())
                 name = resultSet.getString("fullname");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
         }
         return name;
     }
@@ -535,8 +536,8 @@ public class ProductDAO {
             resultSet = statement.executeQuery(query);
             if (resultSet.next())
                 name = resultSet.getString("fullname");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
         }
         return name;
     }
@@ -548,8 +549,8 @@ public class ProductDAO {
             resultSet = statement.executeQuery(query);
             if (resultSet.next())
                 date = resultSet.getString("date");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
         }
         return date;
     }
@@ -560,8 +561,8 @@ public class ProductDAO {
             resultSet = statement.executeQuery(query);
             if (resultSet.next())
                 date = resultSet.getString("date");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
         }
         return date;
     }

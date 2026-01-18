@@ -1,6 +1,7 @@
 package DAO;
 import Model.Customer;
 import Database.ConnectionFactory;
+import Util.ErrorHandler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -21,7 +22,7 @@ public class CustomerDAO {
             try {
                 statement = conn.createStatement();
             } catch (SQLException e) {
-                e.printStackTrace();
+                ErrorHandler.handleConnectionError(e);
             }
     }
     // Methods to add new custoemr
@@ -36,11 +37,11 @@ public class CustomerDAO {
                     + "'";
             resultSet = statement.executeQuery(query);
             if (resultSet.next())
-                JOptionPane.showMessageDialog(null, "Customer already exists.");
+                JOptionPane.showMessageDialog(null, "Khách hàng đã tồn tại.");
             else
                 addFunction(customerDTO);
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
     }
     public void addFunction(Customer customerDTO) {
@@ -52,9 +53,9 @@ public class CustomerDAO {
             prepStatement.setString(3, customerDTO.getLocation());
             prepStatement.setString(4, customerDTO.getPhone());
             prepStatement.executeUpdate();
-            JOptionPane.showMessageDialog(null, "New customer has been added.");
+            JOptionPane.showMessageDialog(null, "Khách hàng đã được thêm thành công.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleDatabaseError(e, "thêm", "khách hàng");
         }
 
     }
@@ -69,9 +70,26 @@ public class CustomerDAO {
             prepStatement.setString(3, customerDTO.getPhone());
             prepStatement.setString(4, customerDTO.getCustCode());
             prepStatement.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Customer details have been updated.");
+            JOptionPane.showMessageDialog(null, "Chi tiết khách hàng đã được cập nhật.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleDatabaseError(e, "cập nhật", "khách hàng");
+        }
+    }
+    
+    // Overloaded method to edit customer details including customer code
+    public void editCustomerDAO(Customer customerDTO, String originalCustCode) {
+        try {
+            String query = "UPDATE customers SET customercode=?,fullname=?,location=?,phone=? WHERE customercode=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, customerDTO.getCustCode());
+            prepStatement.setString(2, customerDTO.getFullName());
+            prepStatement.setString(3, customerDTO.getLocation());
+            prepStatement.setString(4, customerDTO.getPhone());
+            prepStatement.setString(5, originalCustCode);
+            prepStatement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Chi tiết khách hàng đã được cập nhật.");
+        } catch (SQLException e) {
+            ErrorHandler.handleDatabaseError(e, "cập nhật", "khách hàng");
         }
     }
 
@@ -80,9 +98,9 @@ public class CustomerDAO {
         try {
             String query = "DELETE FROM customers WHERE customercode='" +custCode+ "'";
             statement.executeUpdate(query);
-            JOptionPane.showMessageDialog(null, "Customer removed.");
+            JOptionPane.showMessageDialog(null, "Khách hàng đã được xóa.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleDatabaseError(e, "xóa", "khách hàng");
         }
     }
 
@@ -92,7 +110,7 @@ public class CustomerDAO {
             String query = "SELECT customercode,fullname,location,phone FROM customers";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }
@@ -105,7 +123,7 @@ public class CustomerDAO {
                     "location LIKE '%"+text+"%' OR phone LIKE '%"+text+"%'";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }
@@ -115,7 +133,7 @@ public class CustomerDAO {
             String query = "SELECT * FROM customers WHERE customercode='" +custCode+ "'";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }
@@ -127,7 +145,7 @@ public class CustomerDAO {
                     "WHERE currentstock.productcode='" +prodCode+ "'";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }

@@ -2,6 +2,7 @@ package DAO;
 
 import Model.Supplier;
 import Database.ConnectionFactory;
+import Util.ErrorHandler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -22,7 +23,7 @@ public class SupplierDAO {
             conn = ConnectionFactory.getInstance().getConnection();
             statement = conn.createStatement();
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleConnectionError(e);
         }
     }
 
@@ -38,11 +39,11 @@ public class SupplierDAO {
                     + "'";
             resultSet = statement.executeQuery(query);
             if (resultSet.next())
-                JOptionPane.showMessageDialog(null, "This supplier already exists.");
+                JOptionPane.showMessageDialog(null, "Nhà cung cấp đã tồn tại.");
             else
                 addFunction(supplierDTO);
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
     }
     public void addFunction(Supplier supplierDTO) {
@@ -54,25 +55,26 @@ public class SupplierDAO {
             prepStatement.setString(3, supplierDTO.getLocation());
             prepStatement.setString(4, supplierDTO.getPhone());
             prepStatement.executeUpdate();
-            JOptionPane.showMessageDialog(null, "New supplier has been added successfully.");
+            JOptionPane.showMessageDialog(null, "Nhà cung cấp đã được thêm thành công.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleDatabaseError(e, "thêm", "nhà cung cấp");
         }
     }
 
     // Method to edit existing suppleir details
-    public void editSupplierDAO(Supplier supplierDTO) {
+    public void editSupplierDAO(Supplier supplierDTO, String originalSuppCode) {
         try {
-            String query = "UPDATE suppliers SET fullname=?,location=?,mobile=? WHERE suppliercode=?";
+            String query = "UPDATE suppliers SET suppliercode=?,fullname=?,location=?,mobile=? WHERE suppliercode=?";
             prepStatement = conn.prepareStatement(query);
-            prepStatement.setString(1, supplierDTO.getFullName());
-            prepStatement.setString(2, supplierDTO.getLocation());
-            prepStatement.setString(3, supplierDTO.getPhone());
-            prepStatement.setString(4, supplierDTO.getSuppCode());
+            prepStatement.setString(1, supplierDTO.getSuppCode());
+            prepStatement.setString(2, supplierDTO.getFullName());
+            prepStatement.setString(3, supplierDTO.getLocation());
+            prepStatement.setString(4, supplierDTO.getPhone());
+            prepStatement.setString(5, originalSuppCode);
             prepStatement.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Supplier details have been updated.");
+            JOptionPane.showMessageDialog(null, "Chi tiết nhà cung cấp đã được cập nhật.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleDatabaseError(e, "cập nhật", "nhà cung cấp");
         }
     }
 
@@ -81,9 +83,9 @@ public class SupplierDAO {
         try {
             String query = "DELETE FROM suppliers WHERE suppliercode='" +suppCode+ "'";
             statement.executeUpdate(query);
-            JOptionPane.showMessageDialog(null, "Supplier has been removed.");
+            JOptionPane.showMessageDialog(null, "Nhà cung cấp đã được xóa.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleDatabaseError(e, "xóa", "nhà cung cấp");
         }
     }
 
@@ -93,7 +95,7 @@ public class SupplierDAO {
             String query = "SELECT suppliercode, fullname, location, mobile FROM suppliers";
             resultSet = statement.executeQuery(query);
         } catch (Exception e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }
@@ -106,7 +108,7 @@ public class SupplierDAO {
                     "OR fullname LIKE '%"+searchText+"%' OR mobile LIKE '%"+searchText+"%'";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
-            e.printStackTrace();
+            ErrorHandler.handleError(e);
         }
         return resultSet;
     }

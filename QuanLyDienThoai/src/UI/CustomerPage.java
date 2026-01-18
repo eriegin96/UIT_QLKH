@@ -11,6 +11,7 @@ import java.sql.SQLException;
 public class CustomerPage extends javax.swing.JPanel {
 
     private DefaultTableModel tblModel;
+    private String originalCustCode = "";
     
     /**
      * Creates new form CustomerPage
@@ -267,6 +268,7 @@ public class CustomerPage extends javax.swing.JPanel {
             customerDTO.setPhone(phoneText.getText());
             new CustomerDAO().addCustomerDAO(customerDTO);
             loadDataSet();
+            clearButtonActionPerformed(evt);
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
@@ -283,8 +285,9 @@ public class CustomerPage extends javax.swing.JPanel {
                 customerDTO.setFullName(nameText.getText());
                 customerDTO.setLocation(locationText.getText());
                 customerDTO.setPhone(phoneText.getText());
-                new CustomerDAO().editCustomerDAO(customerDTO);
+                new CustomerDAO().editCustomerDAO(customerDTO, originalCustCode);
                 loadDataSet();
+                clearButtonActionPerformed(evt);
             }
         }
     }//GEN-LAST:event_editButtonActionPerformed
@@ -301,6 +304,7 @@ public class CustomerPage extends javax.swing.JPanel {
             if (opt==JOptionPane.YES_OPTION) {
                 new CustomerDAO().deleteCustomerDAO(custTable.getValueAt(custTable.getSelectedRow(),0).toString());
                 loadDataSet();
+                clearButtonActionPerformed(evt);
             }
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
@@ -311,6 +315,7 @@ public class CustomerPage extends javax.swing.JPanel {
         locationText.setText("");
         phoneText.setText("");
         searchText.setText("");
+        originalCustCode = "";
     }//GEN-LAST:event_clearButtonActionPerformed
 
     private void custTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_custTableMouseClicked
@@ -320,6 +325,7 @@ public class CustomerPage extends javax.swing.JPanel {
 
         for (int i=0; i<col; i++)
             data[i] = custTable.getValueAt(row, i);
+        originalCustCode = (String) data[0];
         codeText.setText((String) data[0]);
         nameText.setText((String) data[1]);
         locationText.setText((String) data[2]);
