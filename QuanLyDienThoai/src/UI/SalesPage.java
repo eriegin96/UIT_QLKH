@@ -5,14 +5,19 @@ import DAO.ProductDAO;
 import Model.Product;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+
 public class SalesPage extends javax.swing.JPanel {
 
     String username;
     Dashboard dashboard;
     int quantity;
     String prodCode;
+    private DefaultTableModel tblModel;
+    DecimalFormat formatter = new DecimalFormat("###,###,###");
 
     /**
      * Creates new form SalesPage
@@ -22,9 +27,25 @@ public class SalesPage extends javax.swing.JPanel {
         initComponents();
         this.username = username;
         this.dashboard = dashboard;
+        salesTable.setDefaultEditor(Object.class, null);
+        salesTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        initTable();
         custNameLabel.setVisible(false);
         prodNameLabel.setVisible(false);
         loadDataSet();
+    }
+    
+    public final void initTable() {
+        tblModel = new DefaultTableModel();
+        String[] headerTbl = new String[]{"Mã bán", "Mã SP", "Tên SP", "Số lượng", "Doanh thu", "Người bán"};
+        tblModel.setColumnIdentifiers(headerTbl);
+        salesTable.setModel(tblModel);
+        salesTable.getColumnModel().getColumn(0).setPreferredWidth(80);
+        salesTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+        salesTable.getColumnModel().getColumn(2).setPreferredWidth(250);
+        salesTable.getColumnModel().getColumn(3).setPreferredWidth(100);
+        salesTable.getColumnModel().getColumn(4).setPreferredWidth(150);
+        salesTable.getColumnModel().getColumn(5).setPreferredWidth(120);
     }
 
     /**
@@ -214,6 +235,7 @@ public class SalesPage extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        salesTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         salesTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 salesTableMouseClicked(evt);
@@ -382,7 +404,18 @@ public class SalesPage extends javax.swing.JPanel {
     public void loadDataSet() {
         try {
             ProductDAO productDAO = new ProductDAO();
-            salesTable.setModel(productDAO.buildTableModel(productDAO.getSalesInfo()));
+            ResultSet rs = productDAO.getSalesInfo();
+            tblModel.setRowCount(0);
+            while (rs.next()) {
+                String salesCode = rs.getString(1);
+                String productCode = rs.getString(2);
+                String productName = rs.getString(3);
+                int quantity = rs.getInt(4);
+                double revenue = rs.getDouble(5);
+                String formattedRevenue = formatter.format(revenue).replace(",", ".");
+                String soldBy = rs.getString(6);
+                tblModel.addRow(new Object[]{salesCode, productCode, productName, quantity, formattedRevenue, soldBy});
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -392,7 +425,18 @@ public class SalesPage extends javax.swing.JPanel {
     public void loadSearchData(String text) {
         try {
             ProductDAO productDAO = new ProductDAO();
-            salesTable.setModel(productDAO.buildTableModel(productDAO.getSalesSearch(text)));
+            ResultSet rs = productDAO.getSalesSearch(text);
+            tblModel.setRowCount(0);
+            while (rs.next()) {
+                String salesCode = rs.getString(1);
+                String productCode = rs.getString(2);
+                String productName = rs.getString(3);
+                int quantity = rs.getInt(4);
+                double revenue = rs.getDouble(5);
+                String formattedRevenue = formatter.format(revenue).replace(",", ".");
+                String soldBy = rs.getString(6);
+                tblModel.addRow(new Object[]{salesCode, productCode, productName, quantity, formattedRevenue, soldBy});
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

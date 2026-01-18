@@ -4,16 +4,33 @@ import DAO.CustomerDAO;
 import Model.Customer;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CustomerPage extends javax.swing.JPanel {
 
+    private DefaultTableModel tblModel;
+    
     /**
      * Creates new form CustomerPage
      */
     public CustomerPage() {
         initComponents();
+        custTable.setDefaultEditor(Object.class, null);
+        initTable();
         loadDataSet();
+    }
+    
+    public final void initTable() {
+        tblModel = new DefaultTableModel();
+        String[] headerTbl = new String[]{"Mã KH", "Họ tên", "Địa chỉ", "SĐT"};
+        tblModel.setColumnIdentifiers(headerTbl);
+        custTable.setModel(tblModel);
+        custTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+        custTable.getColumnModel().getColumn(1).setPreferredWidth(250);
+        custTable.getColumnModel().getColumn(2).setPreferredWidth(250);
+        custTable.getColumnModel().getColumn(3).setPreferredWidth(100);
     }
 
     /**
@@ -62,9 +79,9 @@ public class CustomerPage extends javax.swing.JPanel {
 
         jLabel5.setText("SĐT:");
 
-        jLabel6.setText("Debit Amount:");
+        jLabel6.setText("Số tiền nợ:");
 
-        jLabel7.setText("Credit Amount:");
+        jLabel7.setText("Số tiền gửi:");
 
         addButton.setText("Thêm");
         addButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -169,6 +186,8 @@ public class CustomerPage extends javax.swing.JPanel {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+
         custTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -180,6 +199,7 @@ public class CustomerPage extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        custTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         custTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 custTableMouseClicked(evt);
@@ -238,7 +258,7 @@ public class CustomerPage extends javax.swing.JPanel {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         if (codeText.getText().equals("") || nameText.getText().equals("")
                 || locationText.getText().equals("") || phoneText.getText().equals(""))
-            JOptionPane.showMessageDialog(this, "Please enter all the required details.");
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin bắt buộc.");
         else {
             Customer customerDTO = new Customer();
             customerDTO.setCustCode(codeText.getText());
@@ -252,11 +272,11 @@ public class CustomerPage extends javax.swing.JPanel {
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         if (custTable.getSelectedRow()<0)
-            JOptionPane.showMessageDialog(this, "Select a customer from the table.");
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một khách hàng từ bảng.");
         else {
             if (codeText.getText().equals("") || nameText.getText().equals("")
                     || locationText.getText().equals("") || phoneText.getText().equals(""))
-                JOptionPane.showMessageDialog(this, "Please enter all the required details.");
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin bắt buộc.");
             else {
                 Customer customerDTO = new Customer();
                 customerDTO.setCustCode(codeText.getText());
@@ -271,12 +291,12 @@ public class CustomerPage extends javax.swing.JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         if (custTable.getSelectedRow()<0)
-            JOptionPane.showMessageDialog(this, "Select a customer from the table.");
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một khách hàng từ bảng.");
         else {
             int opt = JOptionPane.showConfirmDialog(
                     this,
-                    "Are you sure you want to delete this customer?",
-                    "Confirmation",
+                    "Bạn có chắc chắn muốn xóa khách hàng này?",
+                    "Xác nhận",
                     JOptionPane.YES_NO_OPTION);
             if (opt==JOptionPane.YES_OPTION) {
                 new CustomerDAO().deleteCustomerDAO(custTable.getValueAt(custTable.getSelectedRow(),0).toString());
@@ -313,15 +333,32 @@ public class CustomerPage extends javax.swing.JPanel {
     public void loadDataSet() {
         try {
             CustomerDAO customerDAO = new CustomerDAO();
-            custTable.setModel(customerDAO.buildTableModel(customerDAO.getQueryResult()));
+            ResultSet rs = customerDAO.getQueryResult();
+            tblModel.setRowCount(0);
+            while (rs.next()) {
+                String customerCode = rs.getString("customercode");
+                String fullName = rs.getString("fullname");
+                String location = rs.getString("location");
+                String phone = rs.getString("phone");
+                tblModel.addRow(new Object[]{customerCode, fullName, location, phone});
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+    
     public void loadSearchData(String text) {
         try {
             CustomerDAO customerDAO = new CustomerDAO();
-            custTable.setModel(customerDAO.buildTableModel(customerDAO.getCustomerSearch(text)));
+            ResultSet rs = customerDAO.getCustomerSearch(text);
+            tblModel.setRowCount(0);
+            while (rs.next()) {
+                String customerCode = rs.getString("customercode");
+                String fullName = rs.getString("fullname");
+                String location = rs.getString("location");
+                String phone = rs.getString("phone");
+                tblModel.addRow(new Object[]{customerCode, fullName, location, phone});
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

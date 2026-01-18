@@ -2,11 +2,17 @@ package UI;
 
 import DAO.ProductDAO;
 
+import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+
 public class CurrentStockPage extends javax.swing.JPanel {
 
-
     String username;
+    private DefaultTableModel tblModel;
+    DecimalFormat formatter = new DecimalFormat("###,###,###");
+    
     /**
      * Creates new form CurrentStockPage
      */
@@ -14,7 +20,21 @@ public class CurrentStockPage extends javax.swing.JPanel {
     public CurrentStockPage(String username) {
         initComponents();
         this.username = username;
+        stockTable.setDefaultEditor(Object.class, null);
+        initTable();
         loadDataSet();
+    }
+    
+    public final void initTable() {
+        tblModel = new DefaultTableModel();
+        String[] headerTbl = new String[]{"Mã SP", "Tên sản phẩm", "Số lượng", "Giá gốc", "Giá bán"};
+        tblModel.setColumnIdentifiers(headerTbl);
+        stockTable.setModel(tblModel);
+        stockTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+        stockTable.getColumnModel().getColumn(1).setPreferredWidth(250);
+        stockTable.getColumnModel().getColumn(2).setPreferredWidth(100);
+        stockTable.getColumnModel().getColumn(3).setPreferredWidth(120);
+        stockTable.getColumnModel().getColumn(4).setPreferredWidth(120);
     }
 
     /**
@@ -36,6 +56,8 @@ public class CurrentStockPage extends javax.swing.JPanel {
         jLabel1.setText("KHO");
         jLabel1.setToolTipText("");
 
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+
         stockTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -47,6 +69,7 @@ public class CurrentStockPage extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        stockTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane1.setViewportView(stockTable);
 
         refreshButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -76,9 +99,9 @@ public class CurrentStockPage extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -95,7 +118,21 @@ public class CurrentStockPage extends javax.swing.JPanel {
     public void loadDataSet() {
         try {
             ProductDAO productDAO = new ProductDAO();
-            stockTable.setModel(productDAO.buildTableModel(productDAO.getCurrentStockInfo()));
+            ResultSet rs = productDAO.getCurrentStockInfo();
+            tblModel.setRowCount(0);
+            while (rs.next()) {
+                String productCode = rs.getString("ProductCode");
+                String productName = rs.getString("ProductName");
+                int quantity = rs.getInt("Quantity");
+                double costPrice = rs.getDouble("CostPrice");
+                double sellPrice = rs.getDouble("SellPrice");
+                
+                // Format prices with dots as thousand separators
+                String formattedCost = formatter.format(costPrice).replace(",", ".");
+                String formattedSell = formatter.format(sellPrice).replace(",", ".");
+                
+                tblModel.addRow(new Object[]{productCode, productName, quantity, formattedCost, formattedSell});
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

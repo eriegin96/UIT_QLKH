@@ -4,15 +4,32 @@ import DAO.SupplierDAO;
 import Model.Supplier;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 public class SupplierPage extends javax.swing.JPanel {
 
+    private DefaultTableModel tblModel;
+    
     /**
      * Creates new form SupplierPage
      */
     public SupplierPage() {
         initComponents();
+        suppTable.setDefaultEditor(Object.class, null);
+        initTable();
         loadDataSet();
+    }
+    
+    public final void initTable() {
+        tblModel = new DefaultTableModel();
+        String[] headerTbl = new String[]{"Mã NCC", "Tên đầy đủ", "Địa chỉ", "SĐT"};
+        tblModel.setColumnIdentifiers(headerTbl);
+        suppTable.setModel(tblModel);
+        suppTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+        suppTable.getColumnModel().getColumn(1).setPreferredWidth(250);
+        suppTable.getColumnModel().getColumn(2).setPreferredWidth(250);
+        suppTable.getColumnModel().getColumn(3).setPreferredWidth(100);
     }
 
     /**
@@ -61,9 +78,9 @@ public class SupplierPage extends javax.swing.JPanel {
 
         jLabel5.setText("SĐT:");
 
-        jLabel6.setText("Debit Amount:");
+        jLabel6.setText("Số tiền nợ:");
 
-        jLabel7.setText("Credit Amount:");
+        jLabel7.setText("Số tiền gửi:");
 
         addButton.setText("Thêm");
         addButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -175,6 +192,8 @@ public class SupplierPage extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+
         suppTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -186,6 +205,7 @@ public class SupplierPage extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        suppTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         suppTable.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         suppTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -212,12 +232,12 @@ public class SupplierPage extends javax.swing.JPanel {
                     .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 327, Short.MAX_VALUE)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -256,7 +276,7 @@ public class SupplierPage extends javax.swing.JPanel {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         if (codeText.getText().equals("") || nameText.getText().equals("")
                 || locationText.getText().equals("") || phoneText.getText().equals(""))
-            JOptionPane.showMessageDialog(this, "Please enter all the required details.");
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin bắt buộc.");
         else {
             Supplier supplierDTO = new Supplier();
             supplierDTO.setSuppCode(codeText.getText());
@@ -270,11 +290,11 @@ public class SupplierPage extends javax.swing.JPanel {
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         if (suppTable.getSelectedRow()<0)
-            JOptionPane.showMessageDialog(this, "Please select an entry to edit from the table.");
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một nhà cung cấp từ bảng để sửa.");
         else {
             if (codeText.getText().equals("") || nameText.getText().equals("")
                     || locationText.getText().equals("") || phoneText.getText().equals(""))
-                JOptionPane.showMessageDialog(this, "Please enter all the required details.");
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin bắt buộc.");
             else {
                 Supplier supplierDTO = new Supplier();
                 supplierDTO.setSuppCode(codeText.getText());
@@ -289,12 +309,12 @@ public class SupplierPage extends javax.swing.JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         if (suppTable.getSelectedRow()<0)
-            JOptionPane.showMessageDialog(this, "Please select an entry from the table to be deleted.");
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một nhà cung cấp từ bảng để xóa.");
         else {
             int opt = JOptionPane.showConfirmDialog(
                     this,
-                    "Are you sure you want to delete this supplier?",
-                    "Confirmation",
+                    "Bạn có chắc chắn muốn xóa nhà cung cấp này?",
+                    "Xác nhận",
                     JOptionPane.YES_NO_OPTION);
             if (opt==JOptionPane.YES_OPTION) {
                 new SupplierDAO().deleteSupplierDAO(suppTable.getValueAt(suppTable.getSelectedRow(),0).toString());
@@ -321,7 +341,15 @@ public class SupplierPage extends javax.swing.JPanel {
     public void loadDataSet() {
         try {
             SupplierDAO supplierDAO = new SupplierDAO();
-            suppTable.setModel(supplierDAO.buildTableModel(supplierDAO.getQueryResult()));
+            ResultSet rs = supplierDAO.getQueryResult();
+            tblModel.setRowCount(0);
+            while (rs.next()) {
+                String supplierCode = rs.getString("suppliercode");
+                String fullName = rs.getString("fullname");
+                String location = rs.getString("location");
+                String mobile = rs.getString("mobile");
+                tblModel.addRow(new Object[]{supplierCode, fullName, location, mobile});
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -331,7 +359,15 @@ public class SupplierPage extends javax.swing.JPanel {
     public void loadSearchData(String text) {
         try {
             SupplierDAO supplierDAO = new SupplierDAO();
-            suppTable.setModel(supplierDAO.buildTableModel(supplierDAO.getSearchResult(text)));
+            ResultSet rs = supplierDAO.getSearchResult(text);
+            tblModel.setRowCount(0);
+            while (rs.next()) {
+                String supplierCode = rs.getString("suppliercode");
+                String fullName = rs.getString("fullname");
+                String location = rs.getString("location");
+                String mobile = rs.getString("mobile");
+                tblModel.addRow(new Object[]{supplierCode, fullName, location, mobile});
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

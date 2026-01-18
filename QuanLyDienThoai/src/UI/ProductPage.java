@@ -4,7 +4,10 @@ import DAO.ProductDAO;
 import DAO.SupplierDAO;
 import Model.Product;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 
 public class ProductPage extends javax.swing.JPanel {
 
@@ -17,6 +20,8 @@ public class ProductPage extends javax.swing.JPanel {
     String supplier = null;
     int userID;
     Dashboard dashboard;
+    private DefaultTableModel tblModel;
+    DecimalFormat formatter = new DecimalFormat("###,###,###");
     
     
     public ProductPage() {
@@ -26,8 +31,22 @@ public class ProductPage extends javax.swing.JPanel {
         initComponents();
         this.username = username;
         this.dashboard = dashboard;
+        productTable.setDefaultEditor(Object.class, null);
+        initTable();
         loadComboBox();
         loadDataSet();
+    }
+    
+    public final void initTable() {
+        tblModel = new DefaultTableModel();
+        String[] headerTbl = new String[]{"Mã SP", "Tên sản phẩm", "Giá gốc", "Giá bán", "Hãng"};
+        tblModel.setColumnIdentifiers(headerTbl);
+        productTable.setModel(tblModel);
+        productTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+        productTable.getColumnModel().getColumn(1).setPreferredWidth(250);
+        productTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+        productTable.getColumnModel().getColumn(3).setPreferredWidth(120);
+        productTable.getColumnModel().getColumn(4).setPreferredWidth(120);
     }
 
     /**
@@ -130,7 +149,7 @@ public class ProductPage extends javax.swing.JPanel {
         });
 
         clearButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        clearButton.setText("LÀM MỚI");
+        clearButton.setText("XÓA FORM");
         clearButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         clearButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -229,6 +248,8 @@ public class ProductPage extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+
         productTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -240,6 +261,7 @@ public class ProductPage extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        productTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         productTable.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         productTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -392,10 +414,11 @@ public class ProductPage extends javax.swing.JPanel {
         for (int i=0; i<col; i++)
             data[i] = productTable.getValueAt(row, i);
 
-         codeText.setText(data[0].toString());
+        codeText.setText(data[0].toString());
         nameText.setText(data[1].toString());
-        costText.setText(data[2].toString());
-        sellText.setText(data[3].toString());
+        // Remove dots from formatted prices before setting to text fields
+        costText.setText(data[2].toString().replace(".", ""));
+        sellText.setText(data[3].toString().replace(".", ""));
         brandText.setText(data[4].toString());
 
        // productName = data[1].toString();
@@ -434,7 +457,21 @@ public class ProductPage extends javax.swing.JPanel {
     public void loadDataSet() {
         try {
             ProductDAO productDAO = new ProductDAO();
-            productTable.setModel(productDAO.buildTableModel(productDAO.getQueryResult()));
+            ResultSet rs = productDAO.getQueryResult();
+            tblModel.setRowCount(0);
+            while (rs.next()) {
+                String productCode = rs.getString("productcode");
+                String productName = rs.getString("productname");
+                double costPrice = rs.getDouble("costprice");
+                double sellPrice = rs.getDouble("sellprice");
+                String brand = rs.getString("brand");
+                
+                // Format prices with dots as thousand separators
+                String formattedCost = formatter.format(costPrice).replace(",", ".");
+                String formattedSell = formatter.format(sellPrice).replace(",", ".");
+                
+                tblModel.addRow(new Object[]{productCode, productName, formattedCost, formattedSell, brand});
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -444,7 +481,21 @@ public class ProductPage extends javax.swing.JPanel {
     public void loadSearchData(String text) {
         try {
             ProductDAO productDAO = new ProductDAO();
-            productTable.setModel(productDAO.buildTableModel(productDAO.getProductSearch(text)));
+            ResultSet rs = productDAO.getProductSearch(text);
+            tblModel.setRowCount(0);
+            while (rs.next()) {
+                String productCode = rs.getString("productcode");
+                String productName = rs.getString("productname");
+                double costPrice = rs.getDouble("costprice");
+                double sellPrice = rs.getDouble("sellprice");
+                String brand = rs.getString("brand");
+                
+                // Format prices with dots as thousand separators
+                String formattedCost = formatter.format(costPrice).replace(",", ".");
+                String formattedSell = formatter.format(sellPrice).replace(",", ".");
+                
+                tblModel.addRow(new Object[]{productCode, productName, formattedCost, formattedSell, brand});
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

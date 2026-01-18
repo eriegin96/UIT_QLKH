@@ -6,7 +6,10 @@ import Model.Product;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class PurchasePage extends javax.swing.JPanel {
 
     Product productDTO;
@@ -15,6 +18,8 @@ public class PurchasePage extends javax.swing.JPanel {
     Dashboard dashboard;
     int quantity;
     String prodCode = null;
+    private DefaultTableModel tblModel;
+    DecimalFormat formatter = new DecimalFormat("###,###,###");
     
     /**
      * Creates new form PurchasePage
@@ -23,8 +28,23 @@ public class PurchasePage extends javax.swing.JPanel {
     public PurchasePage(Dashboard dashboard) {
         initComponents();
         this.dashboard = dashboard;
+        purchaseTable.setDefaultEditor(Object.class, null);
+        purchaseTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        initTable();
         loadComboBox();
         loadDataSet();
+    }
+    
+    public final void initTable() {
+        tblModel = new DefaultTableModel();
+        String[] headerTbl = new String[]{"Mã nhập", "Mã SP", "Tên SP", "Số lượng", "Tổng chi phí"};
+        tblModel.setColumnIdentifiers(headerTbl);
+        purchaseTable.setModel(tblModel);
+        purchaseTable.getColumnModel().getColumn(0).setPreferredWidth(80);
+        purchaseTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+        purchaseTable.getColumnModel().getColumn(2).setPreferredWidth(250);
+        purchaseTable.getColumnModel().getColumn(3).setPreferredWidth(100);
+        purchaseTable.getColumnModel().getColumn(4).setPreferredWidth(150);
     }
 
     /**
@@ -228,6 +248,7 @@ public class PurchasePage extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        purchaseTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         purchaseTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 purchaseTableMouseClicked(evt);
@@ -412,7 +433,17 @@ public class PurchasePage extends javax.swing.JPanel {
     public void loadDataSet() {
         try {
             ProductDAO productDAO = new ProductDAO();
-            purchaseTable.setModel(productDAO.buildTableModel(productDAO.getPurchaseInfo()));
+            ResultSet rs = productDAO.getPurchaseInfo();
+            tblModel.setRowCount(0);
+            while (rs.next()) {
+                String purchaseId = rs.getString(1);
+                String productCode = rs.getString(2);
+                String productName = rs.getString(3);
+                int quantity = rs.getInt(4);
+                double totalCost = rs.getDouble(5);
+                String formattedCost = formatter.format(totalCost).replace(",", ".");
+                tblModel.addRow(new Object[]{purchaseId, productCode, productName, quantity, formattedCost});
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -422,7 +453,17 @@ public class PurchasePage extends javax.swing.JPanel {
     public void loadSearchData(String text) {
         try {
             ProductDAO productDAO = new ProductDAO();
-            purchaseTable.setModel(productDAO.buildTableModel(productDAO.getPurchaseSearch(text)));
+            ResultSet rs = productDAO.getPurchaseSearch(text);
+            tblModel.setRowCount(0);
+            while (rs.next()) {
+                String purchaseId = rs.getString(1);
+                String productCode = rs.getString(2);
+                String productName = rs.getString(3);
+                int quantity = rs.getInt(4);
+                double totalCost = rs.getDouble(5);
+                String formattedCost = formatter.format(totalCost).replace(",", ".");
+                tblModel.addRow(new Object[]{purchaseId, productCode, productName, quantity, formattedCost});
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -4,15 +4,36 @@ import DAO.UserDAO;
 import Model.User;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+
 public class UsersPage extends javax.swing.JPanel {
 
+    private DefaultTableModel tblModel;
+    
     /**
      * Creates new form UsersPage
      */
     public UsersPage() {
         initComponents();
+        userTable.setDefaultEditor(Object.class, null);
+        userTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        initTable();
         loadDataSet();
+    }
+    
+    public final void initTable() {
+        tblModel = new DefaultTableModel();
+        String[] headerTbl = new String[]{"ID", "Họ tên", "Địa chỉ", "SĐT", "Tài khoản", "Mật khẩu", "Loại TK"};
+        tblModel.setColumnIdentifiers(headerTbl);
+        userTable.setModel(tblModel);
+        userTable.getColumnModel().getColumn(0).setPreferredWidth(50);
+        userTable.getColumnModel().getColumn(1).setPreferredWidth(200);
+        userTable.getColumnModel().getColumn(2).setPreferredWidth(200);
+        userTable.getColumnModel().getColumn(3).setPreferredWidth(120);
+        userTable.getColumnModel().getColumn(4).setPreferredWidth(120);
+        userTable.getColumnModel().getColumn(5).setPreferredWidth(120);
+        userTable.getColumnModel().getColumn(6).setPreferredWidth(100);
     }
 
     /**
@@ -182,6 +203,7 @@ public class UsersPage extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        userTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         userTable.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         userTable.setName("Users"); // NOI18N
         userTable.setShowGrid(true);
@@ -293,7 +315,18 @@ public class UsersPage extends javax.swing.JPanel {
     public void loadDataSet() {
         try {
             UserDAO userDAO = new UserDAO();
-            userTable.setModel(userDAO.buildTableModel(userDAO.getQueryResult()));
+            ResultSet rs = userDAO.getQueryResult();
+            tblModel.setRowCount(0);
+            while (rs.next()) {
+                int uid = rs.getInt(1);
+                String name = rs.getString(2);
+                String location = rs.getString(3);
+                String phone = rs.getString(4);
+                String username = rs.getString(5);
+                String password = rs.getString(6);
+                String userType = rs.getString(7);
+                tblModel.addRow(new Object[]{uid, name, location, phone, username, password, userType});
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
