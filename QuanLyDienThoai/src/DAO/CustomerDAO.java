@@ -28,7 +28,7 @@ public class CustomerDAO {
     // Methods to add new custoemr
     public void addCustomerDAO(Customer customerDTO) {
         try {
-            String query = "SELECT * FROM customers WHERE fullname='"
+            String query = "SELECT * FROM customers WHERE full_name='"
                     +customerDTO.getFullName()
                     + "' AND location='"
                     +customerDTO.getLocation()
@@ -63,7 +63,7 @@ public class CustomerDAO {
     // Method to edit existing customer details
     public  void editCustomerDAO(Customer customerDTO) {
         try {
-            String query = "UPDATE customers SET fullname=?,location=?,phone=? WHERE customercode=?";
+            String query = "UPDATE customers SET full_name=?,location=?,phone=? WHERE customer_code=?";
             prepStatement = conn.prepareStatement(query);
             prepStatement.setString(1, customerDTO.getFullName());
             prepStatement.setString(2, customerDTO.getLocation());
@@ -79,7 +79,7 @@ public class CustomerDAO {
     // Overloaded method to edit customer details including customer code
     public void editCustomerDAO(Customer customerDTO, String originalCustCode) {
         try {
-            String query = "UPDATE customers SET customercode=?,fullname=?,location=?,phone=? WHERE customercode=?";
+            String query = "UPDATE customers SET customer_code=?,full_name=?,location=?,phone=? WHERE customer_code=?";
             prepStatement = conn.prepareStatement(query);
             prepStatement.setString(1, customerDTO.getCustCode());
             prepStatement.setString(2, customerDTO.getFullName());
@@ -96,7 +96,7 @@ public class CustomerDAO {
     // Method to delete existing customer
     public void deleteCustomerDAO(String custCode) {
         try {
-            String query = "DELETE FROM customers WHERE customercode='" +custCode+ "'";
+            String query = "DELETE FROM customers WHERE customer_code='" +custCode+ "'";
             statement.executeUpdate(query);
             JOptionPane.showMessageDialog(null, "Khách hàng đã được xóa.");
         } catch (SQLException e) {
@@ -107,7 +107,7 @@ public class CustomerDAO {
     // Method to retrieve data set to be displayed
     public ResultSet getQueryResult() {
         try {
-            String query = "SELECT customercode,fullname,location,phone FROM customers";
+            String query = "SELECT customer_code,full_name,location,phone FROM customers";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
             ErrorHandler.handleError(e);
@@ -118,8 +118,8 @@ public class CustomerDAO {
     // Method to retrieve search data
     public ResultSet getCustomerSearch(String text) {
         try {
-            String query = "SELECT customercode,fullname,location,phone FROM customers " +
-                    "WHERE customercode LIKE '%"+text+"%' OR fullname LIKE '%"+text+"%' OR " +
+            String query = "SELECT customer_code,full_name,location,phone FROM customers " +
+                    "WHERE customer_code LIKE '%"+text+"%' OR full_name LIKE '%"+text+"%' OR " +
                     "location LIKE '%"+text+"%' OR phone LIKE '%"+text+"%'";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
@@ -130,7 +130,7 @@ public class CustomerDAO {
 
     public ResultSet getCustName(String custCode) {
         try {
-            String query = "SELECT * FROM customers WHERE customercode='" +custCode+ "'";
+            String query = "SELECT * FROM customers WHERE customer_code='" +custCode+ "'";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
             ErrorHandler.handleError(e);
@@ -140,9 +140,9 @@ public class CustomerDAO {
 
     public ResultSet getProdName(String prodCode) {
         try {
-            String query = "SELECT productname,currentstock.quantity FROM products " +
-                    "INNER JOIN currentstock ON products.productcode=currentstock.productcode " +
-                    "WHERE currentstock.productcode='" +prodCode+ "'";
+            String query = "SELECT product_name,cs.quantity,cs.cost_price FROM products p " +
+                    "INNER JOIN inventory cs ON p.product_code=cs.product_code " +
+                    "WHERE cs.product_code='" +prodCode+ "'";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
             ErrorHandler.handleError(e);
@@ -169,5 +169,15 @@ public class CustomerDAO {
             data.add(vector);
         }
         return new DefaultTableModel(data, columnNames);
+    }
+    
+    // Method to populate combo box with customer items
+    public DefaultComboBoxModel<String> setComboItems(ResultSet resultSet) throws SQLException {
+        Vector<String> customerItems = new Vector<>();
+        customerItems.add("Chọn khách hàng");
+        while (resultSet.next()){
+            customerItems.add(resultSet.getString("customer_code") + " - " + resultSet.getString("full_name"));
+        }
+        return new DefaultComboBoxModel<>(customerItems);
     }
 }

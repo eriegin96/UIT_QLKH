@@ -4,7 +4,7 @@ public class Product {
     private int prodID, quantity, userID;
     private double costPrice, sellPrice;
     private Double totalCost, totalRevenue;
-    private String prodCode, prodName, date, suppCode, custCode, custName, brand;
+    private String prodCode, prodName, date, suppCode, custCode, custName, brand, ram, rom, screenSize;
 
     public int getProdID() {
         return prodID;
@@ -116,5 +116,29 @@ public class Product {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public String getRam() {
+        return ram;
+    }
+
+    public void setRam(String ram) {
+        this.ram = ram;
+    }
+
+    public String getRom() {
+        return rom;
+    }
+
+    public void setRom(String rom) {
+        this.rom = rom;
+    }
+
+    public String getScreenSize() {
+        return screenSize;
+    }
+
+    public void setScreenSize(String screenSize) {
+        this.screenSize = screenSize;
     }
 }

@@ -7,6 +7,7 @@ import Model.Product;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,6 +21,7 @@ public class PurchasePage extends javax.swing.JPanel {
     String prodCode = null;
     private DefaultTableModel tblModel;
     DecimalFormat formatter = new DecimalFormat("###,###,###");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     
     /**
      * Creates new form PurchasePage
@@ -32,19 +34,24 @@ public class PurchasePage extends javax.swing.JPanel {
         purchaseTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         initTable();
         loadComboBox();
+        loadProductComboBox();
         loadDataSet();
     }
     
     public final void initTable() {
         tblModel = new DefaultTableModel();
-        String[] headerTbl = new String[]{"Mã nhập", "Mã SP", "Tên SP", "Số lượng", "Tổng chi phí"};
+        String[] headerTbl = new String[]{"Mã nhập", "Ngày", "Mã SP", "Tên SP", "Mã NCC", "Tên NCC", "Số lượng", "Giá nhập", "Tổng chi phí"};
         tblModel.setColumnIdentifiers(headerTbl);
         purchaseTable.setModel(tblModel);
         purchaseTable.getColumnModel().getColumn(0).setPreferredWidth(80);
         purchaseTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-        purchaseTable.getColumnModel().getColumn(2).setPreferredWidth(250);
-        purchaseTable.getColumnModel().getColumn(3).setPreferredWidth(100);
-        purchaseTable.getColumnModel().getColumn(4).setPreferredWidth(150);
+        purchaseTable.getColumnModel().getColumn(2).setPreferredWidth(100);
+        purchaseTable.getColumnModel().getColumn(3).setPreferredWidth(250);
+        purchaseTable.getColumnModel().getColumn(4).setPreferredWidth(100);
+        purchaseTable.getColumnModel().getColumn(5).setPreferredWidth(200);
+        purchaseTable.getColumnModel().getColumn(6).setPreferredWidth(80);
+        purchaseTable.getColumnModel().getColumn(7).setPreferredWidth(120);
+        purchaseTable.getColumnModel().getColumn(8).setPreferredWidth(120);
     }
 
     /**
@@ -61,24 +68,19 @@ public class PurchasePage extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         suppCombo = new javax.swing.JComboBox<>();
-        addSuppButton = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        prodCombo = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        codeText = new javax.swing.JTextField();
         nameText = new javax.swing.JTextField();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         quantityText = new javax.swing.JTextField();
         costText = new javax.swing.JTextField();
-        sellText = new javax.swing.JTextField();
         brandText = new javax.swing.JTextField();
         purchaseButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
-        clearButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         purchaseTable = new javax.swing.JTable();
         refreshButton = new javax.swing.JButton();
@@ -94,14 +96,12 @@ public class PurchasePage extends javax.swing.JPanel {
 
         suppCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        addSuppButton.setText("Thêm nhà cung cấp");
-        addSuppButton.addActionListener(new java.awt.event.ActionListener() {
+        prodCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chọn sản phẩm" }));
+        prodCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addSuppButtonActionPerformed(evt);
+                prodComboActionPerformed(evt);
             }
         });
-
-        jLabel3.setText("Mã Sản phẩm:");
 
         jLabel4.setText("Tên Sản phẩm:");
 
@@ -111,17 +111,11 @@ public class PurchasePage extends javax.swing.JPanel {
 
         jLabel7.setText("Giá gốc:");
 
-        jLabel8.setText("GIá mua:");
-
         jLabel9.setText("Hãng:");
 
-        codeText.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                codeTextKeyReleased(evt);
-            }
-        });
+        nameText.setEnabled(false);
 
-        purchaseButton.setText("Nhập");
+        purchaseButton.setText("NHẬP");
         purchaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 purchaseButtonActionPerformed(evt);
@@ -135,13 +129,6 @@ public class PurchasePage extends javax.swing.JPanel {
             }
         });
 
-        clearButton.setText("XÓA FORM");
-        clearButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -152,11 +139,7 @@ public class PurchasePage extends javax.swing.JPanel {
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(suppCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(addSuppButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(codeText))
+                            .addComponent(prodCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -174,10 +157,6 @@ public class PurchasePage extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(costText))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(sellText))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(brandText))
@@ -185,10 +164,9 @@ public class PurchasePage extends javax.swing.JPanel {
                                 .addComponent(jLabel2)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(purchaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(purchaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
-                    .addComponent(clearButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -201,11 +179,7 @@ public class PurchasePage extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(suppCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addSuppButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(codeText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(prodCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -223,18 +197,12 @@ public class PurchasePage extends javax.swing.JPanel {
                     .addComponent(costText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sellText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(brandText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(purchaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(clearButton))
+                    .addComponent(purchaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -285,8 +253,8 @@ public class PurchasePage extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel10)
+                        .addGap(18, 18, 18)
                         .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -318,39 +286,35 @@ public class PurchasePage extends javax.swing.JPanel {
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         loadDataSet();
         loadComboBox();
-        clearButtonActionPerformed(evt); 
+        loadProductComboBox();
+        clearFields(); 
     }//GEN-LAST:event_refreshButtonActionPerformed
-
-    private void addSuppButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSuppButtonActionPerformed
-        dashboard.addSuppPage();
-    }//GEN-LAST:event_addSuppButtonActionPerformed
 
     private void purchaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseButtonActionPerformed
         productDTO = new Product();
-        if (codeText.getText().equals("") || jDateChooser1.getDate()==null
+        if (prodCombo.getSelectedIndex() == 0 || jDateChooser1.getDate()==null
                 || quantityText.getText().equals(""))
-            JOptionPane.showMessageDialog(null, "Please enter all the required details.");
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin bắt buộc.");
         else {
             productDTO.setSuppCode(new ProductDAO().getSuppCode(suppCombo.getSelectedItem().toString()));
-            productDTO.setProdCode(codeText.getText());
+            String selectedProduct = prodCombo.getSelectedItem().toString();
+            String prodCode = selectedProduct.split(" - ")[0];
+            productDTO.setProdCode(prodCode);
             try {
-                ResultSet resultSet = new ProductDAO().getProdName(codeText.getText());
+                ResultSet resultSet = new ProductDAO().getProdName(prodCode);
                 if (resultSet.next()) {
-                    //productDTO.setProdName(nameText.getText());
-                    productDTO.setDate(jDateChooser1.getDate().toString());
+                    productDTO.setDate(dateFormat.format(jDateChooser1.getDate()));
                     productDTO.setQuantity(Integer.parseInt(quantityText.getText()));
-                    //productDTO.setCostPrice(Double.parseDouble(costText.getText()));
-                    //productDTO.setSellPrice(Double.parseDouble(sellText.getText()));
-                    //productDTO.setBrand(brandText.getText());
                     Double costPrice = Double.parseDouble(costText.getText());
                     Double totalCost = costPrice * Integer.parseInt(quantityText.getText());
                     productDTO.setTotalCost(totalCost);
+                    productDTO.setCostPrice(costPrice);
 
                     new ProductDAO().addPurchaseDAO(productDTO);
                     loadDataSet();
+                    clearFields();
                 } else
-                    JOptionPane.showMessageDialog(null, "This seems to be a new product" +
-                            " that hasn't been added yet.\nPlease add this product in the \"Products\" section before proceeding.");
+                    JOptionPane.showMessageDialog(null, "Sản phẩm này chưa được thêm vào hệ thống.\nVui lòng thêm sản phẩm trong mục \"Sản phẩm\" trước.");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -359,31 +323,31 @@ public class PurchasePage extends javax.swing.JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         if (purchaseTable.getSelectedRow()<0)
-            JOptionPane.showMessageDialog(null, "Please select a transaction from the table.");
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một giao dịch từ bảng.");
         else {
             int opt = JOptionPane.showConfirmDialog(
                     null,
-                    "Are you sure you want to delete this purchase?",
-                    "Confirmation",
+                    "Bạn có chắc chắn muốn xóa giao dịch mua hàng này?",
+                    "Xác nhận",
                     JOptionPane.YES_NO_OPTION);
             if(opt==JOptionPane.YES_OPTION) {
-                new ProductDAO().deletePurchaseDAO((int) purchaseTable.getValueAt(purchaseTable.getSelectedRow(),0));
-                new ProductDAO().editPurchaseStock(prodCode, quantity);
+                int purchaseId = Integer.parseInt(purchaseTable.getValueAt(purchaseTable.getSelectedRow(),0).toString());
+                new ProductDAO().deletePurchaseDAO(purchaseId);
                 loadDataSet();
+                clearFields();
             }
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
-    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
-        codeText.setText("");
+    private void clearFields() {
+        prodCombo.setSelectedIndex(0);
         nameText.setText("");
         jDateChooser1.setDate(null);
         quantityText.setText("");
         costText.setText("");
-        sellText.setText("");
         brandText.setText("");
         searchText.setText("");
-    }//GEN-LAST:event_clearButtonActionPerformed
+    }
 
     private void searchTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTextKeyReleased
         loadSearchData(searchText.getText());
@@ -397,29 +361,82 @@ public class PurchasePage extends javax.swing.JPanel {
         for (int i=0; i<col; i++)
             data[i] = purchaseTable.getValueAt(row, i);
         
-        quantity = Integer.parseInt(data[3].toString());
-        prodCode = data[1].toString();
-    }//GEN-LAST:event_purchaseTableMouseClicked
-
-    private void codeTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codeTextKeyReleased
         try {
-            ResultSet resultSet = new ProductDAO().getProdFromCode(codeText.getText());
-            if (resultSet.next()) {
-                nameText.setText(resultSet.getString("productname"));
-                costText.setText(String.valueOf(resultSet.getDouble("costprice")));
-                sellText.setText(String.valueOf(resultSet.getDouble("sellprice")));
-                brandText.setText(resultSet.getString("brand"));
-            } else {
-                nameText.setText("");
-                costText.setText("");
-                sellText.setText("");
-                brandText.setText("");
-            }
-        } catch (SQLException e) {
+            String dateStr = data[1].toString();
+            jDateChooser1.setDate(dateFormat.parse(dateStr));
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        // Get data from table columns
+        String supplierCode = data[4].toString();
+        String productCode = data[2].toString();
+        String productName = data[3].toString();
+        
+        // Set supplier combo by matching supplier code
+        for (int i = 0; i < suppCombo.getItemCount(); i++) {
+            String item = suppCombo.getItemAt(i);
+            if (item.startsWith(supplierCode)) {
+                suppCombo.setSelectedIndex(i);
+                break;
+            }
+        }
+        
+        // Set product combo
+        for (int i = 0; i < prodCombo.getItemCount(); i++) {
+            String item = prodCombo.getItemAt(i);
+            if (item.startsWith(productCode + " - ")) {
+                prodCombo.setSelectedIndex(i);
+                break;
+            }
+        }
+        
+        // Set product name and get brand from product
+        nameText.setText(productName);
+        try {
+            ResultSet rs = new ProductDAO().getProdFromCode(productCode);
+            if (rs.next()) {
+                brandText.setText(rs.getString("brand"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        quantityText.setText(data[6].toString());
+        // Remove dots from cost when populating form field
+        costText.setText(data[7].toString().replace(".", ""));
+        
+        quantity = Integer.parseInt(data[6].toString());
+        prodCode = data[2].toString();
+    }//GEN-LAST:event_purchaseTableMouseClicked
 
-    }//GEN-LAST:event_codeTextKeyReleased
+    private void prodComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodComboActionPerformed
+        if (prodCombo.getSelectedIndex() > 0) {
+            try {
+                String selectedProduct = prodCombo.getSelectedItem().toString();
+                String prodCode = selectedProduct.split(" - ")[0];
+                ResultSet resultSet = new ProductDAO().getProdFromCode(prodCode);
+                if (resultSet.next()) {
+                    nameText.setText(resultSet.getString("product_name"));
+                    brandText.setText(resultSet.getString("brand"));
+                    
+                    // Get cost price from latest purchase
+                    Double costPrice = new ProductDAO().getProdCost(prodCode);
+                    if (costPrice != null) {
+                        costText.setText(String.valueOf((long)costPrice.doubleValue()));
+                    } else {
+                        costText.setText("");
+                    }
+                } else {
+                    nameText.setText("");
+                    costText.setText("");
+                    brandText.setText("");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_prodComboActionPerformed
 
     // Method to load and update combo box containing supplier names
     public void loadComboBox() {
@@ -430,7 +447,42 @@ public class PurchasePage extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
+    
+    // Method to load product combo box
+    public void loadProductComboBox() {
+        try {
+            ProductDAO productDAO = new ProductDAO();
+            prodCombo.setModel(productDAO.setComboItems(productDAO.getQueryResult()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    // Helper method to format date string
+    private String formatDate(String dateStr) {
+        if (dateStr == null || dateStr.isEmpty()) {
+            return dateStr;
+        }
+        
+        // If already in dd/MM/yyyy format, return as is
+        if (dateStr.matches("\\d{2}/\\d{2}/\\d{4}")) {
+            return dateStr;
+        }
+        
+        // Try to parse from various formats
+        try {
+            // Remove timezone from the date string (e.g., "Wed Jan 02 10:15:00 ICT 2026" -> "Wed Jan 02 10:15:00 2026")
+            String dateWithoutTZ = dateStr.replaceAll(" [A-Z]{2,4} (\\d{4})", " $1");
+            SimpleDateFormat oldFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy", java.util.Locale.ENGLISH);
+            java.util.Date date = oldFormat.parse(dateWithoutTZ);
+            return dateFormat.format(date);
+        } catch (Exception e) {
+            // If parsing fails, return original string
+            e.printStackTrace();
+            return dateStr;
+        }
+    }
+    
     // Method to load data into table
     public void loadDataSet() {
         try {
@@ -441,10 +493,15 @@ public class PurchasePage extends javax.swing.JPanel {
                 String purchaseId = rs.getString(1);
                 String productCode = rs.getString(2);
                 String productName = rs.getString(3);
-                int quantity = rs.getInt(4);
-                double totalCost = rs.getDouble(5);
-                String formattedCost = formatter.format(totalCost).replace(",", ".");
-                tblModel.addRow(new Object[]{purchaseId, productCode, productName, quantity, formattedCost});
+                String date = formatDate(rs.getString(4));
+                int quantity = rs.getInt(5);
+                double costPrice = rs.getDouble(6);
+                double totalCost = rs.getDouble(7);
+                String formattedCostPrice = formatter.format(costPrice).replace(",", ".");
+                String formattedTotalCost = formatter.format(totalCost).replace(",", ".");
+                String supplierCode = rs.getString(8);
+                String supplierName = rs.getString(9);
+                tblModel.addRow(new Object[]{purchaseId, date, productCode, productName, supplierCode, supplierName, quantity, formattedCostPrice, formattedTotalCost});
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -461,10 +518,15 @@ public class PurchasePage extends javax.swing.JPanel {
                 String purchaseId = rs.getString(1);
                 String productCode = rs.getString(2);
                 String productName = rs.getString(3);
-                int quantity = rs.getInt(4);
-                double totalCost = rs.getDouble(5);
-                String formattedCost = formatter.format(totalCost).replace(",", ".");
-                tblModel.addRow(new Object[]{purchaseId, productCode, productName, quantity, formattedCost});
+                String date = formatDate(rs.getString(4));
+                int quantity = rs.getInt(5);
+                double costPrice = rs.getDouble(6);
+                double totalCost = rs.getDouble(7);
+                String formattedCostPrice = formatter.format(costPrice).replace(",", ".");
+                String formattedTotalCost = formatter.format(totalCost).replace(",", ".");
+                String supplierCode = rs.getString(8);
+                String supplierName = rs.getString(9);
+                tblModel.addRow(new Object[]{purchaseId, date, productCode, productName, supplierCode, supplierName, quantity, formattedCostPrice, formattedTotalCost});
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -473,33 +535,28 @@ public class PurchasePage extends javax.swing.JPanel {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addSuppButton;
     private javax.swing.JTextField brandText;
-    private javax.swing.JButton clearButton;
-    private javax.swing.JTextField codeText;
     private javax.swing.JTextField costText;
     private javax.swing.JButton deleteButton;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField nameText;
+    private javax.swing.JComboBox<String> prodCombo;
     private javax.swing.JButton purchaseButton;
     private javax.swing.JTable purchaseTable;
     private javax.swing.JTextField quantityText;
     private javax.swing.JButton refreshButton;
     private javax.swing.JTextField searchText;
-    private javax.swing.JTextField sellText;
     private javax.swing.JComboBox<String> suppCombo;
     // End of variables declaration//GEN-END:variables
 }

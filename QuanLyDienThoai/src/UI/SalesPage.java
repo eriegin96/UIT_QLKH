@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 public class SalesPage extends javax.swing.JPanel {
 
@@ -18,6 +19,7 @@ public class SalesPage extends javax.swing.JPanel {
     String prodCode;
     private DefaultTableModel tblModel;
     DecimalFormat formatter = new DecimalFormat("###,###,###");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     /**
      * Creates new form SalesPage
@@ -32,20 +34,25 @@ public class SalesPage extends javax.swing.JPanel {
         initTable();
         custNameLabel.setVisible(false);
         prodNameLabel.setVisible(false);
+        loadCustomerComboBox();
+        loadProductComboBox();
         loadDataSet();
     }
     
     public final void initTable() {
         tblModel = new DefaultTableModel();
-        String[] headerTbl = new String[]{"Mã bán", "Mã SP", "Tên SP", "Số lượng", "Doanh thu", "Người bán"};
+        String[] headerTbl = new String[]{"Mã bán", "Ngày", "Mã SP", "Tên SP", "Mã KH", "Tên KH", "Số lượng", "Doanh thu", "Người bán"};
         tblModel.setColumnIdentifiers(headerTbl);
         salesTable.setModel(tblModel);
         salesTable.getColumnModel().getColumn(0).setPreferredWidth(80);
         salesTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-        salesTable.getColumnModel().getColumn(2).setPreferredWidth(250);
-        salesTable.getColumnModel().getColumn(3).setPreferredWidth(100);
-        salesTable.getColumnModel().getColumn(4).setPreferredWidth(150);
-        salesTable.getColumnModel().getColumn(5).setPreferredWidth(120);
+        salesTable.getColumnModel().getColumn(2).setPreferredWidth(100);
+        salesTable.getColumnModel().getColumn(3).setPreferredWidth(200);
+        salesTable.getColumnModel().getColumn(4).setPreferredWidth(100);
+        salesTable.getColumnModel().getColumn(5).setPreferredWidth(200);
+        salesTable.getColumnModel().getColumn(6).setPreferredWidth(100);
+        salesTable.getColumnModel().getColumn(7).setPreferredWidth(150);
+        salesTable.getColumnModel().getColumn(8).setPreferredWidth(120);
     }
 
     /**
@@ -65,14 +72,13 @@ public class SalesPage extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        custCodeText = new javax.swing.JTextField();
-        prodCodeText = new javax.swing.JTextField();
+        custCombo = new javax.swing.JComboBox<>();
+        prodCombo = new javax.swing.JComboBox<>();
         priceText = new javax.swing.JTextField();
         quantityText = new javax.swing.JTextField();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         sellButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
-        clearButton = new javax.swing.JButton();
         addCustButton = new javax.swing.JButton();
         custNameLabel = new javax.swing.JLabel();
         prodNameLabel = new javax.swing.JLabel();
@@ -80,6 +86,7 @@ public class SalesPage extends javax.swing.JPanel {
         salesTable = new javax.swing.JTable();
         searchText = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        refreshButton = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Helvetica", 0, 24)); // NOI18N
         jLabel1.setText("BÁN HÀNG");
@@ -96,15 +103,17 @@ public class SalesPage extends javax.swing.JPanel {
 
         jLabel6.setText("Số lượng");
 
-        custCodeText.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                custCodeTextKeyReleased(evt);
+        custCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chọn khách hàng" }));
+        custCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                custComboActionPerformed(evt);
             }
         });
 
-        prodCodeText.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                prodCodeTextKeyReleased(evt);
+        prodCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chọn sản phẩm" }));
+        prodCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prodComboActionPerformed(evt);
             }
         });
 
@@ -125,14 +134,6 @@ public class SalesPage extends javax.swing.JPanel {
             }
         });
 
-        clearButton.setText("Xóa form");
-        clearButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        clearButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearButtonActionPerformed(evt);
-            }
-        });
-
         addCustButton.setText("Thêm Khách hàng mới");
         addCustButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addCustButton.addActionListener(new java.awt.event.ActionListener() {
@@ -142,10 +143,10 @@ public class SalesPage extends javax.swing.JPanel {
         });
 
         custNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        custNameLabel.setLabelFor(custCodeText);
+        custNameLabel.setLabelFor(custCombo);
 
         prodNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        prodNameLabel.setLabelFor(prodCodeText);
+        prodNameLabel.setLabelFor(prodCombo);
 
         javax.swing.GroupLayout sellPanelLayout = new javax.swing.GroupLayout(sellPanel);
         sellPanel.setLayout(sellPanelLayout);
@@ -158,18 +159,17 @@ public class SalesPage extends javax.swing.JPanel {
                     .addComponent(custNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(addCustButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(sellPanelLayout.createSequentialGroup()
-                        .addComponent(sellButton, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sellButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
-                    .addComponent(clearButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sellPanelLayout.createSequentialGroup()
+                        .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(sellPanelLayout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(custCodeText, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(custCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(sellPanelLayout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(prodCodeText))
+                        .addComponent(prodCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(sellPanelLayout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -190,9 +190,7 @@ public class SalesPage extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(sellPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(sellPanelLayout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(custCodeText, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(custCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(custNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
@@ -200,7 +198,7 @@ public class SalesPage extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(sellPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(prodCodeText, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE))
+                    .addComponent(prodCombo, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(prodNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
@@ -219,8 +217,6 @@ public class SalesPage extends javax.swing.JPanel {
                 .addGroup(sellPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sellButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(clearButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -253,6 +249,14 @@ public class SalesPage extends javax.swing.JPanel {
 
         jLabel7.setText("Tìm kiếm");
 
+        refreshButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        refreshButton.setText("LÀM MỚI");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -265,7 +269,9 @@ public class SalesPage extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(refreshButton))
                     .addComponent(jSeparator1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
@@ -280,7 +286,8 @@ public class SalesPage extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
+                    .addComponent(jLabel7)
+                    .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -293,62 +300,62 @@ public class SalesPage extends javax.swing.JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         if (salesTable.getSelectedRow()<0)
-            JOptionPane.showMessageDialog(this, "Please select an entry from the table you wish to delete.");
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một mục từ bảng để xóa.");
         else {
             int opt = JOptionPane.showConfirmDialog(
                     this,
-                    "Are you sure you want to delete this sale from the database?",
-                    "Confirmation",
+                    "Bạn có chắc chắn muốn xóa doanh số này khỏi cơ sở dữ liệu?",
+                    "Xác nhận",
                     JOptionPane.YES_NO_OPTION);
             if (opt == JOptionPane.YES_OPTION) {
                 new ProductDAO().deleteSaleDAO(Integer.parseInt(
                         salesTable.getValueAt(salesTable.getSelectedRow(),0).toString()));
-                new ProductDAO().editSoldStock(
-                        salesTable.getValueAt(salesTable.getSelectedRow(),1).toString(), quantity);
                 loadDataSet();
+                clearFields();
             }
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
-    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
-        custCodeText.setText("");
+    private void clearFields() {
+        custCombo.setSelectedIndex(0);
         custNameLabel.setText("");
         custNameLabel.setVisible(false);
-        prodCodeText.setText("");
+        prodCombo.setSelectedIndex(0);
         prodNameLabel.setText("");
         prodNameLabel.setVisible(false);
         jDateChooser1.setDate(null);
         priceText.setText("");
         quantityText.setText("");
-        loadDataSet();
-    }//GEN-LAST:event_clearButtonActionPerformed
+    }
 
     private void addCustButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCustButtonActionPerformed
         dashboard.addCustPage();
     }//GEN-LAST:event_addCustButtonActionPerformed
 
     private void sellButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sellButtonActionPerformed
-        if (custCodeText.getText().equals("") || prodCodeText.getText().equals("")
+        if (custCombo.getSelectedIndex() == 0 || prodCombo.getSelectedIndex() == 0
                 || jDateChooser1.getDate()==null || quantityText.getText().equals("") || priceText.getText().equals(""))
-            JOptionPane.showMessageDialog(this, "Please fill all the required fields.");
+            JOptionPane.showMessageDialog(this, "Vui lòng điền đầy đủ các trường bắt buộc.");
         else {
             try {
-                ResultSet resultSet = new CustomerDAO().getCustName(custCodeText.getText());
-                if (resultSet.next()) {
-                    Product productDTO = new Product();
-                    productDTO.setCustCode(custCodeText.getText());
-                    productDTO.setDate(jDateChooser1.getDate().toString());
-                    productDTO.setProdCode(prodCodeText.getText());
-                    Double sellPrice = Double.parseDouble(priceText.getText());
-                    Double totalRevenue = sellPrice * Integer.parseInt(quantityText.getText());
-                    productDTO.setTotalRevenue(totalRevenue);
-                    productDTO.setQuantity(Integer.parseInt(quantityText.getText()));
-                    new ProductDAO().sellProductDAO(productDTO, username);
-                    loadDataSet();
-                } else
-                    JOptionPane.showMessageDialog(this, "This customer does not exist.\n" +
-                            "Add new customer or use a valid customer code.");
-            } catch (SQLException e) {
+                String selectedCustomer = custCombo.getSelectedItem().toString();
+                String custCode = selectedCustomer.split(" - ")[0];
+                String selectedProduct = prodCombo.getSelectedItem().toString();
+                String prodCode = selectedProduct.split(" - ")[0];
+                
+                Product productDTO = new Product();
+                productDTO.setCustCode(custCode);
+                productDTO.setDate(dateFormat.format(jDateChooser1.getDate()));
+                productDTO.setProdCode(prodCode);
+                Double sellPrice = Double.parseDouble(priceText.getText());
+                Double totalRevenue = sellPrice * Integer.parseInt(quantityText.getText());
+                productDTO.setSellPrice(sellPrice);
+                productDTO.setTotalRevenue(totalRevenue);
+                productDTO.setQuantity(Integer.parseInt(quantityText.getText()));
+                new ProductDAO().sellProductDAO(productDTO, username);
+                loadDataSet();
+                clearFields();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -360,47 +367,170 @@ public class SalesPage extends javax.swing.JPanel {
         Object[] data = new Object[col];
         for (int i=0; i<col; i++)
             data[i] = salesTable.getValueAt(row, i);
-        quantity = Integer.parseInt(data[3].toString());
-        prodCode = data[1].toString();
+        
+        // Get data from table columns
+        String customerCode = data[4].toString();
+        String productCode = data[2].toString();
+        String dateStr = data[1].toString();
+        
+        // Set customer combo
+        for (int i = 0; i < custCombo.getItemCount(); i++) {
+            if (custCombo.getItemAt(i).startsWith(customerCode + " - ")) {
+                custCombo.setSelectedIndex(i);
+                break;
+            }
+        }
+        
+        // Set product combo
+        for (int i = 0; i < prodCombo.getItemCount(); i++) {
+            if (prodCombo.getItemAt(i).startsWith(productCode + " - ")) {
+                prodCombo.setSelectedIndex(i);
+                break;
+            }
+        }
+        
+        // Set date
+        try {
+            jDateChooser1.setDate(dateFormat.parse(formatDate(dateStr)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        // Get sell price from database
+        try {
+            ProductDAO productDAO = new ProductDAO();
+            ResultSet rs = productDAO.getSalesInfo();
+            int currentRow = 0;
+            while (rs.next() && currentRow <= row) {
+                if (currentRow == row) {
+                    double sellPrice = rs.getDouble(10);
+                    
+                    // Set price without separator
+                    priceText.setText(String.valueOf((long)sellPrice));
+                    
+                    break;
+                }
+                currentRow++;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        quantityText.setText(data[6].toString());
+        quantity = Integer.parseInt(data[6].toString());
+        prodCode = data[2].toString();
     }//GEN-LAST:event_salesTableMouseClicked
-
-    private void custCodeTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_custCodeTextKeyReleased
-        try {
-            ResultSet resultSet = new CustomerDAO().getCustName(custCodeText.getText());
-            if (resultSet.next())
-                custNameLabel.setText("Name: "
-                        +resultSet.getString("fullname")
-                        + " | Location: "
-                        +resultSet.getString("location"));
-            else
-                custNameLabel.setText("||   Customer doesn't exist in database.   ||");
-            custNameLabel.setVisible(true);
-        } catch (SQLException e) {
-            e.printStackTrace();
+    
+    // Helper method to format date string
+    private String formatDate(String dateStr) {
+        if (dateStr == null || dateStr.isEmpty()) {
+            return dateStr;
         }
-    }//GEN-LAST:event_custCodeTextKeyReleased
-
-    private void prodCodeTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_prodCodeTextKeyReleased
-        try {
-            ResultSet resultSet = new CustomerDAO().getProdName(prodCodeText.getText());
-            if (resultSet.next()) {
-                prodNameLabel.setText("Name: "
-                        + resultSet.getString("productname")
-                        + " | Available quantity: "
-                        + resultSet.getString("quantity"));
-                Double sellPrice = new ProductDAO().getProdSell(prodCodeText.getText());
-                priceText.setText(sellPrice.toString());
-            } else
-                prodNameLabel.setText("||   Product doesn't exist in Inventory.  ||");
-            prodNameLabel.setVisible(true);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        
+        // If already in dd/MM/yyyy format, return as is
+        if (dateStr.matches("\\d{2}/\\d{2}/\\d{4}")) {
+            return dateStr;
         }
-    }//GEN-LAST:event_prodCodeTextKeyReleased
+        
+        // Try to parse from various formats
+        try {
+            // Remove timezone from the date string
+            String dateWithoutTZ = dateStr.replaceAll(" [A-Z]{2,4} (\\d{4})", " $1");
+            SimpleDateFormat oldFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy", java.util.Locale.ENGLISH);
+            java.util.Date date = oldFormat.parse(dateWithoutTZ);
+            return dateFormat.format(date);
+        } catch (Exception e) {
+            return dateStr;
+        }
+    }
+
+    private void custComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_custComboActionPerformed
+        if (custCombo.getSelectedIndex() > 0) {
+            try {
+                String selectedCustomer = custCombo.getSelectedItem().toString();
+                String custCode = selectedCustomer.split(" - ")[0];
+                ResultSet resultSet = new CustomerDAO().getCustName(custCode);
+                if (resultSet.next()) {
+                    String fullName = resultSet.getString("full_name");
+                    String location = resultSet.getString("location");
+                    custNameLabel.setText("Tên: " + fullName + " | Địa chỉ: " + location);
+                } else {
+                    custNameLabel.setText("||   Khách hàng không tồn tại trong cơ sở dữ liệu.   ||");
+                }
+                custNameLabel.setVisible(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            custNameLabel.setText("");
+            custNameLabel.setVisible(false);
+        }
+    }//GEN-LAST:event_custComboActionPerformed
+
+    private void prodComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodComboActionPerformed
+        if (prodCombo.getSelectedIndex() > 0) {
+            try {
+                String selectedProduct = prodCombo.getSelectedItem().toString();
+                String prodCode = selectedProduct.split(" - ")[0];
+                ResultSet resultSet = new CustomerDAO().getProdName(prodCode);
+                if (resultSet.next()) {
+                    String productName = resultSet.getString("product_name");
+                    int availableQty = resultSet.getInt("quantity");
+                    prodNameLabel.setText("Tên: " + productName + " | Số lượng có sẵn: " + availableQty);
+                    Double sellPrice = new ProductDAO().getProdSell(prodCode);
+                    if (sellPrice != null) {
+                        priceText.setText(String.valueOf((long)sellPrice.doubleValue()));
+                    } else {
+                        // If no previous sell price, use cost price as reference
+                        double costPrice = resultSet.getDouble("cost_price");
+                        if (costPrice > 0) {
+                            priceText.setText(String.valueOf((long)costPrice));
+                        } else {
+                            priceText.setText(""); // Leave empty for user to enter
+                        }
+                    }
+                } else {
+                    prodNameLabel.setText("||   Sản phẩm không tồn tại trong kho.  ||");
+                }
+                prodNameLabel.setVisible(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            prodNameLabel.setText("");
+            prodNameLabel.setVisible(false);
+            priceText.setText("");
+        }
+    }//GEN-LAST:event_prodComboActionPerformed
+
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        loadDataSet();
+        clearFields();
+    }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void searchTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTextKeyReleased
         loadSearchData(searchText.getText());
     }//GEN-LAST:event_searchTextKeyReleased
+
+    // Method to load customer combo box
+    public void loadCustomerComboBox() {
+        try {
+            CustomerDAO customerDAO = new CustomerDAO();
+            custCombo.setModel(customerDAO.setComboItems(customerDAO.getQueryResult()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    // Method to load product combo box
+    public void loadProductComboBox() {
+        try {
+            ProductDAO productDAO = new ProductDAO();
+            prodCombo.setModel(productDAO.setComboItems(productDAO.getQueryResult()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     // Method to load data into table
     public void loadDataSet() {
@@ -412,11 +542,14 @@ public class SalesPage extends javax.swing.JPanel {
                 String salesCode = rs.getString(1);
                 String productCode = rs.getString(2);
                 String productName = rs.getString(3);
-                int quantity = rs.getInt(4);
-                double revenue = rs.getDouble(5);
+                String customerCode = rs.getString(4);
+                String customerName = rs.getString(5);
+                int quantity = rs.getInt(6);
+                double revenue = rs.getDouble(7);
                 String formattedRevenue = formatter.format(revenue).replace(",", ".");
-                String soldBy = rs.getString(6);
-                tblModel.addRow(new Object[]{salesCode, productCode, productName, quantity, formattedRevenue, soldBy});
+                String soldBy = rs.getString(8);
+                String date = formatDate(rs.getString(9));
+                tblModel.addRow(new Object[]{salesCode, date, productCode, productName, customerCode, customerName, quantity, formattedRevenue, soldBy});
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -433,11 +566,14 @@ public class SalesPage extends javax.swing.JPanel {
                 String salesCode = rs.getString(1);
                 String productCode = rs.getString(2);
                 String productName = rs.getString(3);
-                int quantity = rs.getInt(4);
-                double revenue = rs.getDouble(5);
+                String customerCode = rs.getString(4);
+                String customerName = rs.getString(5);
+                int quantity = rs.getInt(6);
+                double revenue = rs.getDouble(7);
                 String formattedRevenue = formatter.format(revenue).replace(",", ".");
-                String soldBy = rs.getString(6);
-                tblModel.addRow(new Object[]{salesCode, productCode, productName, quantity, formattedRevenue, soldBy});
+                String soldBy = rs.getString(8);
+                String date = formatDate(rs.getString(9));
+                tblModel.addRow(new Object[]{salesCode, date, productCode, productName, customerCode, customerName, quantity, formattedRevenue, soldBy});
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -446,8 +582,7 @@ public class SalesPage extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCustButton;
-    private javax.swing.JButton clearButton;
-    private javax.swing.JTextField custCodeText;
+    private javax.swing.JComboBox<String> custCombo;
     private javax.swing.JLabel custNameLabel;
     private javax.swing.JButton deleteButton;
     private com.toedter.calendar.JDateChooser jDateChooser1;
@@ -461,9 +596,10 @@ public class SalesPage extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField priceText;
-    private javax.swing.JTextField prodCodeText;
+    private javax.swing.JComboBox<String> prodCombo;
     private javax.swing.JLabel prodNameLabel;
     private javax.swing.JTextField quantityText;
+    private javax.swing.JButton refreshButton;
     private javax.swing.JTable salesTable;
     private javax.swing.JTextField searchText;
     private javax.swing.JButton sellButton;

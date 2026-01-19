@@ -60,10 +60,11 @@ public class UsersPage extends javax.swing.JPanel {
         passText = new javax.swing.JPasswordField();
         userTypeCombo = new javax.swing.JComboBox<>();
         addButton = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
-        clearButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         userTable = new javax.swing.JTable();
+        refreshButton = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Helvetica", 0, 24)); // NOI18N
         jLabel1.setText("TÀI KHOẢN");
@@ -86,7 +87,7 @@ public class UsersPage extends javax.swing.JPanel {
             }
         });
 
-        userTypeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN" }));
+        userTypeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "SALER", "PURCHASER" }));
 
         addButton.setText("Thêm");
         addButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -96,19 +97,19 @@ public class UsersPage extends javax.swing.JPanel {
             }
         });
 
+        editButton.setText("Sửa");
+        editButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        editButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonActionPerformed(evt);
+            }
+        });
+
         deleteButton.setText("Xóa");
         deleteButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteButtonActionPerformed(evt);
-            }
-        });
-
-        clearButton.setText("Xóa form");
-        clearButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        clearButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearButtonActionPerformed(evt);
             }
         });
 
@@ -139,12 +140,17 @@ public class UsersPage extends javax.swing.JPanel {
                     .addGroup(entryPanelLayout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(usernameText))
+                        .addComponent(usernameText)))
+                .addContainerGap())
+            .addGroup(entryPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(entryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(entryPanelLayout.createSequentialGroup()
-                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
-                    .addComponent(clearButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(editButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         entryPanelLayout.setVerticalGroup(
@@ -172,12 +178,11 @@ public class UsersPage extends javax.swing.JPanel {
                     .addComponent(passText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(userTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(entryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(clearButton)
+                .addGap(18, 18, 18)
+                .addGroup(entryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addButton)
+                    .addComponent(editButton)
+                    .addComponent(deleteButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -213,6 +218,14 @@ public class UsersPage extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(userTable);
 
+        refreshButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        refreshButton.setText("LÀM MỚI");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -227,14 +240,17 @@ public class UsersPage extends javax.swing.JPanel {
                         .addComponent(entryPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(refreshButton)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -245,41 +261,64 @@ public class UsersPage extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
+    private void clearFields() {
         nameText.setText("");
         locationText.setText("");
         phoneText.setText("");
         usernameText.setText("");
         passText.setText("");
-    }//GEN-LAST:event_clearButtonActionPerformed
+        userTypeCombo.setSelectedIndex(0);
+    }
 
     String userType;
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         User userDTO = new User();
 
-        if (nameText.getText().equals("") || locationText.getText().equals("") || phoneText.getText().equals(""))
-            JOptionPane.showMessageDialog(null, "Please fill all the required fields.");
+        if (nameText.getText().equals("") || locationText.getText().equals("") || phoneText.getText().equals("") || usernameText.getText().equals("") || passText.getPassword().length == 0)
+            JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ các trường bắt buộc.");
         else {
             userType = (String) userTypeCombo.getSelectedItem();
             userDTO.setFullName(nameText.getText());
             userDTO.setLocation(locationText.getText());
             userDTO.setPhone(phoneText.getText());
             userDTO.setUsername(usernameText.getText());
-            userDTO.setPassword(passText.getText());
+            userDTO.setPassword(new String(passText.getPassword()));
             userDTO.setUserType(userType);
             new UserDAO().addUserDAO(userDTO, userType);
             loadDataSet();
+            clearFields();
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        if (userTable.getSelectedRow() < 0)
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một người dùng từ bảng để sửa.");
+        else {
+            if (nameText.getText().equals("") || locationText.getText().equals("") || phoneText.getText().equals("") || usernameText.getText().equals(""))
+                JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ các trường bắt buộc.");
+            else {
+                User userDTO = new User();
+                userType = (String) userTypeCombo.getSelectedItem();
+                userDTO.setFullName(nameText.getText());
+                userDTO.setLocation(locationText.getText());
+                userDTO.setPhone(phoneText.getText());
+                userDTO.setUsername(usernameText.getText());
+                userDTO.setUserType(userType);
+                new UserDAO().editUserDAO(userDTO);
+                loadDataSet();
+                clearFields();
+            }
+        }
+    }//GEN-LAST:event_editButtonActionPerformed
+
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         if (userTable.getSelectedRow()<0)
-            JOptionPane.showMessageDialog(null, "Please select an entry from the table");
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một người dùng từ bảng để xóa.");
         else{
             int opt = JOptionPane.showConfirmDialog(
                     null,
-                    "Are you sure you want to delete this user?",
-                    "Confirmation",
+                    "Bạn có chắc chắn muốn xóa người dùng này?",
+                    "Xác nhận",
                     JOptionPane.YES_NO_OPTION);
             if(opt==JOptionPane.YES_OPTION) {
                 new UserDAO().deleteUserDAO(
@@ -287,6 +326,7 @@ public class UsersPage extends javax.swing.JPanel {
                                 userTable.getValueAt
                                         (userTable.getSelectedRow(), 4)));
                 loadDataSet();
+                clearFields();
             }
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
@@ -304,8 +344,14 @@ public class UsersPage extends javax.swing.JPanel {
         locationText.setText(val[2].toString());
         phoneText.setText(val[3].toString());
         usernameText.setText(val[4].toString());
+        passText.setText(val[5].toString());
         userTypeCombo.setSelectedItem(val[6].toString());
     }//GEN-LAST:event_userTableMouseClicked
+
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        loadDataSet();
+        clearFields();
+    }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void nameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextActionPerformed
         // TODO add your handling code here:
@@ -333,8 +379,8 @@ public class UsersPage extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
-    private javax.swing.JButton clearButton;
     private javax.swing.JButton deleteButton;
+    private javax.swing.JButton editButton;
     private javax.swing.JPanel entryPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -348,6 +394,7 @@ public class UsersPage extends javax.swing.JPanel {
     private javax.swing.JTextField nameText;
     private javax.swing.JPasswordField passText;
     private javax.swing.JTextField phoneText;
+    private javax.swing.JButton refreshButton;
     private javax.swing.JTable userTable;
     private javax.swing.JComboBox<String> userTypeCombo;
     private javax.swing.JTextField usernameText;

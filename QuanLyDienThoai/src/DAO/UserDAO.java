@@ -37,7 +37,7 @@ public class UserDAO {
                     +userDTO.getLocation()
                     +"' AND phone='"
                     +userDTO.getPhone()
-                    +"' AND usertype='"
+                    +"' AND user_type='"
                     +userDTO.getUserType()
                     +"'";
             resultSet = statement.executeQuery(query);
@@ -74,7 +74,7 @@ public class UserDAO {
 //                }
 //            }
 
-            String query = "INSERT INTO users (name,location,phone,username,password,usertype) " +
+            String query = "INSERT INTO users (name,location,phone,username,password,user_type) " +
                     "VALUES(?,?,?,?,?,?)";
             prepStatement = conn.prepareStatement(query);
             prepStatement.setString(1, userDTO.getFullName());
@@ -98,7 +98,7 @@ public class UserDAO {
     public void editUserDAO(User userDTO) {
 
         try {
-            String query = "UPDATE users SET name=?,location=?,phone=?,usertype=? WHERE username=?";
+            String query = "UPDATE users SET name=?,location=?,phone=?,user_type=? WHERE username=?";
             prepStatement = conn.prepareStatement(query);
             prepStatement.setString(1, userDTO.getFullName());
             prepStatement.setString(2, userDTO.getLocation());

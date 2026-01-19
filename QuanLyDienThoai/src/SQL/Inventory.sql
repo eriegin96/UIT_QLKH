@@ -22,16 +22,18 @@ CREATE TABLE `users` (
   `phone` VARCHAR(10) NOT NULL,
   `username` VARCHAR(20) NOT NULL,
   `password` VARCHAR(200) NOT NULL,
-  `usertype` VARCHAR(45) NOT NULL,
+  `user_type` VARCHAR(45) NOT NULL,
   `email` VARCHAR(50) DEFAULT NULL,
   `status` INT DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES
-(17, 'Administrator', 'Ho Chi Minh City', '0901234567', 'admin', 'admin', 'ADMIN', 'admin@email.com', 1);
+(17, 'Administrator', 'Ho Chi Minh City', '0901234567', 'admin', 'admin', 'ADMIN', 'admin@email.com', 1),
+(18, 'Nguyễn Văn Bán', 'Ho Chi Minh City', '0912345678', 'saler', 'saler', 'SALER', 'saler@email.com', 1),
+(19, 'Trần Thị Nhập', 'Ho Chi Minh City', '0923456789', 'purchaser', 'purchaser', 'PURCHASER', 'purchaser@email.com', 1);
 UNLOCK TABLES;
 
 -- =============================================
@@ -40,12 +42,12 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `suppliers`;
 CREATE TABLE `suppliers` (
   `sid` INT NOT NULL AUTO_INCREMENT,
-  `suppliercode` VARCHAR(45) NOT NULL,
-  `fullname` VARCHAR(100) NOT NULL,
+  `supplier_code` VARCHAR(45) NOT NULL,
+  `full_name` VARCHAR(100) NOT NULL,
   `location` VARCHAR(150) NOT NULL,
   `mobile` VARCHAR(15) NOT NULL,
   PRIMARY KEY (`sid`),
-  UNIQUE KEY `suppliercode_UNIQUE` (`suppliercode`)
+  UNIQUE KEY `supplier_code_UNIQUE` (`supplier_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=409 DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `suppliers` WRITE;
@@ -66,103 +68,107 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
   `pid` INT NOT NULL AUTO_INCREMENT,
-  `productcode` VARCHAR(45) NOT NULL,
-  `productname` VARCHAR(100) NOT NULL,
-  `costprice` DOUBLE NOT NULL,
-  `sellprice` DOUBLE NOT NULL,
+  `product_code` VARCHAR(45) NOT NULL,
+  `product_name` VARCHAR(100) NOT NULL,
+  `ram` VARCHAR(20) NOT NULL,
+  `rom` VARCHAR(20) NOT NULL,
+  `screen_size` VARCHAR(20) NOT NULL,
   `brand` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`pid`),
-  UNIQUE KEY `productcode_UNIQUE` (`productcode`)
+  UNIQUE KEY `product_code_UNIQUE` (`product_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `products` WRITE;
 INSERT INTO `products` VALUES
-(111, 'IP13', 'iPhone 13 128GB', 18000000, 19990000, 'Apple'),
-(112, 'IP13PM', 'iPhone 13 Pro Max 256GB', 24000000, 25990000, 'Apple'),
-(113, 'IP14', 'iPhone 14 128GB', 21000000, 22990000, 'Apple'),
-(114, 'IP14P', 'iPhone 14 Plus 128GB', 26000000, 27990000, 'Apple'),
-(115, 'IP14PM', 'iPhone 14 Pro Max 256GB', 28000000, 29990000, 'Apple'),
-(116, 'SS22P', 'Samsung Galaxy S22 Plus 5G', 20000000, 21990000, 'Samsung'),
-(117, 'SS22U', 'Samsung Galaxy S22 Ultra 5G', 23000000, 24990000, 'Samsung'),
-(118, 'SS23', 'Samsung Galaxy S23 5G', 17500000, 18990000, 'Samsung'),
-(119, 'SS23U', 'Samsung Galaxy S23 Ultra 5G', 25000000, 26990000, 'Samsung'),
-(120, 'XM12', 'Xiaomi 12', 4500000, 4990000, 'Xiaomi'),
-(121, 'XM13P', 'Xiaomi 13 Pro', 11000000, 11990000, 'Xiaomi'),
-(122, 'XM13T', 'Xiaomi 13T', 6500000, 6990000, 'Xiaomi'),
-(123, 'RN12P', 'Redmi Note 12 Pro 5G', 7500000, 7990000, 'Xiaomi'),
-(124, 'OP10P', 'OPPO Reno10 Pro+ 5G', 9200000, 9990000, 'OPPO'),
-(125, 'OP11', 'OPPO Find X5 Pro 5G', 12000000, 12990000, 'OPPO'),
-(126, 'VV25', 'Vivo V25 5G', 8300000, 8990000, 'Vivo'),
-(127, 'HN90P', 'Honor 90 Pro', 23000000, 24990000, 'Honor'),
-(128, 'HNM6P', 'Honor Magic 6 Pro', 17500000, 18990000, 'Honor'),
-(129, 'SX5V', 'Sony Xperia 5 V', 30000000, 31990000, 'Sony');
+(111, 'IP13', 'iPhone 13 128GB', '4GB', '128GB', '6.1 inch', 'Apple'),
+(112, 'IP13PM', 'iPhone 13 Pro Max 256GB', '6GB', '256GB', '6.7 inch', 'Apple'),
+(113, 'IP14', 'iPhone 14 128GB', '6GB', '128GB', '6.1 inch', 'Apple'),
+(114, 'IP14P', 'iPhone 14 Plus 128GB', '6GB', '128GB', '6.7 inch', 'Apple'),
+(115, 'IP14PM', 'iPhone 14 Pro Max 256GB', '6GB', '256GB', '6.7 inch', 'Apple'),
+(116, 'SS22P', 'Samsung Galaxy S22 Plus 5G', '8GB', '128GB', '6.6 inch', 'Samsung'),
+(117, 'SS22U', 'Samsung Galaxy S22 Ultra 5G', '12GB', '256GB', '6.8 inch', 'Samsung'),
+(118, 'SS23', 'Samsung Galaxy S23 5G', '8GB', '128GB', '6.1 inch', 'Samsung'),
+(119, 'SS23U', 'Samsung Galaxy S23 Ultra 5G', '12GB', '256GB', '6.8 inch', 'Samsung'),
+(120, 'XM12', 'Xiaomi 12', '8GB', '128GB', '6.28 inch', 'Xiaomi'),
+(121, 'XM13P', 'Xiaomi 13 Pro', '12GB', '256GB', '6.73 inch', 'Xiaomi'),
+(122, 'XM13T', 'Xiaomi 13T', '8GB', '256GB', '6.67 inch', 'Xiaomi'),
+(123, 'RN12P', 'Redmi Note 12 Pro 5G', '8GB', '128GB', '6.67 inch', 'Xiaomi'),
+(124, 'OP10P', 'OPPO Reno10 Pro+ 5G', '12GB', '256GB', '6.74 inch', 'OPPO'),
+(125, 'OP11', 'OPPO Find X5 Pro 5G', '12GB', '256GB', '6.7 inch', 'OPPO'),
+(126, 'VV25', 'Vivo V25 5G', '8GB', '128GB', '6.44 inch', 'Vivo'),
+(127, 'HN90P', 'Honor 90 Pro', '12GB', '256GB', '6.78 inch', 'Honor'),
+(128, 'HNM6P', 'Honor Magic 6 Pro', '12GB', '512GB', '6.8 inch', 'Honor'),
+(129, 'SX5V', 'Sony Xperia 5 V', '8GB', '128GB', '6.1 inch', 'Sony');
 UNLOCK TABLES;
 
 -- =============================================
--- Table: currentstock
+-- Table: inventory
 -- =============================================
-DROP TABLE IF EXISTS `currentstock`;
-CREATE TABLE `currentstock` (
-  `productcode` VARCHAR(45) NOT NULL,
+DROP TABLE IF EXISTS `inventory`;
+CREATE TABLE `inventory` (
+  `product_code` VARCHAR(45) NOT NULL,
   `quantity` INT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`productcode`),
-  CONSTRAINT `fk_stock_product` FOREIGN KEY (`productcode`) REFERENCES `products` (`productcode`) ON DELETE CASCADE
+  `cost_price` DOUBLE NOT NULL DEFAULT 0,
+  PRIMARY KEY (`product_code`),
+  CONSTRAINT `fk_inventory_product` FOREIGN KEY (`product_code`) REFERENCES `products` (`product_code`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-LOCK TABLES `currentstock` WRITE;
-INSERT INTO `currentstock` VALUES
-('IP13', 55),
-('IP13PM', 48),
-('IP14', 65),
-('IP14P', 52),
-('IP14PM', 42),
-('SS22P', 44),
-('SS22U', 38),
-('SS23', 72),
-('SS23U', 58),
-('XM12', 98),
-('XM13P', 77),
-('XM13T', 88),
-('RN12P', 82),
-('OP10P', 38),
-('OP11', 42),
-('VV25', 55),
-('HN90P', 55),
-('HNM6P', 60),
-('SX5V', 50);
+LOCK TABLES `inventory` WRITE;
+INSERT INTO `inventory` VALUES
+('IP13', 55, 18000000),
+('IP13PM', 48, 24000000),
+('IP14', 65, 21000000),
+('IP14P', 52, 26000000),
+('IP14PM', 42, 28000000),
+('SS22P', 44, 20000000),
+('SS22U', 38, 23000000),
+('SS23', 72, 17500000),
+('SS23U', 58, 25000000),
+('XM12', 98, 4500000),
+('XM13P', 77, 11000000),
+('XM13T', 88, 6500000),
+('RN12P', 82, 7500000),
+('OP10P', 38, 10000000),
+('OP11', 42, 12000000),
+('VV25', 55, 8300000),
+('HN90P', 55, 23000000),
+('HNM6P', 60, 22000000),
+('SX5V', 50, 24000000);
 UNLOCK TABLES;
 
 -- =============================================
--- Table: purchaseinfo
+-- Table: purchase_info
 -- =============================================
-DROP TABLE IF EXISTS `purchaseinfo`;
-CREATE TABLE `purchaseinfo` (
-  `purchaseid` INT NOT NULL AUTO_INCREMENT,
-  `suppliercode` VARCHAR(45) NOT NULL,
-  `productcode` VARCHAR(45) NOT NULL,
+DROP TABLE IF EXISTS `purchase_info`;
+CREATE TABLE `purchase_info` (
+  `purchase_id` INT NOT NULL AUTO_INCREMENT,
+  `supplier_code` VARCHAR(45) NOT NULL,
+  `product_code` VARCHAR(45) NOT NULL,
   `date` VARCHAR(45) NOT NULL,
   `quantity` INT NOT NULL,
-  `totalcost` DOUBLE NOT NULL,
-  PRIMARY KEY (`purchaseid`)
-) ENGINE=InnoDB AUTO_INCREMENT=1012 DEFAULT CHARSET=utf8mb4;
+  `cost_price` DOUBLE NOT NULL,
+  `total_cost` DOUBLE NOT NULL,
+  `purchased_by` VARCHAR(45) NOT NULL DEFAULT 'admin',
+  PRIMARY KEY (`purchase_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1016 DEFAULT CHARSET=utf8mb4;
 
-LOCK TABLES `purchaseinfo` WRITE;
-INSERT INTO `purchaseinfo` VALUES
-(1001, 'FPT', 'IP14PM', 'Wed Jan 02 10:15:00 ICT 2026', 10, 280000000),
-(1002, 'FPT', 'SS23U', 'Wed Jan 02 10:15:00 ICT 2026', 15, 375000000),
-(1003, 'TGDD', 'IP14', 'Thu Jan 03 09:30:00 ICT 2026', 20, 420000000),
-(1004, 'TGDD', 'SS23', 'Thu Jan 03 09:30:00 ICT 2026', 25, 437500000),
-(1005, 'FPT', 'IP13PM', 'Fri Jan 04 14:20:00 ICT 2026', 12, 288000000),
-(1006, 'PHONGVU', 'XM13P', 'Fri Jan 04 14:20:00 ICT 2026', 30, 330000000),
-(1007, 'CELLPHONES', 'OP11', 'Sat Jan 05 11:45:00 ICT 2026', 20, 240000000),
-(1008, 'CELLPHONES', 'RN12P', 'Sat Jan 05 11:45:00 ICT 2026', 35, 262500000),
-(1009, 'HOANGHA', 'SS22U', 'Sun Jan 06 16:00:00 ICT 2026', 10, 230000000),
-(1010, 'HOANGHA', 'IP14P', 'Sun Jan 06 16:00:00 ICT 2026', 15, 390000000),
-(1011, 'DIDONGVIET', 'XM13T', 'Mon Jan 07 13:30:00 ICT 2026', 40, 260000000),
-(1012, 'PHONGVU', 'VV25', 'Tue Jan 08 10:10:00 ICT 2026', 25, 207500000),
-(1013, 'FPT', 'IP13', 'Wed Jan 09 15:20:00 ICT 2026', 18, 324000000),
-(1014, 'TGDD', 'XM12', 'Thu Jan 10 12:00:00 ICT 2026', 45, 202500000),
-(1015, 'CELLPHONES', 'HN90P', 'Fri Jan 11 14:30:00 ICT 2026', 10, 230000000);
+LOCK TABLES `purchase_info` WRITE;
+INSERT INTO `purchase_info` VALUES
+(1001, 'FPT', 'IP14PM', 'Wed Jan 02 10:15:00 ICT 2026', 10, 28000000, 280000000, 'admin'),
+(1002, 'FPT', 'SS23U', 'Wed Jan 02 10:15:00 ICT 2026', 15, 25000000, 375000000, 'admin'),
+(1003, 'TGDD', 'IP14', 'Thu Jan 03 09:30:00 ICT 2026', 20, 21000000, 420000000, 'admin'),
+(1004, 'TGDD', 'SS23', 'Thu Jan 03 09:30:00 ICT 2026', 25, 17500000, 437500000, 'admin'),
+(1005, 'FPT', 'IP13PM', 'Fri Jan 04 14:20:00 ICT 2026', 12, 24000000, 288000000, 'admin'),
+(1006, 'PHONGVU', 'XM13P', 'Fri Jan 04 14:20:00 ICT 2026', 30, 11000000, 330000000, 'admin'),
+(1007, 'CELLPHONES', 'OP11', 'Sat Jan 05 11:45:00 ICT 2026', 20, 12000000, 240000000, 'admin'),
+(1008, 'CELLPHONES', 'RN12P', 'Sat Jan 05 11:45:00 ICT 2026', 35, 7500000, 262500000, 'admin'),
+(1009, 'HOANGHA', 'SS22U', 'Sun Jan 06 16:00:00 ICT 2026', 10, 23000000, 230000000, 'admin'),
+(1010, 'HOANGHA', 'IP14P', 'Sun Jan 06 16:00:00 ICT 2026', 15, 26000000, 390000000, 'admin'),
+(1011, 'DIDONGVIET', 'XM13T', 'Mon Jan 07 13:30:00 ICT 2026', 40, 6500000, 260000000, 'admin'),
+(1012, 'PHONGVU', 'VV25', 'Tue Jan 08 10:10:00 ICT 2026', 25, 8300000, 207500000, 'admin'),
+(1013, 'FPT', 'IP13', 'Wed Jan 09 15:20:00 ICT 2026', 18, 18000000, 324000000, 'admin'),
+(1014, 'TGDD', 'XM12', 'Thu Jan 10 12:00:00 ICT 2026', 45, 4500000, 202500000, 'admin'),
+(1015, 'CELLPHONES', 'HN90P', 'Fri Jan 11 14:30:00 ICT 2026', 10, 23000000, 230000000, 'admin');
 UNLOCK TABLES;
 
 -- =============================================
@@ -171,12 +177,12 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
   `cid` INT NOT NULL AUTO_INCREMENT,
-  `customercode` VARCHAR(45) NOT NULL,
-  `fullname` VARCHAR(100) NOT NULL,
+  `customer_code` VARCHAR(45) NOT NULL,
+  `full_name` VARCHAR(100) NOT NULL,
   `location` VARCHAR(100) NOT NULL,
   `phone` VARCHAR(15) NOT NULL,
   PRIMARY KEY (`cid`),
-  UNIQUE KEY `customercode_UNIQUE` (`customercode`)
+  UNIQUE KEY `customer_code_UNIQUE` (`customer_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=311 DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `customers` WRITE;
@@ -194,35 +200,36 @@ INSERT INTO `customers` VALUES
 UNLOCK TABLES;
 
 -- =============================================
--- Table: salesinfo
+-- Table: sales_info
 -- =============================================
-DROP TABLE IF EXISTS `salesinfo`;
-CREATE TABLE `salesinfo` (
-  `salesid` INT NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `sales_info`;
+CREATE TABLE `sales_info` (
+  `sales_id` INT NOT NULL AUTO_INCREMENT,
   `date` VARCHAR(45) NOT NULL,
-  `productcode` VARCHAR(45) NOT NULL,
-  `customercode` VARCHAR(45) NOT NULL,
+  `product_code` VARCHAR(45) NOT NULL,
+  `customer_code` VARCHAR(45) NOT NULL,
   `quantity` INT NOT NULL,
+  `sell_price` DOUBLE NOT NULL,
   `revenue` DOUBLE NOT NULL,
-  `soldby` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`salesid`)
+  `sold_by` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`sales_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2013 DEFAULT CHARSET=utf8mb4;
 
-LOCK TABLES `salesinfo` WRITE;
-INSERT INTO `salesinfo` VALUES
-(2001, 'Wed Jan 02 15:30:00 ICT 2026', 'IP14PM', 'CUST001', 5, 149950000, 'admin'),
-(2002, 'Wed Jan 02 15:30:00 ICT 2026', 'SS23U', 'CUST001', 8, 215920000, 'admin'),
-(2003, 'Thu Jan 03 10:20:00 ICT 2026', 'IP14', 'CUST002', 10, 229900000, 'admin'),
-(2004, 'Thu Jan 03 10:20:00 ICT 2026', 'SS23', 'CUST002', 12, 227880000, 'admin'),
-(2005, 'Fri Jan 04 14:15:00 ICT 2026', 'IP13PM', 'CUST003', 6, 155940000, 'admin'),
-(2006, 'Fri Jan 04 14:15:00 ICT 2026', 'XM13P', 'CUST003', 15, 179850000, 'admin'),
-(2007, 'Sat Jan 05 11:30:00 ICT 2026', 'OP11', 'CUST004', 10, 129900000, 'admin'),
-(2008, 'Sat Jan 05 11:30:00 ICT 2026', 'RN12P', 'CUST004', 18, 143820000, 'admin'),
-(2009, 'Sun Jan 06 16:45:00 ICT 2026', 'SS22U', 'CUST005', 5, 124950000, 'admin'),
-(2010, 'Sun Jan 06 16:45:00 ICT 2026', 'IP14P', 'CUST005', 7, 195930000, 'admin'),
-(2011, 'Mon Jan 07 13:25:00 ICT 2026', 'XM13T', 'CUST006', 20, 139800000, 'admin'),
-(2012, 'Tue Jan 08 15:40:00 ICT 2026', 'VV25', 'CUST001', 12, 107880000, 'admin'),
-(2013, 'Wed Jan 09 12:20:00 ICT 2026', 'IP13', 'CUST002', 9, 179910000, 'admin'),
-(2014, 'Thu Jan 10 14:35:00 ICT 2026', 'XM12', 'CUST003', 25, 124750000, 'admin'),
-(2015, 'Fri Jan 11 10:15:00 ICT 2026', 'HN90P', 'CUST004', 6, 149940000, 'admin');
+LOCK TABLES `sales_info` WRITE;
+INSERT INTO `sales_info` VALUES
+(2001, 'Wed Jan 02 15:30:00 ICT 2026', 'IP14PM', 'CUST001', 5, 29990000, 149950000, 'admin'),
+(2002, 'Wed Jan 02 15:30:00 ICT 2026', 'SS23U', 'CUST001', 8, 26990000, 215920000, 'admin'),
+(2003, 'Thu Jan 03 10:20:00 ICT 2026', 'IP14', 'CUST002', 10, 22990000, 229900000, 'admin'),
+(2004, 'Thu Jan 03 10:20:00 ICT 2026', 'SS23', 'CUST002', 12, 18990000, 227880000, 'admin'),
+(2005, 'Fri Jan 04 14:15:00 ICT 2026', 'IP13PM', 'CUST003', 6, 25990000, 155940000, 'admin'),
+(2006, 'Fri Jan 04 14:15:00 ICT 2026', 'XM13P', 'CUST003', 15, 11990000, 179850000, 'admin'),
+(2007, 'Sat Jan 05 11:30:00 ICT 2026', 'OP11', 'CUST004', 10, 12990000, 129900000, 'admin'),
+(2008, 'Sat Jan 05 11:30:00 ICT 2026', 'RN12P', 'CUST004', 18, 7990000, 143820000, 'admin'),
+(2009, 'Sun Jan 06 16:45:00 ICT 2026', 'SS22U', 'CUST005', 5, 24990000, 124950000, 'admin'),
+(2010, 'Sun Jan 06 16:45:00 ICT 2026', 'IP14P', 'CUST005', 7, 27990000, 195930000, 'admin'),
+(2011, 'Mon Jan 07 13:25:00 ICT 2026', 'XM13T', 'CUST006', 20, 6990000, 139800000, 'admin'),
+(2012, 'Tue Jan 08 15:40:00 ICT 2026', 'VV25', 'CUST001', 12, 8990000, 107880000, 'admin'),
+(2013, 'Wed Jan 09 12:20:00 ICT 2026', 'IP13', 'CUST002', 9, 19990000, 179910000, 'admin'),
+(2014, 'Thu Jan 10 14:35:00 ICT 2026', 'XM12', 'CUST003', 25, 4990000, 124750000, 'admin'),
+(2015, 'Fri Jan 11 10:15:00 ICT 2026', 'HN90P', 'CUST004', 6, 24990000, 149940000, 'admin');
 UNLOCK TABLES;

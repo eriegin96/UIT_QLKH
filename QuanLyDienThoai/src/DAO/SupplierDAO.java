@@ -30,7 +30,7 @@ public class SupplierDAO {
     // Methods to add new supplier
     public void addSupplierDAO(Supplier supplierDTO) {
         try {
-            String query = "SELECT * FROM suppliers WHERE fullname='"
+            String query = "SELECT * FROM suppliers WHERE full_name='"
                     +supplierDTO.getFullName()
                     + "' AND location='"
                     +supplierDTO.getLocation()
@@ -64,7 +64,7 @@ public class SupplierDAO {
     // Method to edit existing suppleir details
     public void editSupplierDAO(Supplier supplierDTO, String originalSuppCode) {
         try {
-            String query = "UPDATE suppliers SET suppliercode=?,fullname=?,location=?,mobile=? WHERE suppliercode=?";
+            String query = "UPDATE suppliers SET supplier_code=?,full_name=?,location=?,mobile=? WHERE supplier_code=?";
             prepStatement = conn.prepareStatement(query);
             prepStatement.setString(1, supplierDTO.getSuppCode());
             prepStatement.setString(2, supplierDTO.getFullName());
@@ -81,7 +81,7 @@ public class SupplierDAO {
     // Method to delete existing supplier
     public void deleteSupplierDAO(String suppCode) {
         try {
-            String query = "DELETE FROM suppliers WHERE suppliercode='" +suppCode+ "'";
+            String query = "DELETE FROM suppliers WHERE supplier_code='" +suppCode+ "'";
             statement.executeUpdate(query);
             JOptionPane.showMessageDialog(null, "Nhà cung cấp đã được xóa.");
         } catch (SQLException e) {
@@ -92,7 +92,7 @@ public class SupplierDAO {
     // Supplier data set retrieval method
     public ResultSet getQueryResult() {
         try {
-            String query = "SELECT suppliercode, fullname, location, mobile FROM suppliers";
+            String query = "SELECT supplier_code, full_name, location, mobile FROM suppliers";
             resultSet = statement.executeQuery(query);
         } catch (Exception e) {
             ErrorHandler.handleError(e);
@@ -103,9 +103,9 @@ public class SupplierDAO {
     // Search method
     public ResultSet getSearchResult(String searchText) {
         try {
-            String query = "SELECT suppliercode, fullname, location, mobile FROM suppliers " +
-                    "WHERE suppliercode LIKE '%"+searchText+"%' OR location LIKE '%"+searchText+"%' " +
-                    "OR fullname LIKE '%"+searchText+"%' OR mobile LIKE '%"+searchText+"%'";
+            String query = "SELECT supplier_code, full_name, location, mobile FROM suppliers " +
+                    "WHERE supplier_code LIKE '%"+searchText+"%' OR location LIKE '%"+searchText+"%' " +
+                    "OR full_name LIKE '%"+searchText+"%' OR mobile LIKE '%"+searchText+"%'";
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
             ErrorHandler.handleError(e);
@@ -117,7 +117,7 @@ public class SupplierDAO {
     public DefaultComboBoxModel<String> setComboItems(ResultSet resultSet) throws SQLException {
         Vector<String> suppNames = new Vector<>();
         while (resultSet.next()){
-            suppNames.add(resultSet.getString("fullname"));
+            suppNames.add(resultSet.getString("full_name"));
         }
         return new DefaultComboBoxModel<>(suppNames);
     }

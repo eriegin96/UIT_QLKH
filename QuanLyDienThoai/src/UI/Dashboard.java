@@ -14,6 +14,7 @@ public class Dashboard extends javax.swing.JFrame {
     CardLayout layout;
     String username;
     String fullName;
+    String userType;
     User userDTO;
     LocalDateTime outTime;
     /**
@@ -24,6 +25,13 @@ public class Dashboard extends javax.swing.JFrame {
         layout = new CardLayout();
         this.username = username;
         this.userDTO = userDTO;
+        
+        // Get user type from database
+        getUserType();
+        
+        // Configure button visibility based on role
+        configureAccessByRole();
+        
         currentUserSession();
 
         // Panel Layout set to Card Layout to allow switching between different sections
@@ -33,7 +41,7 @@ public class Dashboard extends javax.swing.JFrame {
         displayPanel.add("Customers", new CustomerPage());
         displayPanel.add("Products", new ProductPage(username, this));
         displayPanel.add("Suppliers", new SupplierPage());
-        displayPanel.add("Current Stock", new CurrentStockPage(username));
+        displayPanel.add("Inventory", new InventoryPage(username));
         displayPanel.add("Sales", new SalesPage(username, this));
         displayPanel.add("Purchase", new PurchasePage(this));
 
@@ -68,7 +76,7 @@ public class Dashboard extends javax.swing.JFrame {
         layout.show(displayPanel, "Suppliers");
     }
     public void addStockPage() {
-        layout.show(displayPanel, "Current Stock");
+        layout.show(displayPanel, "Inventory");
     }
     public void addSalesPage() {
         layout.show(displayPanel, "Sales");
@@ -339,11 +347,48 @@ public class Dashboard extends javax.swing.JFrame {
         addPurchasePage();
     }//GEN-LAST:event_purchaseButtonActionPerformed
 
+    // Method to get user type from database
+    private void getUserType() {
+        try {
+            java.sql.ResultSet rs = new UserDAO().getUserDAO(username);
+            if (rs.next()) {
+                userType = rs.getString("user_type");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            userType = "ADMIN"; // Default to ADMIN if error
+        }
+    }
+    
+    // Method to configure button visibility based on user role
+    private void configureAccessByRole() {
+        if ("SALER".equals(userType)) {
+            // SALER can only see Sales and Inventory
+            homeButton.setVisible(false);
+            prodButton.setVisible(false);
+            custButton.setVisible(false);
+            suppButton.setVisible(false);
+            purchaseButton.setVisible(false);
+            usersButton.setVisible(false);
+            // salesButton and stockButton remain visible
+        } else if ("PURCHASER".equals(userType)) {
+            // PURCHASER can only see Purchase and Inventory
+            homeButton.setVisible(false);
+            prodButton.setVisible(false);
+            custButton.setVisible(false);
+            suppButton.setVisible(false);
+            salesButton.setVisible(false);
+            usersButton.setVisible(false);
+            // purchaseButton and stockButton remain visible
+        }
+        // ADMIN sees everything (default - no changes needed)
+    }
+    
     // Method to display the user currently logged in
     public void currentUserSession() {
         User userDTO = new User();
         new UserDAO().getFullName(userDTO, username);
-        nameLabel.setText("Tài khoản: " + userDTO.getFullName() + " (ADMIN)");
+        nameLabel.setText("Tài khoản: " + userDTO.getFullName() + " (" + userType + ")");
     }
 
     

@@ -5,19 +5,17 @@ import DAO.ProductDAO;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 
-public class CurrentStockPage extends javax.swing.JPanel {
+public class InventoryPage extends javax.swing.JPanel {
 
     String username;
     private DefaultTableModel tblModel;
-    DecimalFormat formatter = new DecimalFormat("###,###,###");
     
     /**
      * Creates new form CurrentStockPage
      */
     
-    public CurrentStockPage(String username) {
+    public InventoryPage(String username) {
         initComponents();
         this.username = username;
         stockTable.setDefaultEditor(Object.class, null);
@@ -27,14 +25,17 @@ public class CurrentStockPage extends javax.swing.JPanel {
     
     public final void initTable() {
         tblModel = new DefaultTableModel();
-        String[] headerTbl = new String[]{"Mã SP", "Tên sản phẩm", "Số lượng", "Giá gốc", "Giá bán"};
+        String[] headerTbl = new String[]{"Mã SP", "Tên sản phẩm", "Số lượng", "Giá gốc", "RAM", "ROM", "Kích thước MH", "Hãng"};
         tblModel.setColumnIdentifiers(headerTbl);
         stockTable.setModel(tblModel);
         stockTable.getColumnModel().getColumn(0).setPreferredWidth(100);
         stockTable.getColumnModel().getColumn(1).setPreferredWidth(250);
         stockTable.getColumnModel().getColumn(2).setPreferredWidth(100);
         stockTable.getColumnModel().getColumn(3).setPreferredWidth(120);
-        stockTable.getColumnModel().getColumn(4).setPreferredWidth(120);
+        stockTable.getColumnModel().getColumn(4).setPreferredWidth(80);
+        stockTable.getColumnModel().getColumn(5).setPreferredWidth(80);
+        stockTable.getColumnModel().getColumn(6).setPreferredWidth(120);
+        stockTable.getColumnModel().getColumn(7).setPreferredWidth(100);
     }
 
     /**
@@ -118,20 +119,21 @@ public class CurrentStockPage extends javax.swing.JPanel {
     public void loadDataSet() {
         try {
             ProductDAO productDAO = new ProductDAO();
-            ResultSet rs = productDAO.getCurrentStockInfo();
+            ResultSet rs = productDAO.getInventoryInfo();
             tblModel.setRowCount(0);
+            java.text.DecimalFormat formatter = new java.text.DecimalFormat("###,###,###");
             while (rs.next()) {
-                String productCode = rs.getString("ProductCode");
-                String productName = rs.getString("ProductName");
-                int quantity = rs.getInt("Quantity");
-                double costPrice = rs.getDouble("CostPrice");
-                double sellPrice = rs.getDouble("SellPrice");
+                String productCode = rs.getString("product_code");
+                String productName = rs.getString("product_name");
+                int quantity = rs.getInt("quantity");
+                double costPrice = rs.getDouble("cost_price");
+                String formattedCostPrice = formatter.format(costPrice).replace(",", ".");
+                String ram = rs.getString("ram");
+                String rom = rs.getString("rom");
+                String screenSize = rs.getString("screen_size");
+                String brand = rs.getString("brand");
                 
-                // Format prices with dots as thousand separators
-                String formattedCost = formatter.format(costPrice).replace(",", ".");
-                String formattedSell = formatter.format(sellPrice).replace(",", ".");
-                
-                tblModel.addRow(new Object[]{productCode, productName, quantity, formattedCost, formattedSell});
+                tblModel.addRow(new Object[]{productCode, productName, quantity, formattedCostPrice, ram, rom, screenSize, brand});
             }
         } catch (SQLException e) {
             e.printStackTrace();
