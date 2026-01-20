@@ -4,6 +4,7 @@ import DAO.ProductDAO;
 import DAO.SupplierDAO;
 import Model.Product;
 import Util.DateTimeUtil;
+import Util.IconScaler;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,6 +34,7 @@ public class PurchasePage extends javax.swing.JPanel {
         this.dashboard = dashboard;
         purchaseTable.setDefaultEditor(Object.class, null);
         purchaseTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        refreshButton.setIcon(IconScaler.scaleIcon16("/UI/Icons/refresh.png"));
         initTable();
         loadComboBox();
         loadProductComboBox();
@@ -116,14 +118,22 @@ public class PurchasePage extends javax.swing.JPanel {
 
         nameText.setEnabled(false);
 
+        purchaseButton.setBackground(new java.awt.Color(0, 202, 78));
+        purchaseButton.setForeground(new java.awt.Color(51, 51, 51));
         purchaseButton.setText("NHẬP");
+        purchaseButton.setBorderPainted(false);
+        purchaseButton.setOpaque(true);
         purchaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 purchaseButtonActionPerformed(evt);
             }
         });
 
+        deleteButton.setBackground(new java.awt.Color(255, 96, 92));
+        deleteButton.setForeground(new java.awt.Color(51, 51, 51));
         deleteButton.setText("Xóa");
+        deleteButton.setBorderPainted(false);
+        deleteButton.setOpaque(true);
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteButtonActionPerformed(evt);
@@ -228,6 +238,7 @@ public class PurchasePage extends javax.swing.JPanel {
         jScrollPane1.setViewportView(purchaseTable);
 
         refreshButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        refreshButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/refresh.png"))); // NOI18N
         refreshButton.setText("LÀM MỚI");
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -280,7 +291,7 @@ public class PurchasePage extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

@@ -2,6 +2,7 @@ package UI;
 
 import DAO.CustomerDAO;
 import Model.Customer;
+import Util.IconScaler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -19,6 +20,7 @@ public class CustomerPage extends javax.swing.JPanel {
     public CustomerPage() {
         initComponents();
         custTable.setDefaultEditor(Object.class, null);
+        refreshButton.setIcon(IconScaler.scaleIcon16("/UI/Icons/refresh.png"));
         initTable();
         loadDataSet();
     }
@@ -84,7 +86,9 @@ public class CustomerPage extends javax.swing.JPanel {
         addButton.setBackground(new java.awt.Color(0, 202, 78));
         addButton.setForeground(new java.awt.Color(51, 51, 51));
         addButton.setText("Thêm");
+        addButton.setBorderPainted(false);
         addButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        addButton.setOpaque(true);
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonActionPerformed(evt);
@@ -94,7 +98,9 @@ public class CustomerPage extends javax.swing.JPanel {
         editButton.setBackground(new java.awt.Color(255, 189, 68));
         editButton.setForeground(new java.awt.Color(51, 51, 51));
         editButton.setText("Sửa");
+        editButton.setBorderPainted(false);
         editButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        editButton.setOpaque(true);
         editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editButtonActionPerformed(evt);
@@ -104,7 +110,9 @@ public class CustomerPage extends javax.swing.JPanel {
         deleteButton.setBackground(new java.awt.Color(255, 96, 92));
         deleteButton.setForeground(new java.awt.Color(51, 51, 51));
         deleteButton.setText("Xoá");
+        deleteButton.setBorderPainted(false);
         deleteButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        deleteButton.setOpaque(true);
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteButtonActionPerformed(evt);
@@ -196,6 +204,7 @@ public class CustomerPage extends javax.swing.JPanel {
         jLabel8.setText("Tìm kiếm");
 
         refreshButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        refreshButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/refresh.png"))); // NOI18N
         refreshButton.setText("LÀM MỚI");
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

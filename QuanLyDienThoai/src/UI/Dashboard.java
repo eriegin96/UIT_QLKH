@@ -2,9 +2,9 @@ package UI;
 
 import DAO.UserDAO;
 import Model.User;
+import Util.IconScaler;
 import javax.swing.*;
 import java.awt.CardLayout;
-import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDateTime;
@@ -25,16 +25,16 @@ public class Dashboard extends javax.swing.JFrame {
         initComponents();
         
         // Scale all icons to 20x20
-        homeButton.setIcon(scaleIcon("/UI/Icons/dashboard.png"));
-        prodButton.setIcon(scaleIcon("/UI/Icons/product.png"));
-        stockButton.setIcon(scaleIcon("/UI/Icons/stock.png"));
-        custButton.setIcon(scaleIcon("/UI/Icons/account.png"));
-        suppButton.setIcon(scaleIcon("/UI/Icons/supplier.png"));
-        salesButton.setIcon(scaleIcon("/UI/Icons/sell.png"));
-        usersButton.setIcon(scaleIcon("/UI/Icons/account_test.png"));
-        purchaseButton.setIcon(scaleIcon("/UI/Icons/import.png"));
-        nameLabel.setIcon(scaleIcon("/UI/Icons/account_test.png"));
-        logoutButton.setIcon(scaleIcon("/UI/Icons/shutdown.png"));
+        homeButton.setIcon(IconScaler.scaleIcon20("/UI/Icons/dashboard.png"));
+        prodButton.setIcon(IconScaler.scaleIcon20("/UI/Icons/product.png"));
+        stockButton.setIcon(IconScaler.scaleIcon20("/UI/Icons/stock.png"));
+        custButton.setIcon(IconScaler.scaleIcon20("/UI/Icons/account.png"));
+        suppButton.setIcon(IconScaler.scaleIcon20("/UI/Icons/supplier.png"));
+        salesButton.setIcon(IconScaler.scaleIcon20("/UI/Icons/sell.png"));
+        usersButton.setIcon(IconScaler.scaleIcon20("/UI/Icons/account_test.png"));
+        purchaseButton.setIcon(IconScaler.scaleIcon20("/UI/Icons/import.png"));
+        nameLabel.setIcon(IconScaler.scaleIcon20("/UI/Icons/account_test.png"));
+        logoutButton.setIcon(IconScaler.scaleIcon20("/UI/Icons/shutdown.png"));
         
         layout = new CardLayout();
         this.username = username;
@@ -70,6 +70,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
 
         setTitle("QUẢN LÝ CỬA HÀNG ĐIỆN THOẠI");
+        setResizable(false); // Disable window resizing and maximize button
         setVisible(true);
     }
 
@@ -134,6 +135,7 @@ public class Dashboard extends javax.swing.JFrame {
         navPanel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         homeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/dashboard.png"))); // NOI18N
+        homeButton.setText("Thống kê");
         homeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         homeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,7 +171,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
 
         suppButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/supplier.png"))); // NOI18N
-        suppButton.setText("NCC");
+        suppButton.setText("Nhà cung cấp");
         suppButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         suppButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -240,7 +242,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(purchaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(usersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
 
         displayPanel.setLayout(new java.awt.CardLayout());
@@ -289,18 +291,17 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addComponent(navPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(displayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 743, Short.MAX_VALUE))
+                .addComponent(displayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE))
             .addComponent(userPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addComponent(userPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(displayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(navPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(navPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(displayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         setJMenuBar(jMenuBar1);
@@ -411,15 +412,6 @@ public class Dashboard extends javax.swing.JFrame {
         new UserDAO().getFullName(userDTO, username);
         nameLabel.setText("Tài khoản: " + userDTO.getFullName() + " (" + userType + ")");
     }
-    
-    // Helper method to scale icon
-    private ImageIcon scaleIcon(String path) {
-        ImageIcon icon = new ImageIcon(getClass().getResource(path));
-        Image img = icon.getImage();
-        Image scaledImg = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        return new ImageIcon(scaledImg);
-    }
-
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton custButton;

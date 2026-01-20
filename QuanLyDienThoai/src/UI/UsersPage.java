@@ -2,6 +2,7 @@ package UI;
 
 import DAO.UserDAO;
 import Model.User;
+import Util.IconScaler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,6 +19,7 @@ public class UsersPage extends javax.swing.JPanel {
         initComponents();
         userTable.setDefaultEditor(Object.class, null);
         userTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        refreshButton.setIcon(IconScaler.scaleIcon16("/UI/Icons/refresh.png"));
         initTable();
         loadDataSet();
     }
@@ -89,24 +91,36 @@ public class UsersPage extends javax.swing.JPanel {
 
         userTypeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "SALER", "PURCHASER" }));
 
+        addButton.setBackground(new java.awt.Color(0, 202, 78));
+        addButton.setForeground(new java.awt.Color(51, 51, 51));
         addButton.setText("Thêm");
+        addButton.setBorderPainted(false);
         addButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        addButton.setOpaque(true);
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonActionPerformed(evt);
             }
         });
 
+        editButton.setBackground(new java.awt.Color(255, 189, 68));
+        editButton.setForeground(new java.awt.Color(51, 51, 51));
         editButton.setText("Sửa");
+        editButton.setBorderPainted(false);
         editButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        editButton.setOpaque(true);
         editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editButtonActionPerformed(evt);
             }
         });
 
+        deleteButton.setBackground(new java.awt.Color(255, 96, 92));
+        deleteButton.setForeground(new java.awt.Color(51, 51, 51));
         deleteButton.setText("Xóa");
+        deleteButton.setBorderPainted(false);
         deleteButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        deleteButton.setOpaque(true);
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteButtonActionPerformed(evt);
@@ -140,11 +154,7 @@ public class UsersPage extends javax.swing.JPanel {
                     .addGroup(entryPanelLayout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(usernameText)))
-                .addContainerGap())
-            .addGroup(entryPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(entryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(usernameText))
                     .addGroup(entryPanelLayout.createSequentialGroup()
                         .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -186,6 +196,8 @@ public class UsersPage extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+
         userTable.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         userTable.setForeground(new java.awt.Color(102, 102, 102));
         userTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -219,6 +231,7 @@ public class UsersPage extends javax.swing.JPanel {
         jScrollPane1.setViewportView(userTable);
 
         refreshButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        refreshButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/refresh.png"))); // NOI18N
         refreshButton.setText("LÀM MỚI");
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

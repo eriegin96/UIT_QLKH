@@ -4,6 +4,7 @@ import DAO.CustomerDAO;
 import DAO.ProductDAO;
 import Model.Product;
 import Util.DateTimeUtil;
+import Util.IconScaler;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -32,6 +33,7 @@ public class SalesPage extends javax.swing.JPanel {
         this.dashboard = dashboard;
         salesTable.setDefaultEditor(Object.class, null);
         salesTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        refreshButton.setIcon(IconScaler.scaleIcon16("/UI/Icons/refresh.png"));
         initTable();
         custNameLabel.setVisible(false);
         prodNameLabel.setVisible(false);
@@ -118,17 +120,25 @@ public class SalesPage extends javax.swing.JPanel {
             }
         });
 
+        sellButton.setBackground(new java.awt.Color(0, 202, 78));
         sellButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        sellButton.setForeground(new java.awt.Color(51, 51, 51));
         sellButton.setText("BÁN");
+        sellButton.setBorderPainted(false);
         sellButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        sellButton.setOpaque(true);
         sellButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sellButtonActionPerformed(evt);
             }
         });
 
+        deleteButton.setBackground(new java.awt.Color(255, 96, 92));
+        deleteButton.setForeground(new java.awt.Color(51, 51, 51));
         deleteButton.setText("Xóa");
+        deleteButton.setBorderPainted(false);
         deleteButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        deleteButton.setOpaque(true);
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteButtonActionPerformed(evt);
@@ -217,7 +227,7 @@ public class SalesPage extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(sellPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sellButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(sellButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -251,6 +261,7 @@ public class SalesPage extends javax.swing.JPanel {
         jLabel7.setText("Tìm kiếm");
 
         refreshButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        refreshButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/refresh.png"))); // NOI18N
         refreshButton.setText("LÀM MỚI");
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -1,6 +1,7 @@
 package UI;
 
 import DAO.StatisticsDAO;
+import Util.IconScaler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +27,7 @@ public class HomePage extends javax.swing.JPanel {
         initComponents();
         this.username = username;
         statisticsDAO = new StatisticsDAO();
-        // styleRefreshButton();
+        refreshButton.setIcon(IconScaler.scaleIcon16("/UI/Icons/refresh.png"));
         setupStatistics();
         loadStatistics();
     }
@@ -77,6 +78,7 @@ public class HomePage extends javax.swing.JPanel {
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         refreshButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        refreshButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/refresh.png"))); // NOI18N
         refreshButton.setText("LÀM MỚI");
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
