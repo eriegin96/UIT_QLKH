@@ -4,6 +4,7 @@ import DAO.UserDAO;
 import Model.User;
 import javax.swing.*;
 import java.awt.CardLayout;
+import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDateTime;
@@ -22,6 +23,19 @@ public class Dashboard extends javax.swing.JFrame {
      */
     public Dashboard(String username, User userDTO) {
         initComponents();
+        
+        // Scale all icons to 20x20
+        homeButton.setIcon(scaleIcon("/UI/Icons/dashboard.png"));
+        prodButton.setIcon(scaleIcon("/UI/Icons/product.png"));
+        stockButton.setIcon(scaleIcon("/UI/Icons/stock.png"));
+        custButton.setIcon(scaleIcon("/UI/Icons/account.png"));
+        suppButton.setIcon(scaleIcon("/UI/Icons/supplier.png"));
+        salesButton.setIcon(scaleIcon("/UI/Icons/sell.png"));
+        usersButton.setIcon(scaleIcon("/UI/Icons/account_test.png"));
+        purchaseButton.setIcon(scaleIcon("/UI/Icons/import.png"));
+        nameLabel.setIcon(scaleIcon("/UI/Icons/account_test.png"));
+        logoutButton.setIcon(scaleIcon("/UI/Icons/shutdown.png"));
+        
         layout = new CardLayout();
         this.username = username;
         this.userDTO = userDTO;
@@ -119,7 +133,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         navPanel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        homeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/homepages_home_house_icon_150665.png"))); // NOI18N
+        homeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/dashboard.png"))); // NOI18N
         homeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         homeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,6 +141,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        prodButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/product.png"))); // NOI18N
         prodButton.setText("Sản phẩm");
         prodButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         prodButton.addActionListener(new java.awt.event.ActionListener() {
@@ -135,6 +150,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        stockButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/stock.png"))); // NOI18N
         stockButton.setText("Tồn kho");
         stockButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         stockButton.addActionListener(new java.awt.event.ActionListener() {
@@ -143,6 +159,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        custButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/account.png"))); // NOI18N
         custButton.setText("Khách hàng");
         custButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         custButton.addActionListener(new java.awt.event.ActionListener() {
@@ -151,6 +168,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        suppButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/supplier.png"))); // NOI18N
         suppButton.setText("NCC");
         suppButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         suppButton.addActionListener(new java.awt.event.ActionListener() {
@@ -159,6 +177,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        salesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/sell.png"))); // NOI18N
         salesButton.setText("Bán hàng");
         salesButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         salesButton.addActionListener(new java.awt.event.ActionListener() {
@@ -167,6 +186,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        usersButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/account_test.png"))); // NOI18N
         usersButton.setText("Tài khoản");
         usersButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         usersButton.addActionListener(new java.awt.event.ActionListener() {
@@ -175,6 +195,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        purchaseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/import.png"))); // NOI18N
         purchaseButton.setText("Nhập hàng");
         purchaseButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         purchaseButton.addActionListener(new java.awt.event.ActionListener() {
@@ -192,7 +213,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(navPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(homeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(prodButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(stockButton, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+                    .addComponent(stockButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(custButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(suppButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(salesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -227,11 +248,11 @@ public class Dashboard extends javax.swing.JFrame {
         userPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         nameLabel.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        nameLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/user_icon_150670.png"))); // NOI18N
+        nameLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/account_test.png"))); // NOI18N
         nameLabel.setText("Tài khoản:");
         nameLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/log-out_icon-icons.com_50106.png"))); // NOI18N
+        logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/shutdown.png"))); // NOI18N
         logoutButton.setText("Đăng xuất");
         logoutButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
@@ -268,7 +289,7 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addComponent(navPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(displayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 779, Short.MAX_VALUE))
+                .addComponent(displayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 743, Short.MAX_VALUE))
             .addComponent(userPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
@@ -389,6 +410,14 @@ public class Dashboard extends javax.swing.JFrame {
         User userDTO = new User();
         new UserDAO().getFullName(userDTO, username);
         nameLabel.setText("Tài khoản: " + userDTO.getFullName() + " (" + userType + ")");
+    }
+    
+    // Helper method to scale icon
+    private ImageIcon scaleIcon(String path) {
+        ImageIcon icon = new ImageIcon(getClass().getResource(path));
+        Image img = icon.getImage();
+        Image scaledImg = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledImg);
     }
 
     

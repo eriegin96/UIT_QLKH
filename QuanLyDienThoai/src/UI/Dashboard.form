@@ -50,7 +50,7 @@
               <Group type="102" attributes="0">
                   <Component id="navPanel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="displayPanel" pref="779" max="32767" attributes="0"/>
+                  <Component id="displayPanel" pref="743" max="32767" attributes="0"/>
               </Group>
               <Component id="userPanel" max="32767" attributes="0"/>
           </Group>
@@ -87,7 +87,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="homeButton" alignment="0" max="32767" attributes="0"/>
                           <Component id="prodButton" max="32767" attributes="0"/>
-                          <Component id="stockButton" pref="107" max="32767" attributes="0"/>
+                          <Component id="stockButton" max="32767" attributes="0"/>
                           <Component id="custButton" max="32767" attributes="0"/>
                           <Component id="suppButton" max="32767" attributes="0"/>
                           <Component id="salesButton" max="32767" attributes="0"/>
@@ -126,7 +126,7 @@
             <Component class="javax.swing.JButton" name="homeButton">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/UI/Icons/homepages_home_house_icon_150665.png"/>
+                  <Image iconType="3" name="/UI/Icons/dashboard.png"/>
                 </Property>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Hand Cursor"/>
@@ -138,6 +138,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="prodButton">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/UI/Icons/product.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="S&#x1ea3;n ph&#x1ea9;m"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Hand Cursor"/>
@@ -149,6 +152,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="stockButton">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/UI/Icons/stock.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="T&#x1ed3;n kho"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Hand Cursor"/>
@@ -160,6 +166,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="custButton">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/UI/Icons/account.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Kh&#xe1;ch h&#xe0;ng"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Hand Cursor"/>
@@ -171,6 +180,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="suppButton">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/UI/Icons/supplier.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="NCC"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Hand Cursor"/>
@@ -182,6 +194,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="salesButton">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/UI/Icons/sell.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="B&#xe1;n h&#xe0;ng"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Hand Cursor"/>
@@ -193,6 +208,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="usersButton">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/UI/Icons/account_test.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="T&#xe0;i kho&#x1ea3;n"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Hand Cursor"/>
@@ -204,6 +222,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="purchaseButton">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/UI/Icons/import.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Nh&#x1ead;p h&#xe0;ng"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Hand Cursor"/>
@@ -260,7 +281,7 @@
                   <Font name="Segoe UI Black" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/UI/Icons/user_icon_150670.png"/>
+                  <Image iconType="3" name="/UI/Icons/account_test.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="T&#xe0;i kho&#x1ea3;n:"/>
                 <Property name="verticalAlignment" type="int" value="1"/>
@@ -269,7 +290,7 @@
             <Component class="javax.swing.JButton" name="logoutButton">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/UI/Icons/log-out_icon-icons.com_50106.png"/>
+                  <Image iconType="3" name="/UI/Icons/shutdown.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="&#x110;&#x103;ng xu&#x1ea5;t"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">

@@ -1,18 +1,60 @@
 package UI;
 
-import DAO.UserDAO;
-import Model.User;
-// Welcome page for the application
+import DAO.StatisticsDAO;
+
+import javax.swing.*;
+import java.awt.*;
+import java.text.DecimalFormat;
+
 public class HomePage extends javax.swing.JPanel {
 
+    String username;
+    private StatisticsDAO statisticsDAO;
+    private DecimalFormat formatter = new DecimalFormat("###,###,###");
+    
+    // Statistics value labels
+    private JLabel revenueValue, costValue, profitValue;
+    private JLabel productsValue, stockValue, inventoryValue;
+    private JLabel customersValue, suppliersValue, salesValue;
+    private JLabel purchasesValue, lowStockValue;
+    
     /**
-     * Creates new form HomePage
+     * Creates new form StatsPage
      */
+    
     public HomePage(String username) {
         initComponents();
-        User userDTO = new User();
-        new UserDAO().getFullName(userDTO, username);
+        this.username = username;
+        statisticsDAO = new StatisticsDAO();
+        // styleRefreshButton();
+        setupStatistics();
+        loadStatistics();
     }
+    
+    private void styleRefreshButton() {
+        // Style the refresh button from the form
+        refreshButton.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        refreshButton.setBackground(new Color(46, 204, 113));
+        refreshButton.setForeground(Color.WHITE);
+        refreshButton.setFocusPainted(false);
+        refreshButton.setBorderPainted(false);
+        refreshButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        refreshButton.setOpaque(true);
+        refreshButton.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(39, 174, 96), 1),
+            BorderFactory.createEmptyBorder(5, 15, 5, 15)
+        ));
+        // Add hover effect
+        refreshButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                refreshButton.setBackground(new Color(39, 174, 96));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                refreshButton.setBackground(new Color(46, 204, 113));
+            }
+        });
+    }
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -23,19 +65,249 @@ public class HomePage extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        refreshButton = new javax.swing.JButton();
+
+        jLabel1.setFont(new java.awt.Font("Helvetica", 0, 24)); // NOI18N
+        jLabel1.setText("THỐNG KÊ");
+        jLabel1.setToolTipText("");
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+        refreshButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        refreshButton.setText("LÀM MỚI");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 493, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(refreshButton)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 373, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(88, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        loadStatistics();
+    }//GEN-LAST:event_refreshButtonActionPerformed
+
+    private void setupStatistics() {
+        // Create main content panel with explicit preferred height
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        // Financial Section
+        contentPanel.add(createSectionLabel("TỔNG QUAN TÀI CHÍNH"));
+        contentPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        
+        JPanel financialPanel = new JPanel(new GridLayout(1, 3, 8, 0));
+        financialPanel.setOpaque(false);
+        financialPanel.setMaximumSize(new Dimension(650, 80));
+        
+        JPanel revenueCard = createStatCard("Tổng Doanh Thu", new Color(46, 204, 113));
+        revenueValue = (JLabel) revenueCard.getComponent(0);
+        
+        JPanel costCard = createStatCard("Tổng Chi Phí", new Color(231, 76, 60));
+        costValue = (JLabel) costCard.getComponent(0);
+        
+        JPanel profitCard = createStatCard("Lợi Nhuận", new Color(52, 152, 219));
+        profitValue = (JLabel) profitCard.getComponent(0);
+        
+        financialPanel.add(revenueCard);
+        financialPanel.add(costCard);
+        financialPanel.add(profitCard);
+        contentPanel.add(financialPanel);
+        contentPanel.add(Box.createRigidArea(new Dimension(0, 8)));
+        
+        // Inventory Section
+        contentPanel.add(createSectionLabel("KHO HÀNG"));
+        contentPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        
+        JPanel inventoryPanel = new JPanel(new GridLayout(1, 3, 8, 0));
+        inventoryPanel.setOpaque(false);
+        inventoryPanel.setMaximumSize(new Dimension(650, 80));
+        
+        JPanel productsCard = createStatCard("Tổng Sản Phẩm", new Color(155, 89, 182));
+        productsValue = (JLabel) productsCard.getComponent(0);
+        
+        JPanel stockCard = createStatCard("Tổng Số Lượng", new Color(52, 73, 94));
+        stockValue = (JLabel) stockCard.getComponent(0);
+        
+        JPanel inventoryValueCard = createStatCard("Giá Trị Kho", new Color(22, 160, 133));
+        inventoryValue = (JLabel) inventoryValueCard.getComponent(0);
+        
+        inventoryPanel.add(productsCard);
+        inventoryPanel.add(stockCard);
+        inventoryPanel.add(inventoryValueCard);
+        contentPanel.add(inventoryPanel);
+        contentPanel.add(Box.createRigidArea(new Dimension(0, 8)));
+        
+        // Partners Section
+        contentPanel.add(createSectionLabel("ĐỐI TÁC KINH DOANH"));
+        contentPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        
+        JPanel partnersPanel = new JPanel(new GridLayout(1, 2, 8, 0));
+        partnersPanel.setOpaque(false);
+        partnersPanel.setMaximumSize(new Dimension(425, 80));
+        
+        JPanel customersCard = createStatCard("Khách Hàng", new Color(241, 196, 15));
+        customersValue = (JLabel) customersCard.getComponent(0);
+        
+        JPanel suppliersCard = createStatCard("Nhà Cung Cấp", new Color(230, 126, 34));
+        suppliersValue = (JLabel) suppliersCard.getComponent(0);
+        
+        partnersPanel.add(customersCard);
+        partnersPanel.add(suppliersCard);
+        contentPanel.add(partnersPanel);
+        contentPanel.add(Box.createRigidArea(new Dimension(0, 8)));
+        
+        // Transactions Section
+        contentPanel.add(createSectionLabel("GIAO DỊCH"));
+        contentPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        
+        JPanel transactionsPanel = new JPanel(new GridLayout(1, 3, 8, 0));
+        transactionsPanel.setOpaque(false);
+        transactionsPanel.setMaximumSize(new Dimension(650, 80));
+        
+        JPanel salesCard = createStatCard("Đơn Bán Hàng", new Color(26, 188, 156));
+        salesValue = (JLabel) salesCard.getComponent(0);
+        
+        JPanel purchasesCard = createStatCard("Đơn Nhập Hàng", new Color(52, 152, 219));
+        purchasesValue = (JLabel) purchasesCard.getComponent(0);
+        
+        JPanel lowStockCard = createStatCard("Sắp Hết Hàng", new Color(192, 57, 43));
+        lowStockValue = (JLabel) lowStockCard.getComponent(0);
+        
+        transactionsPanel.add(salesCard);
+        transactionsPanel.add(purchasesCard);
+        transactionsPanel.add(lowStockCard);
+        contentPanel.add(transactionsPanel);
+        
+        // Add small space at bottom
+        contentPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        
+        // Add content panel to the existing scroll pane
+        jScrollPane1.setViewportView(contentPanel);
+        jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(16);
+        
+        // Force layout update
+        revalidate();
+        repaint();
+    }
+    
+    private JLabel createSectionLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setFont(new Font("Helvetica Neue", Font.BOLD, 15));
+        label.setForeground(new Color(44, 62, 80));
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return label;
+    }
+    
+    private JPanel createStatCard(String title, Color valueColor) {
+        JPanel card = new JPanel();
+        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(204, 204, 204), 1),
+            BorderFactory.createEmptyBorder(6, 6, 6, 6)
+        ));
+        
+        // Value (will be updated later)
+        JLabel valueLabel = new JLabel("0");
+        valueLabel.setFont(new Font("Helvetica Neue", Font.BOLD, 18));
+        valueLabel.setForeground(valueColor);
+        valueLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(valueLabel);
+        
+        card.add(Box.createRigidArea(new Dimension(0, 3)));
+        
+        // Title
+        JLabel titleLabel = new JLabel(title);
+        titleLabel.setFont(new Font("Helvetica Neue", Font.PLAIN, 10));
+        titleLabel.setForeground(new Color(0, 0, 0));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(titleLabel);
+        
+        return card;
+    }
+    
+    private void loadStatistics() {
+        // Load in background thread
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            private double revenue, cost, profit, invValue;
+            private int products, stock, customers, suppliers, sales, purchases, lowStock;
+            
+            @Override
+            protected Void doInBackground() {
+                revenue = statisticsDAO.getTotalRevenue();
+                cost = statisticsDAO.getTotalPurchaseCost();
+                profit = statisticsDAO.getTotalProfit();
+                products = statisticsDAO.getTotalProducts();
+                stock = statisticsDAO.getTotalStock();
+                invValue = statisticsDAO.getTotalInventoryValue();
+                customers = statisticsDAO.getTotalCustomers();
+                suppliers = statisticsDAO.getTotalSuppliers();
+                sales = statisticsDAO.getTotalSales();
+                purchases = statisticsDAO.getTotalPurchases();
+                lowStock = statisticsDAO.getLowStockCount();
+                return null;
+            }
+            
+            @Override
+            protected void done() {
+                revenueValue.setText(formatMoney(revenue));
+                costValue.setText(formatMoney(cost));
+                profitValue.setText(formatMoney(profit));
+                productsValue.setText(String.valueOf(products));
+                stockValue.setText(String.valueOf(stock));
+                inventoryValue.setText(formatMoney(invValue));
+                customersValue.setText(String.valueOf(customers));
+                suppliersValue.setText(String.valueOf(suppliers));
+                salesValue.setText(String.valueOf(sales));
+                purchasesValue.setText(String.valueOf(purchases));
+                lowStockValue.setText(String.valueOf(lowStock));
+            }
+        };
+        worker.execute();
+    }
+    
+    private String formatMoney(double amount) {
+        return formatter.format(amount).replace(",", ".") + " đ";
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JButton refreshButton;
     // End of variables declaration//GEN-END:variables
 }

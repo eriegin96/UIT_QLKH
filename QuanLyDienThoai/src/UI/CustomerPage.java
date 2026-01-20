@@ -81,6 +81,8 @@ public class CustomerPage extends javax.swing.JPanel {
         locationText.setRows(2);
         locationText.setWrapStyleWord(true);
 
+        addButton.setBackground(new java.awt.Color(0, 202, 78));
+        addButton.setForeground(new java.awt.Color(51, 51, 51));
         addButton.setText("Thêm");
         addButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addButton.addActionListener(new java.awt.event.ActionListener() {
@@ -89,6 +91,8 @@ public class CustomerPage extends javax.swing.JPanel {
             }
         });
 
+        editButton.setBackground(new java.awt.Color(255, 189, 68));
+        editButton.setForeground(new java.awt.Color(51, 51, 51));
         editButton.setText("Sửa");
         editButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         editButton.addActionListener(new java.awt.event.ActionListener() {
@@ -97,6 +101,8 @@ public class CustomerPage extends javax.swing.JPanel {
             }
         });
 
+        deleteButton.setBackground(new java.awt.Color(255, 96, 92));
+        deleteButton.setForeground(new java.awt.Color(51, 51, 51));
         deleteButton.setText("Xoá");
         deleteButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
@@ -204,7 +210,6 @@ public class CustomerPage extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -213,8 +218,9 @@ public class CustomerPage extends javax.swing.JPanel {
                         .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(refreshButton))
+                    .addComponent(jSeparator1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(entryPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
