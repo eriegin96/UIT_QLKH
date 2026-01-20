@@ -143,7 +143,7 @@ public class LoginPage extends javax.swing.JFrame {
         } else {
            JOptionPane.showMessageDialog(
                    null,
-                   "Invalid username or password.");
+                   "Sai tên đăng nhập hoặc mật khẩu.");
         }        
     }//GEN-LAST:event_loginButtonActionPerformed
 

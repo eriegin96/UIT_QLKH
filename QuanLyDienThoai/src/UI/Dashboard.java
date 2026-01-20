@@ -301,8 +301,8 @@ public class Dashboard extends javax.swing.JFrame {
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         int opt = JOptionPane.showConfirmDialog(
                 null,
-                "<html>Are you sure you want to logout?<br>You will have to login again.<html>",
-                "Confirmation",
+                "<html>Bạn có chắc chắn muốn đăng xuất?<br><html>",
+                "Xác nhận",
                 JOptionPane.YES_NO_OPTION);
         if (opt==JOptionPane.YES_OPTION){
             outTime = LocalDateTime.now();

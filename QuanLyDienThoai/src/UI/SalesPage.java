@@ -3,6 +3,7 @@ package UI;
 import DAO.CustomerDAO;
 import DAO.ProductDAO;
 import Model.Product;
+import Util.DateTimeUtil;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -345,7 +346,8 @@ public class SalesPage extends javax.swing.JPanel {
                 
                 Product productDTO = new Product();
                 productDTO.setCustCode(custCode);
-                productDTO.setDate(dateFormat.format(jDateChooser1.getDate()));
+                // Format date for database (TIMESTAMP format)
+                productDTO.setDate(DateTimeUtil.datePickerToDatabase(jDateChooser1.getDate()));
                 productDTO.setProdCode(prodCode);
                 Double sellPrice = Double.parseDouble(priceText.getText());
                 Double totalRevenue = sellPrice * Integer.parseInt(quantityText.getText());
@@ -391,7 +393,11 @@ public class SalesPage extends javax.swing.JPanel {
         
         // Set date
         try {
-            jDateChooser1.setDate(dateFormat.parse(formatDate(dateStr)));
+            // Parse display format to set date picker
+            java.util.Date date = DateTimeUtil.parseDisplayFormat(formatDate(dateStr));
+            if (date != null) {
+                jDateChooser1.setDate(date);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -428,17 +434,23 @@ public class SalesPage extends javax.swing.JPanel {
         }
         
         // If already in dd/MM/yyyy format, return as is
-        if (dateStr.matches("\\d{2}/\\d{2}/\\d{4}")) {
+        if (dateStr.matches("\\d{2}/\\d{2}/\\d{4}.*")) {
             return dateStr;
         }
         
         // Try to parse from various formats
         try {
-            // Remove timezone from the date string
+            // Try TIMESTAMP format from database first (yyyy-MM-dd HH:mm:ss)
+            java.util.Date date = DateTimeUtil.parseDatabaseFormat(dateStr);
+            if (date != null) {
+                return DateTimeUtil.formatForDisplay(date);
+            }
+            
+            // Try old format for backward compatibility
             String dateWithoutTZ = dateStr.replaceAll(" [A-Z]{2,4} (\\d{4})", " $1");
             SimpleDateFormat oldFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy", java.util.Locale.ENGLISH);
-            java.util.Date date = oldFormat.parse(dateWithoutTZ);
-            return dateFormat.format(date);
+            date = oldFormat.parse(dateWithoutTZ);
+            return DateTimeUtil.formatForDisplay(date);
         } catch (Exception e) {
             return dateStr;
         }

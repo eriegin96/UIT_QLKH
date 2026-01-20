@@ -207,7 +207,8 @@ public class ProductDAO {
             prepStatement = conn.prepareStatement(query);
             prepStatement.setString(1, productDTO.getSuppCode());
             prepStatement.setString(2, productDTO.getProdCode());
-            prepStatement.setString(3, productDTO.getDate());
+            // Use TIMESTAMP format for database
+            prepStatement.setTimestamp(3, java.sql.Timestamp.valueOf(productDTO.getDate()));
             prepStatement.setInt(4, productDTO.getQuantity());
             prepStatement.setDouble(5, productDTO.getCostPrice());
             prepStatement.setDouble(6, productDTO.getTotalCost());
@@ -419,16 +420,25 @@ public class ProductDAO {
             else if (productDTO.getQuantity()<=0)
                 JOptionPane.showMessageDialog(null, "Vui lòng nhập số lượng hợp lệ.");
             else {
-                String stockQuery = "UPDATE inventory SET quantity=quantity-'"
-                        +productDTO.getQuantity()
-                        +"' WHERE product_code='"
-                        +productDTO.getProdCode()
-                        +"'";
-                String salesQuery = "INSERT INTO sales_info(date,product_code,customer_code,quantity,sell_price,revenue,sold_by)" +
-                        "VALUES('"+productDTO.getDate()+"','"+productDTO.getProdCode()+"','"+productDTO.getCustCode()+
-                        "','"+productDTO.getQuantity()+"','"+productDTO.getSellPrice()+"','"+productDTO.getTotalRevenue()+"','"+username+"')";
-                statement.executeUpdate(stockQuery);
-                statement.executeUpdate(salesQuery);
+                // Update stock using PreparedStatement
+                String stockQuery = "UPDATE inventory SET quantity=quantity-? WHERE product_code=?";
+                prepStatement = conn.prepareStatement(stockQuery);
+                prepStatement.setInt(1, productDTO.getQuantity());
+                prepStatement.setString(2, productDTO.getProdCode());
+                prepStatement.executeUpdate();
+                
+                // Insert sales record using PreparedStatement with TIMESTAMP
+                String salesQuery = "INSERT INTO sales_info(product_code,customer_code,date,quantity,sell_price,revenue,sold_by) VALUES(?,?,?,?,?,?,?)";
+                prepStatement = conn.prepareStatement(salesQuery);
+                prepStatement.setString(1, productDTO.getProdCode());
+                prepStatement.setString(2, productDTO.getCustCode());
+                prepStatement.setTimestamp(3, java.sql.Timestamp.valueOf(productDTO.getDate()));
+                prepStatement.setInt(4, productDTO.getQuantity());
+                prepStatement.setDouble(5, productDTO.getSellPrice());
+                prepStatement.setDouble(6, productDTO.getTotalRevenue());
+                prepStatement.setString(7, username);
+                prepStatement.executeUpdate();
+                
                 JOptionPane.showMessageDialog(null, "Sản phẩm đã được bán.");
             }
         } catch (SQLException e) {

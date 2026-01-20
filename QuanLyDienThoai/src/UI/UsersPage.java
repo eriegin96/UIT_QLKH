@@ -304,6 +304,26 @@ public class UsersPage extends javax.swing.JPanel {
                 userDTO.setPhone(phoneText.getText());
                 userDTO.setUsername(usernameText.getText());
                 userDTO.setUserType(userType);
+                
+                // Check if password field has been filled (meaning user wants to change password)
+                String newPassword = new String(passText.getPassword());
+                if (!newPassword.isEmpty()) {
+                    // Show confirmation for password change
+                    int opt = JOptionPane.showConfirmDialog(
+                            null,
+                            "Bạn có muốn thay đổi mật khẩu cho người dùng này?\n(Mật khẩu mới sẽ được mã hóa an toàn)",
+                            "Xác nhận thay đổi mật khẩu",
+                            JOptionPane.YES_NO_OPTION);
+                    if (opt == JOptionPane.YES_OPTION) {
+                        userDTO.setPassword(newPassword);
+                    } else {
+                        userDTO.setPassword(null); // Don't update password
+                    }
+                } else {
+                    // Password field is empty, don't update password
+                    userDTO.setPassword(null);
+                }
+                
                 new UserDAO().editUserDAO(userDTO);
                 loadDataSet();
                 clearFields();
@@ -344,7 +364,9 @@ public class UsersPage extends javax.swing.JPanel {
         locationText.setText(val[2].toString());
         phoneText.setText(val[3].toString());
         usernameText.setText(val[4].toString());
-        passText.setText(val[5].toString());
+        // Clear password field when selecting a user (for security)
+        // User must enter new password if they want to change it
+        passText.setText("");
         userTypeCombo.setSelectedItem(val[6].toString());
     }//GEN-LAST:event_userTableMouseClicked
 
@@ -370,7 +392,11 @@ public class UsersPage extends javax.swing.JPanel {
                 String username = rs.getString(5);
                 String password = rs.getString(6);
                 String userType = rs.getString(7);
-                tblModel.addRow(new Object[]{uid, name, location, phone, username, password, userType});
+                
+                // Display masked password instead of actual hash for security
+                String displayPassword = "********";
+                
+                tblModel.addRow(new Object[]{uid, name, location, phone, username, displayPassword, userType});
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

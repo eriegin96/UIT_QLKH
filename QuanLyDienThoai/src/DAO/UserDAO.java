@@ -3,6 +3,7 @@ package DAO;
 import Model.User;
 import Database.ConnectionFactory;
 import UI.UsersPage;
+import Util.PasswordHasher;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -74,6 +75,9 @@ public class UserDAO {
 //                }
 //            }
 
+            // Hash the password before storing
+            String hashedPassword = PasswordHasher.hashPassword(userDTO.getPassword());
+
             String query = "INSERT INTO users (name,location,phone,username,password,user_type) " +
                     "VALUES(?,?,?,?,?,?)";
             prepStatement = conn.prepareStatement(query);
@@ -81,13 +85,13 @@ public class UserDAO {
             prepStatement.setString(2, userDTO.getLocation());
             prepStatement.setString(3, userDTO.getPhone());
             prepStatement.setString(4, userDTO.getUsername());
-            prepStatement.setString(5, userDTO.getPassword());
+            prepStatement.setString(5, hashedPassword);
             prepStatement.setString(6, userDTO.getUserType());
             prepStatement.executeUpdate();
 
             if("ADMIN".equals(userType))
-                JOptionPane.showMessageDialog(null, "New administrator added.");
-            else JOptionPane.showMessageDialog(null, "New employee added.");
+                JOptionPane.showMessageDialog(null, "Thêm tài khoản quản trị viên thành công.");
+            else JOptionPane.showMessageDialog(null, "Thêm tài khoản nhân viên thành công.");
 
         } catch (Exception ex){
             ex.printStackTrace();
@@ -98,15 +102,33 @@ public class UserDAO {
     public void editUserDAO(User userDTO) {
 
         try {
-            String query = "UPDATE users SET name=?,location=?,phone=?,user_type=? WHERE username=?";
-            prepStatement = conn.prepareStatement(query);
-            prepStatement.setString(1, userDTO.getFullName());
-            prepStatement.setString(2, userDTO.getLocation());
-            prepStatement.setString(3, userDTO.getPhone());
-            prepStatement.setString(4, userDTO.getUserType());
-            prepStatement.setString(5, userDTO.getUsername());
+            // Check if password should be updated
+            String query;
+            if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
+                // Update with password
+                query = "UPDATE users SET name=?,location=?,phone=?,password=?,user_type=? WHERE username=?";
+                prepStatement = conn.prepareStatement(query);
+                prepStatement.setString(1, userDTO.getFullName());
+                prepStatement.setString(2, userDTO.getLocation());
+                prepStatement.setString(3, userDTO.getPhone());
+                
+                // Hash the password before storing
+                String hashedPassword = PasswordHasher.hashPassword(userDTO.getPassword());
+                prepStatement.setString(4, hashedPassword);
+                prepStatement.setString(5, userDTO.getUserType());
+                prepStatement.setString(6, userDTO.getUsername());
+            } else {
+                // Update without password
+                query = "UPDATE users SET name=?,location=?,phone=?,user_type=? WHERE username=?";
+                prepStatement = conn.prepareStatement(query);
+                prepStatement.setString(1, userDTO.getFullName());
+                prepStatement.setString(2, userDTO.getLocation());
+                prepStatement.setString(3, userDTO.getPhone());
+                prepStatement.setString(4, userDTO.getUserType());
+                prepStatement.setString(5, userDTO.getUsername());
+            }
             prepStatement.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Updated Successfully.");
+            JOptionPane.showMessageDialog(null, "Cập nhật thành công.");
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -120,7 +142,7 @@ public class UserDAO {
             prepStatement = (PreparedStatement) conn.prepareStatement(query);
             prepStatement.setString(1, username);
             prepStatement.executeUpdate();
-            JOptionPane.showMessageDialog(null, "User Deleted.");
+            JOptionPane.showMessageDialog(null, "Xóa tài khoản thành công.");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -170,14 +192,32 @@ public class UserDAO {
         return resultSet;
     }
 
+    public boolean verifyPasswordDAO(String username, String password){
+        try {
+            String query = "SELECT password FROM users WHERE username=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, username);
+            resultSet = prepStatement.executeQuery();
+            
+            if (resultSet.next()) {
+                String storedHash = resultSet.getString("password");
+                return PasswordHasher.verifyPassword(password, storedHash);
+            }
+            return false;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+    
+    // Deprecated: Use verifyPasswordDAO instead
+    @Deprecated
     public ResultSet getPassDAO(String username, String password){
         try {
-            String query = "SELECT password FROM users WHERE username='"
-                    +username
-                    + "' AND password='"
-                    +password
-                    +"'";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT password FROM users WHERE username=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, username);
+            resultSet = prepStatement.executeQuery();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -186,12 +226,15 @@ public class UserDAO {
 
     public void changePass(String username, String password) {
         try {
-            String query = "UPDATE users SET password=? WHERE username='" +username+ "'";
+            // Hash the password before storing
+            String hashedPassword = PasswordHasher.hashPassword(password);
+            
+            String query = "UPDATE users SET password=? WHERE username=?";
             prepStatement = (PreparedStatement) conn.prepareStatement(query);
-            prepStatement.setString(1, password);
+            prepStatement.setString(1, hashedPassword);
             prepStatement.setString(2, username);
             prepStatement.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Password has been changed.");
+            JOptionPane.showMessageDialog(null, "Mật khẩu đã được thay đổi.");
         } catch (SQLException ex){
             ex.printStackTrace();
         }

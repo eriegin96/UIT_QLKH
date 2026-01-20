@@ -1,9 +1,12 @@
 package Database;
 
+import Util.PasswordHasher;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Properties;
@@ -16,6 +19,7 @@ public class ConnectionFactory {
     private Properties prop;
     private Connection conn;
     private Statement statement;
+    private PreparedStatement prepStatement;
     private ResultSet resultSet;
 
     // Private constructor to prevent external instantiation
@@ -26,7 +30,7 @@ public class ConnectionFactory {
             // Load from classpath instead of file system
             java.io.InputStream is = getClass().getClassLoader().getResourceAsStream("Database/DBCredentials.xml");
             if (is == null) {
-                throw new IOException("Could not find Database/DBCredentials.xml in classpath");
+                throw new IOException("Không tìm thấy Database/DBCredentials.xml trong classpath");
             }
             prop.loadFromXML(is);
             Class.forName(driver);
@@ -34,7 +38,7 @@ public class ConnectionFactory {
             statement = conn.createStatement();
         } catch (Exception e) {
             e.printStackTrace(); // Print the full stack trace for debugging
-            throw new RuntimeException("Error initializing connection factory: " + e.getMessage(), e);
+            throw new RuntimeException("Lỗi khi khởi tạo ConnectionFactory: " + e.getMessage(), e);
         }
     }
 
@@ -55,14 +59,22 @@ public class ConnectionFactory {
         return conn;
     }
 
-    // Login verification method
+    // Login verification method with hashed password support
     public boolean checkLogin(String username, String password) {
-        String query = "SELECT * FROM users WHERE username='" + username + "' AND password='" + password + "' LIMIT 1";
+        String query = "SELECT password FROM users WHERE username=? LIMIT 1";
         try {
-            resultSet = statement.executeQuery(query);
-            return resultSet.next();
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, username);
+            resultSet = prepStatement.executeQuery();
+            
+            if (resultSet.next()) {
+                String storedHash = resultSet.getString("password");
+                // Verify the password using PasswordHasher
+                return PasswordHasher.verifyPassword(password, storedHash);
+            }
+            return false;
         } catch (Exception ex) {
-            throw new RuntimeException("Login verification failed", ex);
+            throw new RuntimeException("Đăng nhập thất bại", ex);
         }
     }
 }
