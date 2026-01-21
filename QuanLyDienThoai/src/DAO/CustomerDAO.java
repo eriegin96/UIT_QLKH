@@ -28,14 +28,12 @@ public class CustomerDAO {
     // Methods to add new custoemr
     public void addCustomerDAO(Customer customerDTO) {
         try {
-            String query = "SELECT * FROM customers WHERE full_name='"
-                    +customerDTO.getFullName()
-                    + "' AND location='"
-                    +customerDTO.getLocation()
-                    + "' AND phone='"
-                    +customerDTO.getPhone()
-                    + "'";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT * FROM customers WHERE full_name=? AND location=? AND phone=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, customerDTO.getFullName());
+            prepStatement.setString(2, customerDTO.getLocation());
+            prepStatement.setString(3, customerDTO.getPhone());
+            resultSet = prepStatement.executeQuery();
             if (resultSet.next())
                 JOptionPane.showMessageDialog(null, "Khách hàng đã tồn tại.");
             else
@@ -96,8 +94,10 @@ public class CustomerDAO {
     // Method to delete existing customer
     public void deleteCustomerDAO(String custCode) {
         try {
-            String query = "DELETE FROM customers WHERE customer_code='" +custCode+ "'";
-            statement.executeUpdate(query);
+            String query = "DELETE FROM customers WHERE customer_code=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, custCode);
+            prepStatement.executeUpdate();
             JOptionPane.showMessageDialog(null, "Khách hàng đã được xóa.");
         } catch (SQLException e) {
             ErrorHandler.handleDatabaseError(e, "xóa", "khách hàng");
@@ -119,9 +119,15 @@ public class CustomerDAO {
     public ResultSet getCustomerSearch(String text) {
         try {
             String query = "SELECT customer_code,full_name,location,phone FROM customers " +
-                    "WHERE customer_code LIKE '%"+text+"%' OR full_name LIKE '%"+text+"%' OR " +
-                    "location LIKE '%"+text+"%' OR phone LIKE '%"+text+"%'";
-            resultSet = statement.executeQuery(query);
+                    "WHERE customer_code LIKE ? OR full_name LIKE ? OR " +
+                    "location LIKE ? OR phone LIKE ?";
+            prepStatement = conn.prepareStatement(query);
+            String searchPattern = "%" + text + "%";
+            prepStatement.setString(1, searchPattern);
+            prepStatement.setString(2, searchPattern);
+            prepStatement.setString(3, searchPattern);
+            prepStatement.setString(4, searchPattern);
+            resultSet = prepStatement.executeQuery();
         } catch (SQLException e) {
             ErrorHandler.handleError(e);
         }
@@ -130,8 +136,10 @@ public class CustomerDAO {
 
     public ResultSet getCustName(String custCode) {
         try {
-            String query = "SELECT * FROM customers WHERE customer_code='" +custCode+ "'";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT * FROM customers WHERE customer_code=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, custCode);
+            resultSet = prepStatement.executeQuery();
         } catch (SQLException e) {
             ErrorHandler.handleError(e);
         }
@@ -142,8 +150,10 @@ public class CustomerDAO {
         try {
             String query = "SELECT product_name,cs.quantity,cs.cost_price FROM products p " +
                     "INNER JOIN inventory cs ON p.product_code=cs.product_code " +
-                    "WHERE cs.product_code='" +prodCode+ "'";
-            resultSet = statement.executeQuery(query);
+                    "WHERE cs.product_code=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, prodCode);
+            resultSet = prepStatement.executeQuery();
         } catch (SQLException e) {
             ErrorHandler.handleError(e);
         }

@@ -32,16 +32,13 @@ public class UserDAO {
     // Methods to add new user
     public void addUserDAO(User userDTO, String userType) {
         try {
-            String query = "SELECT * FROM users WHERE name='"
-                    +userDTO.getFullName()
-                    +"' AND location='"
-                    +userDTO.getLocation()
-                    +"' AND phone='"
-                    +userDTO.getPhone()
-                    +"' AND user_type='"
-                    +userDTO.getUserType()
-                    +"'";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT * FROM users WHERE name=? AND location=? AND phone=? AND user_type=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, userDTO.getFullName());
+            prepStatement.setString(2, userDTO.getLocation());
+            prepStatement.setString(3, userDTO.getPhone());
+            prepStatement.setString(4, userDTO.getUserType());
+            resultSet = prepStatement.executeQuery();
             if(resultSet.next())
                 JOptionPane.showMessageDialog(null, "User already exists");
             else
@@ -62,18 +59,6 @@ public class UserDAO {
                 username = "root";
                 password = "root";
             }
-//            else {
-//                String resQuery2 = "SELECT * FROM users ORDER BY id DESC";
-//                resultSet = statement.executeQuery(resQuery2);
-//
-//                if(resultSet.next()){
-//                    oldUsername = resultSet.getString("username");
-//                    Integer uCode = Integer.parseInt(oldUsername.substring(4));
-//                    uCode++;
-//                    username = "user" + uCode;
-//                    password = "user" + uCode;
-//                }
-//            }
 
             // Hash the password before storing
             String hashedPassword = PasswordHasher.hashPassword(userDTO.getPassword());
@@ -162,8 +147,10 @@ public class UserDAO {
 
     public ResultSet getUserDAO(String username) {
         try {
-            String query = "SELECT * FROM users WHERE username='" +username+ "'";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT * FROM users WHERE username=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, username);
+            resultSet = prepStatement.executeQuery();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -171,8 +158,10 @@ public class UserDAO {
     }
     public void getFullName(User userDTO, String username) {
         try {
-            String query = "SELECT * FROM users WHERE username='" +username+ "' LIMIT 1";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT * FROM users WHERE username=? LIMIT 1";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, username);
+            resultSet = prepStatement.executeQuery();
             String fullName = null;
             if(resultSet.next()) fullName = resultSet.getString(2);
             userDTO.setFullName(fullName);

@@ -30,14 +30,12 @@ public class SupplierDAO {
     // Methods to add new supplier
     public void addSupplierDAO(Supplier supplierDTO) {
         try {
-            String query = "SELECT * FROM suppliers WHERE full_name='"
-                    +supplierDTO.getFullName()
-                    + "' AND location='"
-                    +supplierDTO.getLocation()
-                    + "' AND mobile='"
-                    +supplierDTO.getPhone()
-                    + "'";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT * FROM suppliers WHERE full_name=? AND location=? AND mobile=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, supplierDTO.getFullName());
+            prepStatement.setString(2, supplierDTO.getLocation());
+            prepStatement.setString(3, supplierDTO.getPhone());
+            resultSet = prepStatement.executeQuery();
             if (resultSet.next())
                 JOptionPane.showMessageDialog(null, "Nhà cung cấp đã tồn tại.");
             else
@@ -81,8 +79,10 @@ public class SupplierDAO {
     // Method to delete existing supplier
     public void deleteSupplierDAO(String suppCode) {
         try {
-            String query = "DELETE FROM suppliers WHERE supplier_code='" +suppCode+ "'";
-            statement.executeUpdate(query);
+            String query = "DELETE FROM suppliers WHERE supplier_code=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, suppCode);
+            prepStatement.executeUpdate();
             JOptionPane.showMessageDialog(null, "Nhà cung cấp đã được xóa.");
         } catch (SQLException e) {
             ErrorHandler.handleDatabaseError(e, "xóa", "nhà cung cấp");
@@ -104,9 +104,15 @@ public class SupplierDAO {
     public ResultSet getSearchResult(String searchText) {
         try {
             String query = "SELECT supplier_code, full_name, location, mobile FROM suppliers " +
-                    "WHERE supplier_code LIKE '%"+searchText+"%' OR location LIKE '%"+searchText+"%' " +
-                    "OR full_name LIKE '%"+searchText+"%' OR mobile LIKE '%"+searchText+"%'";
-            resultSet = statement.executeQuery(query);
+                    "WHERE supplier_code LIKE ? OR location LIKE ? " +
+                    "OR full_name LIKE ? OR mobile LIKE ?";
+            prepStatement = conn.prepareStatement(query);
+            String searchPattern = "%" + searchText + "%";
+            prepStatement.setString(1, searchPattern);
+            prepStatement.setString(2, searchPattern);
+            prepStatement.setString(3, searchPattern);
+            prepStatement.setString(4, searchPattern);
+            resultSet = prepStatement.executeQuery();
         } catch (SQLException e) {
             ErrorHandler.handleError(e);
         }

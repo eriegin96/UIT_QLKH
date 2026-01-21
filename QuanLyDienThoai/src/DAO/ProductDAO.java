@@ -73,8 +73,10 @@ public class ProductDAO {
         Double costPrice = null;
         try {
             // Get cost price from latest purchase for this product
-            String query = "SELECT cost_price FROM purchase_info WHERE product_code='" +prodCode+ "' ORDER BY purchase_id DESC LIMIT 1";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT cost_price FROM purchase_info WHERE product_code=? ORDER BY purchase_id DESC LIMIT 1";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, prodCode);
+            resultSet = prepStatement.executeQuery();
             if (resultSet.next())
                 costPrice = resultSet.getDouble("cost_price");
         } catch (Exception e) {
@@ -87,8 +89,10 @@ public class ProductDAO {
         Double sellPrice = null;
         try {
             // Get sell price from latest sale for this product
-            String query = "SELECT sell_price FROM sales_info WHERE product_code='" +prodCode+ "' ORDER BY sales_id DESC LIMIT 1";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT sell_price FROM sales_info WHERE product_code=? ORDER BY sales_id DESC LIMIT 1";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, prodCode);
+            resultSet = prepStatement.executeQuery();
             if (resultSet.next())
                 sellPrice = resultSet.getDouble("sell_price");
         } catch (Exception e) {
@@ -100,8 +104,10 @@ public class ProductDAO {
     String suppCode;
     public String getSuppCode(String suppName) {
         try {
-            String query = "SELECT supplier_code FROM suppliers WHERE full_name='" +suppName+ "'";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT supplier_code FROM suppliers WHERE full_name=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, suppName);
+            resultSet = prepStatement.executeQuery();
             while (resultSet.next()) {
                 suppCode = resultSet.getString("supplier_code");
             }
@@ -114,8 +120,10 @@ public class ProductDAO {
     String prodCode;
     public String getProdCode(String prodName) {
         try {
-            String query = "SELECT product_code FROM products WHERE product_name='" +prodName+ "'";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT product_code FROM products WHERE product_name=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, prodName);
+            resultSet = prepStatement.executeQuery();
             while (resultSet.next()) {
                 prodCode = resultSet.getString("product_code");
             }
@@ -128,8 +136,10 @@ public class ProductDAO {
     String custCode;
     public String getCustCode(String custName) {
         try {
-            String query = "SELECT customer_code FROM customers WHERE full_name='" +custName+ "'";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT customer_code FROM customers WHERE full_name=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, custName);
+            resultSet = prepStatement.executeQuery();
             while (resultSet.next()) {
                 custCode = resultSet.getString("customer_code");
             }
@@ -143,8 +153,10 @@ public class ProductDAO {
     boolean flag = false;
     public boolean checkStock(String prodCode) {
         try {
-            String query = "SELECT * FROM inventory WHERE product_code='" +prodCode+ "'";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT * FROM inventory WHERE product_code=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, prodCode);
+            resultSet = prepStatement.executeQuery();
             while (resultSet.next()) {
                 flag = true;
             }
@@ -157,16 +169,13 @@ public class ProductDAO {
     // Methods to add a new product
     public void addProductDAO(Product productDTO) {
         try {
-            String query = "SELECT * FROM products WHERE product_name='"
-                    + productDTO.getProdName()
-                    + "' AND ram='"
-                    + productDTO.getRam()
-                    + "' AND rom='"
-                    + productDTO.getRom()
-                    + "' AND brand='"
-                    + productDTO.getBrand()
-                    + "'";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT * FROM products WHERE product_name=? AND ram=? AND rom=? AND brand=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, productDTO.getProdName());
+            prepStatement.setString(2, productDTO.getRam());
+            prepStatement.setString(3, productDTO.getRom());
+            prepStatement.setString(4, productDTO.getBrand());
+            resultSet = prepStatement.executeQuery();
             if (resultSet.next())
                 JOptionPane.showMessageDialog(null, "Sản phẩm đã tồn tại.");
             else
@@ -278,14 +287,16 @@ public class ProductDAO {
     // Methods to handle updating of stocks in Inventory upon any transaction made
     public void editPurchaseStock(String code, int quantity) {
         try {
-            String query = "SELECT * FROM inventory WHERE product_code='" +code+ "'";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT * FROM inventory WHERE product_code=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, code);
+            resultSet = prepStatement.executeQuery();
             if(resultSet.next()) {
                 String query2 = "UPDATE inventory SET quantity=quantity-? WHERE product_code=?";
-                prepStatement = conn.prepareStatement(query2);
-                prepStatement.setInt(1, quantity);
-                prepStatement.setString(2, code);
-                prepStatement.executeUpdate();
+                PreparedStatement prepStatement2 = conn.prepareStatement(query2);
+                prepStatement2.setInt(1, quantity);
+                prepStatement2.setString(2, code);
+                prepStatement2.executeUpdate();
             }
         } catch (SQLException e) {
             ErrorHandler.handleError(e);
@@ -293,14 +304,16 @@ public class ProductDAO {
     }
     public void editSoldStock(String code, int quantity) {
         try {
-            String query = "SELECT * FROM inventory WHERE product_code='" +code+ "'";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT * FROM inventory WHERE product_code=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, code);
+            resultSet = prepStatement.executeQuery();
             if(resultSet.next()) {
                 String query2 = "UPDATE inventory SET quantity=quantity+? WHERE product_code=?";
-                prepStatement = conn.prepareStatement(query2);
-                prepStatement.setInt(1, quantity);
-                prepStatement.setString(2, code);
-                prepStatement.executeUpdate();
+                PreparedStatement prepStatement2 = conn.prepareStatement(query2);
+                prepStatement2.setInt(1, quantity);
+                prepStatement2.setString(2, code);
+                prepStatement2.executeUpdate();
             }
         } catch (SQLException e) {
             ErrorHandler.handleError(e);
@@ -409,8 +422,10 @@ public class ProductDAO {
         int quantity = 0;
         String prodCode = null;
         try {
-            String query = "SELECT * FROM inventory WHERE product_code='" +productDTO.getProdCode()+ "'";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT * FROM inventory WHERE product_code=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, productDTO.getProdCode());
+            resultSet = prepStatement.executeQuery();
             while (resultSet.next()) {
                 prodCode = resultSet.getString("product_code");
                 quantity = resultSet.getInt("quantity");
@@ -422,22 +437,22 @@ public class ProductDAO {
             else {
                 // Update stock using PreparedStatement
                 String stockQuery = "UPDATE inventory SET quantity=quantity-? WHERE product_code=?";
-                prepStatement = conn.prepareStatement(stockQuery);
-                prepStatement.setInt(1, productDTO.getQuantity());
-                prepStatement.setString(2, productDTO.getProdCode());
-                prepStatement.executeUpdate();
+                PreparedStatement prepStatement2 = conn.prepareStatement(stockQuery);
+                prepStatement2.setInt(1, productDTO.getQuantity());
+                prepStatement2.setString(2, productDTO.getProdCode());
+                prepStatement2.executeUpdate();
                 
                 // Insert sales record using PreparedStatement with TIMESTAMP
                 String salesQuery = "INSERT INTO sales_info(product_code,customer_code,date,quantity,sell_price,revenue,sold_by) VALUES(?,?,?,?,?,?,?)";
-                prepStatement = conn.prepareStatement(salesQuery);
-                prepStatement.setString(1, productDTO.getProdCode());
-                prepStatement.setString(2, productDTO.getCustCode());
-                prepStatement.setTimestamp(3, java.sql.Timestamp.valueOf(productDTO.getDate()));
-                prepStatement.setInt(4, productDTO.getQuantity());
-                prepStatement.setDouble(5, productDTO.getSellPrice());
-                prepStatement.setDouble(6, productDTO.getTotalRevenue());
-                prepStatement.setString(7, username);
-                prepStatement.executeUpdate();
+                prepStatement2 = conn.prepareStatement(salesQuery);
+                prepStatement2.setString(1, productDTO.getProdCode());
+                prepStatement2.setString(2, productDTO.getCustCode());
+                prepStatement2.setTimestamp(3, java.sql.Timestamp.valueOf(productDTO.getDate()));
+                prepStatement2.setInt(4, productDTO.getQuantity());
+                prepStatement2.setDouble(5, productDTO.getSellPrice());
+                prepStatement2.setDouble(6, productDTO.getTotalRevenue());
+                prepStatement2.setString(7, username);
+                prepStatement2.executeUpdate();
                 
                 JOptionPane.showMessageDialog(null, "Sản phẩm đã được bán.");
             }
@@ -538,8 +553,16 @@ public class ProductDAO {
     public ResultSet getProductSearch(String text) {
         try {
             String query = "SELECT product_code,product_name,ram,rom,screen_size,brand FROM products " +
-                    "WHERE product_code LIKE '%"+text+"%' OR product_name LIKE '%"+text+"%' OR ram LIKE '%"+text+"%' OR rom LIKE '%"+text+"%' OR screen_size LIKE '%"+text+"%' OR brand LIKE '%"+text+"%'";
-            resultSet = statement.executeQuery(query);
+                    "WHERE product_code LIKE ? OR product_name LIKE ? OR ram LIKE ? OR rom LIKE ? OR screen_size LIKE ? OR brand LIKE ?";
+            prepStatement = conn.prepareStatement(query);
+            String searchPattern = "%" + text + "%";
+            prepStatement.setString(1, searchPattern);
+            prepStatement.setString(2, searchPattern);
+            prepStatement.setString(3, searchPattern);
+            prepStatement.setString(4, searchPattern);
+            prepStatement.setString(5, searchPattern);
+            prepStatement.setString(6, searchPattern);
+            resultSet = prepStatement.executeQuery();
         } catch (SQLException e) {
             ErrorHandler.handleError(e);
         }
@@ -549,8 +572,10 @@ public class ProductDAO {
     public ResultSet getProdFromCode(String text) {
         try {
             String query = "SELECT product_code,product_name,ram,rom,screen_size,brand FROM products " +
-                    "WHERE product_code='" +text+ "' LIMIT 1";
-            resultSet = statement.executeQuery(query);
+                    "WHERE product_code=? LIMIT 1";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, text);
+            resultSet = prepStatement.executeQuery();
         } catch (SQLException e) {
             ErrorHandler.handleError(e);
         }
@@ -570,9 +595,15 @@ public class ProductDAO {
                     "ON si.sold_by=u.username " +
                     "INNER JOIN customers c " +
                     "ON si.customer_code=c.customer_code " +
-                    "WHERE si.product_code LIKE '%"+text+"%' OR product_name LIKE '%"+text+"%' " +
-                    "OR u.name LIKE '%"+text+"%' OR c.full_name LIKE '%"+text+"%' ORDER BY sales_id;";
-            resultSet = statement.executeQuery(query);
+                    "WHERE si.product_code LIKE ? OR product_name LIKE ? " +
+                    "OR u.name LIKE ? OR c.full_name LIKE ? ORDER BY sales_id;";
+            prepStatement = conn.prepareStatement(query);
+            String searchPattern = "%" + text + "%";
+            prepStatement.setString(1, searchPattern);
+            prepStatement.setString(2, searchPattern);
+            prepStatement.setString(3, searchPattern);
+            prepStatement.setString(4, searchPattern);
+            resultSet = prepStatement.executeQuery();
         } catch (SQLException e) {
             ErrorHandler.handleError(e);
         }
@@ -585,10 +616,18 @@ public class ProductDAO {
             String query = "SELECT purchase_id,pi.product_code,p.product_name,pi.date,quantity,pi.cost_price,total_cost,pi.supplier_code,s.full_name " +
                     "FROM purchase_info pi INNER JOIN products p ON pi.product_code=p.product_code " +
                     "INNER JOIN suppliers s ON pi.supplier_code=s.supplier_code " +
-                    "WHERE purchase_id LIKE '%"+text+"%' OR pi.product_code LIKE '%"+text+"%' OR p.product_name LIKE '%"+text+"%' " +
-                    "OR s.full_name LIKE '%"+text+"%' OR pi.supplier_code LIKE '%"+text+"%' " +
-                    "OR pi.date LIKE '%"+text+"%' ORDER BY purchase_id";
-            resultSet = statement.executeQuery(query);
+                    "WHERE purchase_id LIKE ? OR pi.product_code LIKE ? OR p.product_name LIKE ? " +
+                    "OR s.full_name LIKE ? OR pi.supplier_code LIKE ? " +
+                    "OR pi.date LIKE ? ORDER BY purchase_id";
+            prepStatement = conn.prepareStatement(query);
+            String searchPattern = "%" + text + "%";
+            prepStatement.setString(1, searchPattern);
+            prepStatement.setString(2, searchPattern);
+            prepStatement.setString(3, searchPattern);
+            prepStatement.setString(4, searchPattern);
+            prepStatement.setString(5, searchPattern);
+            prepStatement.setString(6, searchPattern);
+            resultSet = prepStatement.executeQuery();
         } catch (SQLException e) {
             ErrorHandler.handleError(e);
         }
@@ -597,8 +636,10 @@ public class ProductDAO {
 
     public ResultSet getProdName(String code) {
         try {
-            String query = "SELECT product_name FROM products WHERE product_code='" +code+ "'";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT product_name FROM products WHERE product_code=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setString(1, code);
+            resultSet = prepStatement.executeQuery();
         } catch (SQLException e) {
             ErrorHandler.handleError(e);
         }
@@ -610,8 +651,10 @@ public class ProductDAO {
         try {
             String query = "SELECT full_name FROM suppliers " +
                     "INNER JOIN purchase_info ON suppliers.supplier_code=purchase_info.supplier_code " +
-                    "WHERE purchase_id='" +ID+ "'";
-            resultSet = statement.executeQuery(query);
+                    "WHERE purchase_id=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setInt(1, ID);
+            resultSet = prepStatement.executeQuery();
             if (resultSet.next())
                 name = resultSet.getString("full_name");
         } catch (SQLException e) {
@@ -625,8 +668,10 @@ public class ProductDAO {
         try {
             String query = "SELECT full_name FROM customers " +
                     "INNER JOIN sales_info ON customers.customer_code=sales_info.customer_code " +
-                    "WHERE sales_id='" +ID+ "'";
-            resultSet = statement.executeQuery(query);
+                    "WHERE sales_id=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setInt(1, ID);
+            resultSet = prepStatement.executeQuery();
             if (resultSet.next())
                 name = resultSet.getString("full_name");
         } catch (SQLException e) {
@@ -638,8 +683,10 @@ public class ProductDAO {
     public String getPurchaseDate(int ID) {
         String date = null;
         try {
-            String query = "SELECT date FROM purchase_info WHERE purchase_id='" +ID+ "'";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT date FROM purchase_info WHERE purchase_id=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setInt(1, ID);
+            resultSet = prepStatement.executeQuery();
             if (resultSet.next())
                 date = resultSet.getString("date");
         } catch (SQLException e) {
@@ -650,8 +697,10 @@ public class ProductDAO {
     public String getSaleDate(int ID) {
         String date = null;
         try {
-            String query = "SELECT date FROM sales_info WHERE sales_id='" +ID+ "'";
-            resultSet = statement.executeQuery(query);
+            String query = "SELECT date FROM sales_info WHERE sales_id=?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setInt(1, ID);
+            resultSet = prepStatement.executeQuery();
             if (resultSet.next())
                 date = resultSet.getString("date");
         } catch (SQLException e) {
