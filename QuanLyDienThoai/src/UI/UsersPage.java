@@ -279,11 +279,15 @@ public class UsersPage extends javax.swing.JPanel {
         locationText.setText("");
         phoneText.setText("");
         usernameText.setText("");
+        usernameText.setEnabled(true); // Re-enable username field for adding new users
         passText.setText("");
         userTypeCombo.setSelectedIndex(0);
+        selectedUsername = null; // Clear selected username
     }
 
     String userType;
+    String selectedUsername = null; // Store the original username of selected user
+    
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         User userDTO = new User();
 
@@ -304,44 +308,43 @@ public class UsersPage extends javax.swing.JPanel {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        if (userTable.getSelectedRow() < 0)
+        if (userTable.getSelectedRow() < 0) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một người dùng từ bảng để sửa.");
-        else {
-            if (nameText.getText().equals("") || locationText.getText().equals("") || phoneText.getText().equals("") || usernameText.getText().equals(""))
-                JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ các trường bắt buộc.");
-            else {
-                User userDTO = new User();
-                userType = (String) userTypeCombo.getSelectedItem();
-                userDTO.setFullName(nameText.getText());
-                userDTO.setLocation(locationText.getText());
-                userDTO.setPhone(phoneText.getText());
-                userDTO.setUsername(usernameText.getText());
-                userDTO.setUserType(userType);
-                
-                // Check if password field has been filled (meaning user wants to change password)
-                String newPassword = new String(passText.getPassword());
-                if (!newPassword.isEmpty()) {
-                    // Show confirmation for password change
-                    int opt = JOptionPane.showConfirmDialog(
-                            null,
-                            "Bạn có muốn thay đổi mật khẩu cho người dùng này?\n(Mật khẩu mới sẽ được mã hóa an toàn)",
-                            "Xác nhận thay đổi mật khẩu",
-                            JOptionPane.YES_NO_OPTION);
-                    if (opt == JOptionPane.YES_OPTION) {
-                        userDTO.setPassword(newPassword);
-                    } else {
-                        userDTO.setPassword(null); // Don't update password
-                    }
-                } else {
-                    // Password field is empty, don't update password
-                    userDTO.setPassword(null);
-                }
-                
-                new UserDAO().editUserDAO(userDTO);
-                loadDataSet();
-                clearFields();
-            }
+            return;
         }
+        
+        if (selectedUsername == null || selectedUsername.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một người dùng từ bảng để sửa.");
+            return;
+        }
+        
+        if (nameText.getText().trim().isEmpty() || locationText.getText().trim().isEmpty() || 
+            phoneText.getText().trim().isEmpty() || usernameText.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ các trường bắt buộc.");
+            return;
+        }
+        
+        User userDTO = new User();
+        userType = (String) userTypeCombo.getSelectedItem();
+        userDTO.setFullName(nameText.getText().trim());
+        userDTO.setLocation(locationText.getText().trim());
+        userDTO.setPhone(phoneText.getText().trim());
+        // Use the original selected username for WHERE clause, but allow updating to new username
+        userDTO.setUsername(selectedUsername); // Original username for WHERE clause
+        userDTO.setUserType(userType);
+        
+        // Check if password field has been filled (meaning user wants to change password)
+        String newPassword = new String(passText.getPassword());
+        if (!newPassword.isEmpty()) {
+            userDTO.setPassword(newPassword);
+        } else {
+            userDTO.setPassword(null); // Don't update password if field is empty
+        }
+        
+        new UserDAO().editUserDAO(userDTO);
+        loadDataSet();
+        clearFields();
+        selectedUsername = null; // Reset after edit
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
@@ -377,6 +380,10 @@ public class UsersPage extends javax.swing.JPanel {
         locationText.setText(val[2].toString());
         phoneText.setText(val[3].toString());
         usernameText.setText(val[4].toString());
+        // Store the selected username for edit operations
+        selectedUsername = val[4].toString();
+        // Disable username field when editing (username is the identifier)
+        usernameText.setEnabled(false);
         // Clear password field when selecting a user (for security)
         // User must enter new password if they want to change it
         passText.setText("");

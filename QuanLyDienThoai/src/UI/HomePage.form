@@ -20,10 +20,10 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="jSeparator1" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" pref="701" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="704" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel1" min="-2" pref="165" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="408" max="32767" attributes="0"/>
                       <Component id="refreshButton" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -39,11 +39,11 @@
                   <Component id="jLabel1" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
                   <Component id="refreshButton" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="330" max="-2" attributes="0"/>
-              <EmptySpace pref="88" max="32767" attributes="0"/>
+              <Component id="jSeparator1" min="-2" pref="12" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="432" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

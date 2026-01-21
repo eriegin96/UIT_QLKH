@@ -99,9 +99,6 @@ public class Dashboard extends javax.swing.JFrame {
     public void addPurchasePage() {
         layout.show(displayPanel, "Purchase");
     }
-    public void addLogsPage() {
-        layout.show(displayPanel, "Logs");
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.

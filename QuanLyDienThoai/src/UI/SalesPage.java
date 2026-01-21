@@ -228,7 +228,7 @@ public class SalesPage extends javax.swing.JPanel {
                 .addGroup(sellPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sellButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -303,10 +303,10 @@ public class SalesPage extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(sellPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -528,6 +528,8 @@ public class SalesPage extends javax.swing.JPanel {
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         loadDataSet();
+        loadCustomerComboBox();
+        loadProductComboBox(); // Refresh product list to show current availability
         clearFields();
     }//GEN-LAST:event_refreshButtonActionPerformed
 
@@ -545,11 +547,11 @@ public class SalesPage extends javax.swing.JPanel {
         }
     }
     
-    // Method to load product combo box
+    // Method to load product combo box (only available products with stock)
     public void loadProductComboBox() {
         try {
             ProductDAO productDAO = new ProductDAO();
-            prodCombo.setModel(productDAO.setComboItems(productDAO.getQueryResult()));
+            prodCombo.setModel(productDAO.setComboItems(productDAO.getAvailableProducts()));
         } catch (SQLException e) {
             e.printStackTrace();
         }

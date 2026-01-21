@@ -456,6 +456,21 @@ public class ProductDAO {
         }
         return resultSet;
     }
+    
+    // Method to get only available products (with stock in inventory)
+    public ResultSet getAvailableProducts() {
+        try {
+            String query = "SELECT p.product_code, p.product_name " +
+                          "FROM products p " +
+                          "INNER JOIN inventory i ON p.product_code = i.product_code " +
+                          "WHERE i.quantity > 0 " +
+                          "ORDER BY p.product_name";
+            resultSet = statement.executeQuery(query);
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
+        }
+        return resultSet;
+    }
 
     // Purchase table data set retrieval
     public ResultSet getPurchaseInfo() {

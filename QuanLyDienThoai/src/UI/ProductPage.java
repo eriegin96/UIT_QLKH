@@ -1,7 +1,6 @@
 package UI;
 
 import DAO.ProductDAO;
-import DAO.SupplierDAO;
 import Model.Product;
 import Util.ErrorHandler;
 import Util.IconScaler;
@@ -18,7 +17,6 @@ public class ProductPage extends javax.swing.JPanel {
     
     Product productDTO;
     String username = null;
-    String supplier = null;
     int userID;
     Dashboard dashboard;
     private DefaultTableModel tblModel;
@@ -34,7 +32,6 @@ public class ProductPage extends javax.swing.JPanel {
         productTable.setDefaultEditor(Object.class, null);
         refreshButton.setIcon(IconScaler.scaleIcon16("/UI/Icons/refresh.png"));
         initTable();
-        loadComboBox();
         loadDataSet();
     }
     
@@ -63,8 +60,6 @@ public class ProductPage extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         entryPanel = new javax.swing.JPanel();
-        suppCombo = new javax.swing.JComboBox<>();
-        addSuppButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -90,22 +85,6 @@ public class ProductPage extends javax.swing.JPanel {
         jLabel1.setText("SẢN PHẨM");
 
         entryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Thông tin sản phẩm"));
-
-        suppCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chọn nhà cung cấp" }));
-        suppCombo.setToolTipText("Chọn nhà cung cấp");
-        suppCombo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                suppComboActionPerformed(evt);
-            }
-        });
-
-        addSuppButton.setText("Thêm Nhà cung cấp");
-        addSuppButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        addSuppButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addSuppButtonActionPerformed(evt);
-            }
-        });
 
         jLabel2.setText("Mã SP:");
 
@@ -162,8 +141,6 @@ public class ProductPage extends javax.swing.JPanel {
             .addGroup(entryPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(entryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(suppCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(addSuppButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(entryPanelLayout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -200,10 +177,6 @@ public class ProductPage extends javax.swing.JPanel {
             entryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(entryPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(suppCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addSuppButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(entryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(codeText, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -232,7 +205,7 @@ public class ProductPage extends javax.swing.JPanel {
                     .addComponent(addButton)
                     .addComponent(editButton)
                     .addComponent(deleteButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(133, Short.MAX_VALUE))
         );
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -309,9 +282,9 @@ public class ProductPage extends javax.swing.JPanel {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(entryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(entryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -423,33 +396,14 @@ public class ProductPage extends javax.swing.JPanel {
 
     }//GEN-LAST:event_productTableMouseClicked
 
-    private void addSuppButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSuppButtonActionPerformed
-        dashboard.addSuppPage();
-    }//GEN-LAST:event_addSuppButtonActionPerformed
-
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         loadDataSet();
-        loadComboBox();
         clearFields();  
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void searchTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTextKeyReleased
         loadSearchData(searchText.getText());
     }//GEN-LAST:event_searchTextKeyReleased
-
-    private void suppComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_suppComboActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_suppComboActionPerformed
-
-    // Method to update combo box containing supplier names
-    public void loadComboBox() {
-        try {
-            SupplierDAO supplierDAO = new SupplierDAO();
-            suppCombo.setModel(supplierDAO.setComboItems(supplierDAO.getQueryResult()));
-        } catch (SQLException e) {
-            ErrorHandler.handleError(e);
-        }
-    }
 
     // Method to load data into table
     public void loadDataSet() {
@@ -495,7 +449,6 @@ public class ProductPage extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
-    private javax.swing.JButton addSuppButton;
     private javax.swing.JTextField brandText;
     private javax.swing.JTextField codeText;
     private javax.swing.JButton deleteButton;
@@ -518,6 +471,5 @@ public class ProductPage extends javax.swing.JPanel {
     private javax.swing.JTextField romText;
     private javax.swing.JTextField screenSizeText;
     private javax.swing.JTextField searchText;
-    private javax.swing.JComboBox<String> suppCombo;
     // End of variables declaration//GEN-END:variables
 }
