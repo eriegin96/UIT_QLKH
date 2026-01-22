@@ -385,7 +385,6 @@ public class Dashboard extends javax.swing.JFrame {
             // SALER can only see Sales and Inventory
             homeButton.setVisible(false);
             prodButton.setVisible(false);
-            custButton.setVisible(false);
             suppButton.setVisible(false);
             purchaseButton.setVisible(false);
             usersButton.setVisible(false);
@@ -395,7 +394,6 @@ public class Dashboard extends javax.swing.JFrame {
             homeButton.setVisible(false);
             prodButton.setVisible(false);
             custButton.setVisible(false);
-            suppButton.setVisible(false);
             salesButton.setVisible(false);
             usersButton.setVisible(false);
             // purchaseButton and stockButton remain visible
