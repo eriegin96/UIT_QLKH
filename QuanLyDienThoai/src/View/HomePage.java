@@ -22,6 +22,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
 public class HomePage extends javax.swing.JPanel {
 
@@ -246,10 +248,10 @@ public class HomePage extends javax.swing.JPanel {
         contentPanel.add(createSectionLabel("BIỂU ĐỒ PHÂN TÍCH"));
         contentPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        // Chart panels container
-        JPanel chartsPanel = new JPanel(new GridLayout(1, 2, 10, 0));
+        // Chart panels container - 2 rows, 1 column for full width
+        JPanel chartsPanel = new JPanel(new GridLayout(2, 1, 0, 15));
         chartsPanel.setOpaque(false);
-        chartsPanel.setMaximumSize(new Dimension(650, 300));
+        chartsPanel.setMaximumSize(new Dimension(680, 650));
         
         // Initialize chart panels
         revenueChartPanel = createRevenueChart();
@@ -412,7 +414,7 @@ public class HomePage extends javax.swing.JPanel {
         plot.setRenderer(renderer);
 
         ChartPanel chartPanel = new ChartPanel(lineChart);
-        chartPanel.setPreferredSize(new Dimension(300, 280));
+        chartPanel.setPreferredSize(new Dimension(650, 300));
         return chartPanel;
     }
 
@@ -449,7 +451,7 @@ public class HomePage extends javax.swing.JPanel {
         plot.setSectionPaint("Khác", new Color(149, 165, 166));
 
         ChartPanel chartPanel = new ChartPanel(pieChart);
-        chartPanel.setPreferredSize(new Dimension(300, 280));
+        chartPanel.setPreferredSize(new Dimension(650, 300));
         return chartPanel;
     }
 
@@ -470,7 +472,9 @@ public class HomePage extends javax.swing.JPanel {
                     while (rs != null && rs.next()) {
                         String month = rs.getString("month");
                         double revenue = rs.getDouble("revenue");
-                        revenueDataset.addValue(revenue, "Doanh thu", month);
+                        // Format month from "yyyy-MM" to "MM/yyyy"
+                        String formattedMonth = formatMonthLabel(month);
+                        revenueDataset.addValue(revenue, "Doanh thu", formattedMonth);
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -527,6 +531,21 @@ public class HomePage extends javax.swing.JPanel {
             }
         };
         worker.execute();
+    }
+
+    /**
+     * Format month label from "yyyy-MM" to "MM/yyyy"
+     * Example: "2026-01" -> "01/2026"
+     */
+    private String formatMonthLabel(String month) {
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM");
+            SimpleDateFormat outputFormat = new SimpleDateFormat("MM/yyyy");
+            return outputFormat.format(inputFormat.parse(month));
+        } catch (ParseException e) {
+            // If parsing fails, return original string
+            return month;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
