@@ -392,9 +392,24 @@ public class SalesPage extends javax.swing.JPanel {
         else {
             try {
                 String selectedCustomer = custCombo.getSelectedItem().toString();
-                String custCode = selectedCustomer.split(" - ")[0];
                 String selectedProduct = prodCombo.getSelectedItem().toString();
-                String prodCode = selectedProduct.split(" - ")[0];
+                
+                // Validate format before splitting
+                if (!selectedCustomer.contains(" - ") || !selectedProduct.contains(" - ")) {
+                    JOptionPane.showMessageDialog(this, "Định dạng khách hàng hoặc sản phẩm không hợp lệ. Vui lòng chọn lại.");
+                    return;
+                }
+                
+                String[] custParts = selectedCustomer.split(" - ");
+                String[] prodParts = selectedProduct.split(" - ");
+                
+                if (custParts.length < 1 || prodParts.length < 1) {
+                    JOptionPane.showMessageDialog(this, "Không thể xác định mã khách hàng hoặc sản phẩm.");
+                    return;
+                }
+                
+                String custCode = custParts[0];
+                String prodCode = prodParts[0];
 
                 Product productDTO = new Product();
                 productDTO.setCustCode(custCode);
@@ -409,7 +424,11 @@ public class SalesPage extends javax.swing.JPanel {
                 new ProductDAO().sellProductDAO(productDTO, username);
                 loadDataSet();
                 clearFields();
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Giá bán và số lượng phải là số hợp lệ.");
+                e.printStackTrace();
             } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Lỗi khi xử lý bán hàng: " + e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -417,30 +436,48 @@ public class SalesPage extends javax.swing.JPanel {
 
     private void salesTableMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_salesTableMouseClicked
         int row = salesTable.getSelectedRow();
+        if (row < 0) {
+            return; // No row selected
+        }
+        
         int col = salesTable.getColumnCount();
         Object[] data = new Object[col];
         for (int i = 0; i < col; i++)
             data[i] = salesTable.getValueAt(row, i);
 
         // Get data from table columns
-        String customerCode = data[4].toString();
-        String productCode = data[2].toString();
-        String dateStr = data[1].toString();
+        String customerCode = data[4] != null ? data[4].toString() : "";
+        String productCode = data[2] != null ? data[2].toString() : "";
+        String dateStr = data[1] != null ? data[1].toString() : "";
 
         // Set customer combo
+        boolean custFound = false;
         for (int i = 0; i < custCombo.getItemCount(); i++) {
-            if (custCombo.getItemAt(i).startsWith(customerCode + " - ")) {
+            String item = custCombo.getItemAt(i);
+            if (item != null && item.startsWith(customerCode + " - ")) {
                 custCombo.setSelectedIndex(i);
+                custFound = true;
                 break;
             }
         }
+        if (!custFound && !customerCode.isEmpty()) {
+            custNameLabel.setText("||   Không tìm thấy khách hàng: " + customerCode + "   ||");
+            custNameLabel.setVisible(true);
+        }
 
         // Set product combo
+        boolean prodFound = false;
         for (int i = 0; i < prodCombo.getItemCount(); i++) {
-            if (prodCombo.getItemAt(i).startsWith(productCode + " - ")) {
+            String item = prodCombo.getItemAt(i);
+            if (item != null && item.startsWith(productCode + " - ")) {
                 prodCombo.setSelectedIndex(i);
+                prodFound = true;
                 break;
             }
+        }
+        if (!prodFound && !productCode.isEmpty()) {
+            prodNameLabel.setText("||   Không tìm thấy sản phẩm: " + productCode + "   ||");
+            prodNameLabel.setVisible(true);
         }
 
         // Set date
@@ -512,7 +549,18 @@ public class SalesPage extends javax.swing.JPanel {
         if (custCombo.getSelectedIndex() > 0) {
             try {
                 String selectedCustomer = custCombo.getSelectedItem().toString();
-                String custCode = selectedCustomer.split(" - ")[0];
+                if (selectedCustomer == null || !selectedCustomer.contains(" - ")) {
+                    custNameLabel.setText("||   Định dạng khách hàng không hợp lệ.   ||");
+                    custNameLabel.setVisible(true);
+                    return;
+                }
+                String[] parts = selectedCustomer.split(" - ");
+                if (parts.length < 1) {
+                    custNameLabel.setText("||   Không thể xác định mã khách hàng.   ||");
+                    custNameLabel.setVisible(true);
+                    return;
+                }
+                String custCode = parts[0];
                 ResultSet resultSet = new CustomerDAO().getCustName(custCode);
                 if (resultSet.next()) {
                     String fullName = resultSet.getString("full_name");
@@ -524,6 +572,10 @@ public class SalesPage extends javax.swing.JPanel {
                 custNameLabel.setVisible(true);
             } catch (SQLException e) {
                 e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+                custNameLabel.setText("||   Lỗi khi tải thông tin khách hàng.   ||");
+                custNameLabel.setVisible(true);
             }
         } else {
             custNameLabel.setText("");
@@ -535,7 +587,20 @@ public class SalesPage extends javax.swing.JPanel {
         if (prodCombo.getSelectedIndex() > 0) {
             try {
                 String selectedProduct = prodCombo.getSelectedItem().toString();
-                String prodCode = selectedProduct.split(" - ")[0];
+                if (selectedProduct == null || !selectedProduct.contains(" - ")) {
+                    prodNameLabel.setText("||   Định dạng sản phẩm không hợp lệ.   ||");
+                    prodNameLabel.setVisible(true);
+                    priceText.setText("");
+                    return;
+                }
+                String[] parts = selectedProduct.split(" - ");
+                if (parts.length < 1) {
+                    prodNameLabel.setText("||   Không thể xác định mã sản phẩm.   ||");
+                    prodNameLabel.setVisible(true);
+                    priceText.setText("");
+                    return;
+                }
+                String prodCode = parts[0];
                 ResultSet resultSet = new CustomerDAO().getProdName(prodCode);
                 if (resultSet.next()) {
                     String productName = resultSet.getString("product_name");
@@ -559,6 +624,11 @@ public class SalesPage extends javax.swing.JPanel {
                 prodNameLabel.setVisible(true);
             } catch (SQLException e) {
                 e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+                prodNameLabel.setText("||   Lỗi khi tải thông tin sản phẩm.   ||");
+                prodNameLabel.setVisible(true);
+                priceText.setText("");
             }
         } else {
             prodNameLabel.setText("");

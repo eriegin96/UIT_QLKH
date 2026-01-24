@@ -200,4 +200,79 @@ public class StatisticsDAO {
         }
         return count;
     }
+    
+    /**
+     * Get monthly revenue data for the last 6 months
+     * Returns array: [month1, month2, ..., month6, revenue1, revenue2, ..., revenue6]
+     */
+    public double[] getMonthlyRevenue(int months) {
+        double[] data = new double[months];
+        try {
+            String query = "SELECT " +
+                    "DATE_FORMAT(date, '%Y-%m') as month, " +
+                    "SUM(revenue) as total " +
+                    "FROM sales_info " +
+                    "WHERE date >= DATE_SUB(CURDATE(), INTERVAL ? MONTH) " +
+                    "GROUP BY DATE_FORMAT(date, '%Y-%m') " +
+                    "ORDER BY month";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setInt(1, months);
+            resultSet = prepStatement.executeQuery();
+            int i = 0;
+            while (resultSet.next() && i < months) {
+                data[i] = resultSet.getDouble("total");
+                i++;
+            }
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
+        }
+        return data;
+    }
+    
+    /**
+     * Get top selling products
+     * Returns ResultSet with columns: product_name, total_quantity, total_revenue
+     */
+    public ResultSet getTopSellingProducts(int limit) {
+        try {
+            String query = "SELECT p.product_name, " +
+                    "COALESCE(SUM(si.quantity), 0) as total_quantity, " +
+                    "COALESCE(SUM(si.revenue), 0) as total_revenue " +
+                    "FROM products p " +
+                    "LEFT JOIN sales_info si ON p.product_code = si.product_code " +
+                    "GROUP BY p.pid, p.product_name " +
+                    "ORDER BY total_quantity DESC " +
+                    "LIMIT ?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setInt(1, limit);
+            return prepStatement.executeQuery();
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
+            return null;
+        }
+    }
+    
+    /**
+     * Get revenue vs cost comparison for last 6 months
+     */
+    public ResultSet getRevenueVsCost(int months) {
+        try {
+            String query = "SELECT " +
+                    "DATE_FORMAT(s.date, '%Y-%m') as month, " +
+                    "SUM(s.revenue) as revenue, " +
+                    "0 as cost " +
+                    "FROM sales_info s " +
+                    "WHERE s.date >= DATE_SUB(CURDATE(), INTERVAL ? MONTH) " +
+                    "GROUP BY DATE_FORMAT(s.date, '%Y-%m') " +
+                    "ORDER BY month ASC " +
+                    "LIMIT ?";
+            prepStatement = conn.prepareStatement(query);
+            prepStatement.setInt(1, months);
+            prepStatement.setInt(2, months);
+            return prepStatement.executeQuery();
+        } catch (SQLException e) {
+            ErrorHandler.handleError(e);
+            return null;
+        }
+    }
 }

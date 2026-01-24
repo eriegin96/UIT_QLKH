@@ -2,10 +2,26 @@ package View;
 
 import DAO.StatisticsDAO;
 import Util.IconScaler;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class HomePage extends javax.swing.JPanel {
 
@@ -18,6 +34,10 @@ public class HomePage extends javax.swing.JPanel {
     private JLabel productsValue, stockValue, inventoryValue;
     private JLabel customersValue, suppliersValue, salesValue;
     private JLabel purchasesValue, lowStockValue;
+    
+    // Chart panels
+    private ChartPanel revenueChartPanel;
+    private ChartPanel topProductsChartPanel;
 
     /**
      * Creates new form StatsPage
@@ -30,6 +50,7 @@ public class HomePage extends javax.swing.JPanel {
         refreshButton.setIcon(IconScaler.scaleIcon16("/View/Icons/refresh.png"));
         setupStatistics();
         loadStatistics();
+        updateCharts();
     }
 
     private void styleRefreshButton() {
@@ -124,6 +145,7 @@ public class HomePage extends javax.swing.JPanel {
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_refreshButtonActionPerformed
         loadStatistics();
+        updateCharts();
     }// GEN-LAST:event_refreshButtonActionPerformed
 
     private void setupStatistics() {
@@ -218,6 +240,24 @@ public class HomePage extends javax.swing.JPanel {
         transactionsPanel.add(purchasesCard);
         transactionsPanel.add(lowStockCard);
         contentPanel.add(transactionsPanel);
+        contentPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        // Charts Section
+        contentPanel.add(createSectionLabel("BIỂU ĐỒ PHÂN TÍCH"));
+        contentPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        // Chart panels container
+        JPanel chartsPanel = new JPanel(new GridLayout(1, 2, 10, 0));
+        chartsPanel.setOpaque(false);
+        chartsPanel.setMaximumSize(new Dimension(650, 300));
+        
+        // Initialize chart panels
+        revenueChartPanel = createRevenueChart();
+        topProductsChartPanel = createTopProductsChart();
+        
+        chartsPanel.add(revenueChartPanel);
+        chartsPanel.add(topProductsChartPanel);
+        contentPanel.add(chartsPanel);
 
         // Add small space at bottom
         contentPanel.add(Box.createRigidArea(new Dimension(0, 20)));
@@ -309,6 +349,184 @@ public class HomePage extends javax.swing.JPanel {
 
     private String formatMoney(double amount) {
         return formatter.format(amount).replace(",", ".") + " đ";
+    }
+
+    /**
+     * Create revenue trend chart (Line chart)
+     */
+    private ChartPanel createRevenueChart() {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        
+        // Add sample data - will be updated when loadStatistics is called
+        dataset.addValue(0, "Doanh thu", "Tháng 1");
+        dataset.addValue(0, "Doanh thu", "Tháng 2");
+        dataset.addValue(0, "Doanh thu", "Tháng 3");
+        dataset.addValue(0, "Doanh thu", "Tháng 4");
+        dataset.addValue(0, "Doanh thu", "Tháng 5");
+        dataset.addValue(0, "Doanh thu", "Tháng 6");
+
+        JFreeChart lineChart = ChartFactory.createLineChart(
+                "Xu hướng Doanh Thu 6 Tháng",
+                "Tháng",
+                "Doanh thu (VNĐ)",
+                dataset,
+                PlotOrientation.VERTICAL,
+                true, true, false);
+
+        // Customize chart
+        lineChart.setBackgroundPaint(Color.WHITE);
+        CategoryPlot plot = lineChart.getCategoryPlot();
+        plot.setBackgroundPaint(new Color(245, 245, 245));
+        plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
+        
+        // Custom Y-axis formatter (K for thousands, M for millions)
+        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        rangeAxis.setNumberFormatOverride(new NumberFormat() {
+            @Override
+            public StringBuffer format(double number, StringBuffer toAppendTo, java.text.FieldPosition pos) {
+                if (number >= 1_000_000_000) {
+                    return toAppendTo.append(String.format("%.1fB", number / 1_000_000_000));
+                } else if (number >= 1_000_000) {
+                    return toAppendTo.append(String.format("%.0fM", number / 1_000_000));
+                } else if (number >= 1_000) {
+                    return toAppendTo.append(String.format("%.0fK", number / 1_000));
+                } else {
+                    return toAppendTo.append(String.format("%.0f", number));
+                }
+            }
+
+            @Override
+            public StringBuffer format(long number, StringBuffer toAppendTo, java.text.FieldPosition pos) {
+                return format((double) number, toAppendTo, pos);
+            }
+
+            @Override
+            public Number parse(String source, java.text.ParsePosition parsePosition) {
+                return null;
+            }
+        });
+        
+        LineAndShapeRenderer renderer = new LineAndShapeRenderer();
+        renderer.setSeriesPaint(0, new Color(52, 152, 219));
+        renderer.setSeriesStroke(0, new BasicStroke(2.0f));
+        plot.setRenderer(renderer);
+
+        ChartPanel chartPanel = new ChartPanel(lineChart);
+        chartPanel.setPreferredSize(new Dimension(300, 280));
+        return chartPanel;
+    }
+
+    /**
+     * Create top products pie chart
+     */
+    private ChartPanel createTopProductsChart() {
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        
+        // Add sample data - will be updated when loadStatistics is called
+        dataset.setValue("Sản phẩm 1", 0);
+        dataset.setValue("Sản phẩm 2", 0);
+        dataset.setValue("Sản phẩm 3", 0);
+        dataset.setValue("Sản phẩm 4", 0);
+        dataset.setValue("Khác", 0);
+
+        JFreeChart pieChart = ChartFactory.createPieChart(
+                "Top 5 Sản Phẩm Bán Chạy",
+                dataset,
+                true, true, false);
+
+        pieChart.setBackgroundPaint(Color.WHITE);
+        PiePlot plot = (PiePlot) pieChart.getPlot();
+        plot.setBackgroundPaint(new Color(245, 245, 245));
+        plot.setOutlinePaint(Color.WHITE);
+        
+        // Format labels to show percentage
+        plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0}: {2}"));
+        
+        plot.setSectionPaint("Sản phẩm 1", new Color(52, 152, 219));
+        plot.setSectionPaint("Sản phẩm 2", new Color(46, 204, 113));
+        plot.setSectionPaint("Sản phẩm 3", new Color(155, 89, 182));
+        plot.setSectionPaint("Sản phẩm 4", new Color(241, 196, 15));
+        plot.setSectionPaint("Khác", new Color(149, 165, 166));
+
+        ChartPanel chartPanel = new ChartPanel(pieChart);
+        chartPanel.setPreferredSize(new Dimension(300, 280));
+        return chartPanel;
+    }
+
+    /**
+     * Update charts with real data
+     */
+    private void updateCharts() {
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            private DefaultCategoryDataset revenueDataset;
+            private DefaultPieDataset topProductsDataset;
+
+            @Override
+            protected Void doInBackground() {
+                // Update revenue chart data (ordered from oldest to newest, left to right)
+                revenueDataset = new DefaultCategoryDataset();
+                try {
+                    ResultSet rs = statisticsDAO.getRevenueVsCost(6);
+                    while (rs != null && rs.next()) {
+                        String month = rs.getString("month");
+                        double revenue = rs.getDouble("revenue");
+                        revenueDataset.addValue(revenue, "Doanh thu", month);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                // Update top products chart data
+                topProductsDataset = new DefaultPieDataset();
+                try {
+                    ResultSet rs = statisticsDAO.getTopSellingProducts(5);
+                    int count = 0;
+                    while (rs != null && rs.next() && count < 5) {
+                        String productName = rs.getString("product_name");
+                        int quantity = rs.getInt("total_quantity");
+                        if (quantity > 0) {
+                            topProductsDataset.setValue(productName, quantity);
+                            count++;
+                        }
+                    }
+                    // Add "Khác" category if less than 5 products
+                    if (count < 5) {
+                        topProductsDataset.setValue("Khác", 0);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                // Update revenue chart
+                JFreeChart revenueChart = revenueChartPanel.getChart();
+                CategoryPlot revenuePlot = revenueChart.getCategoryPlot();
+                revenuePlot.setDataset(revenueDataset);
+
+                // Update top products chart
+                JFreeChart topProductsChart = topProductsChartPanel.getChart();
+                PiePlot piePlot = (PiePlot) topProductsChart.getPlot();
+                piePlot.setDataset(topProductsDataset);
+                
+                // Update colors for pie sections
+                int sectionIndex = 0;
+                Color[] colors = {
+                    new Color(52, 152, 219),
+                    new Color(46, 204, 113),
+                    new Color(155, 89, 182),
+                    new Color(241, 196, 15),
+                    new Color(149, 165, 166)
+                };
+                for (Object key : topProductsDataset.getKeys()) {
+                    piePlot.setSectionPaint((Comparable) key, colors[sectionIndex % colors.length]);
+                    sectionIndex++;
+                }
+            }
+        };
+        worker.execute();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

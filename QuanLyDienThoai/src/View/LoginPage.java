@@ -48,6 +48,18 @@ public class LoginPage extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Mật khẩu");
 
+        userText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userTextActionPerformed(evt);
+            }
+        });
+
+        passText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passTextActionPerformed(evt);
+            }
+        });
+
         jLabel3.setFont(new java.awt.Font("Poor Richard", 1, 24)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("QUẢN LÝ CỬA HÀNG");
