@@ -7,11 +7,12 @@ import java.awt.Image;
  * Utility class for scaling icons to specified dimensions
  */
 public class IconScaler {
-    
+
     /**
      * Scales an icon to the specified width and height
-     * @param path Path to the icon resource (e.g., "/UI/Icons/icon.png")
-     * @param width Target width in pixels
+     * 
+     * @param path   Path to the icon resource (e.g., "/View/Icons/icon.png")
+     * @param width  Target width in pixels
      * @param height Target height in pixels
      * @return Scaled ImageIcon
      */
@@ -27,18 +28,20 @@ public class IconScaler {
             return new ImageIcon(); // Return empty icon on error
         }
     }
-    
+
     /**
      * Scales an icon to 20x20 pixels (default size for dashboard icons)
+     * 
      * @param path Path to the icon resource
      * @return Scaled ImageIcon at 20x20
      */
     public static ImageIcon scaleIcon20(String path) {
         return scaleIcon(path, 20, 20);
     }
-    
+
     /**
      * Scales an icon to 16x16 pixels (default size for small icons)
+     * 
      * @param path Path to the icon resource
      * @return Scaled ImageIcon at 16x16
      */
