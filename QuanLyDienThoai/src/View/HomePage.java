@@ -36,7 +36,7 @@ public class HomePage extends javax.swing.JPanel {
     private JLabel productsValue, stockValue, inventoryValue;
     private JLabel customersValue, suppliersValue, salesValue;
     private JLabel purchasesValue, lowStockValue;
-    
+
     // Chart panels
     private ChartPanel revenueChartPanel;
     private ChartPanel topProductsChartPanel;
@@ -252,11 +252,11 @@ public class HomePage extends javax.swing.JPanel {
         JPanel chartsPanel = new JPanel(new GridLayout(2, 1, 0, 15));
         chartsPanel.setOpaque(false);
         chartsPanel.setMaximumSize(new Dimension(680, 650));
-        
+
         // Initialize chart panels
         revenueChartPanel = createRevenueChart();
         topProductsChartPanel = createTopProductsChart();
-        
+
         chartsPanel.add(revenueChartPanel);
         chartsPanel.add(topProductsChartPanel);
         contentPanel.add(chartsPanel);
@@ -356,9 +356,10 @@ public class HomePage extends javax.swing.JPanel {
     /**
      * Create revenue trend chart (Line chart)
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private ChartPanel createRevenueChart() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        
+
         // Add sample data - will be updated when loadStatistics is called
         dataset.addValue(0, "Doanh thu", "Tháng 1");
         dataset.addValue(0, "Doanh thu", "Tháng 2");
@@ -380,7 +381,7 @@ public class HomePage extends javax.swing.JPanel {
         CategoryPlot plot = lineChart.getCategoryPlot();
         plot.setBackgroundPaint(new Color(245, 245, 245));
         plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
-        
+
         // Custom Y-axis formatter (K for thousands, M for millions)
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setNumberFormatOverride(new NumberFormat() {
@@ -407,7 +408,7 @@ public class HomePage extends javax.swing.JPanel {
                 return null;
             }
         });
-        
+
         LineAndShapeRenderer renderer = new LineAndShapeRenderer();
         renderer.setSeriesPaint(0, new Color(52, 152, 219));
         renderer.setSeriesStroke(0, new BasicStroke(2.0f));
@@ -421,9 +422,10 @@ public class HomePage extends javax.swing.JPanel {
     /**
      * Create top products pie chart
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private ChartPanel createTopProductsChart() {
         DefaultPieDataset dataset = new DefaultPieDataset();
-        
+
         // Add sample data - will be updated when loadStatistics is called
         dataset.setValue("Sản phẩm 1", 0);
         dataset.setValue("Sản phẩm 2", 0);
@@ -440,10 +442,10 @@ public class HomePage extends javax.swing.JPanel {
         PiePlot plot = (PiePlot) pieChart.getPlot();
         plot.setBackgroundPaint(new Color(245, 245, 245));
         plot.setOutlinePaint(Color.WHITE);
-        
+
         // Format labels to show percentage
         plot.setLabelGenerator(new StandardPieSectionLabelGenerator("{0}: {2}"));
-        
+
         plot.setSectionPaint("Sản phẩm 1", new Color(52, 152, 219));
         plot.setSectionPaint("Sản phẩm 2", new Color(46, 204, 113));
         plot.setSectionPaint("Sản phẩm 3", new Color(155, 89, 182));
@@ -458,6 +460,7 @@ public class HomePage extends javax.swing.JPanel {
     /**
      * Update charts with real data
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private void updateCharts() {
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             private DefaultCategoryDataset revenueDataset;
@@ -514,18 +517,20 @@ public class HomePage extends javax.swing.JPanel {
                 JFreeChart topProductsChart = topProductsChartPanel.getChart();
                 PiePlot piePlot = (PiePlot) topProductsChart.getPlot();
                 piePlot.setDataset(topProductsDataset);
-                
+
                 // Update colors for pie sections
                 int sectionIndex = 0;
                 Color[] colors = {
-                    new Color(52, 152, 219),
-                    new Color(46, 204, 113),
-                    new Color(155, 89, 182),
-                    new Color(241, 196, 15),
-                    new Color(149, 165, 166)
+                        new Color(52, 152, 219),
+                        new Color(46, 204, 113),
+                        new Color(155, 89, 182),
+                        new Color(241, 196, 15),
+                        new Color(149, 165, 166)
                 };
-                for (Object key : topProductsDataset.getKeys()) {
-                    piePlot.setSectionPaint((Comparable) key, colors[sectionIndex % colors.length]);
+                @SuppressWarnings("unchecked")
+                java.util.List<Comparable<?>> keys = topProductsDataset.getKeys();
+                for (Comparable<?> key : keys) {
+                    piePlot.setSectionPaint(key, colors[sectionIndex % colors.length]);
                     sectionIndex++;
                 }
             }
