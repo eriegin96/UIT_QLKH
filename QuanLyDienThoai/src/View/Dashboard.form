@@ -125,7 +125,7 @@
             <Component class="javax.swing.JButton" name="homeButton">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/UI/Icons/dashboard.png"/>
+                  <Image iconType="3" name="/View/Icons/dashboard.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Th&#x1ed1;ng k&#xea;"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -139,7 +139,7 @@
             <Component class="javax.swing.JButton" name="prodButton">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/UI/Icons/product.png"/>
+                  <Image iconType="3" name="/View/Icons/product.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="S&#x1ea3;n ph&#x1ea9;m"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -153,7 +153,7 @@
             <Component class="javax.swing.JButton" name="stockButton">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/UI/Icons/stock.png"/>
+                  <Image iconType="3" name="/View/Icons/stock.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="T&#x1ed3;n kho"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -167,7 +167,7 @@
             <Component class="javax.swing.JButton" name="custButton">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/UI/Icons/account.png"/>
+                  <Image iconType="3" name="/View/Icons/account.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Kh&#xe1;ch h&#xe0;ng"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -181,7 +181,7 @@
             <Component class="javax.swing.JButton" name="suppButton">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/UI/Icons/supplier.png"/>
+                  <Image iconType="3" name="/View/Icons/supplier.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Nh&#xe0; cung c&#x1ea5;p"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -195,7 +195,7 @@
             <Component class="javax.swing.JButton" name="salesButton">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/UI/Icons/sell.png"/>
+                  <Image iconType="3" name="/View/Icons/sell.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="B&#xe1;n h&#xe0;ng"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -209,7 +209,7 @@
             <Component class="javax.swing.JButton" name="usersButton">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/UI/Icons/account_test.png"/>
+                  <Image iconType="3" name="/View/Icons/account_test.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="T&#xe0;i kho&#x1ea3;n"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -223,7 +223,7 @@
             <Component class="javax.swing.JButton" name="purchaseButton">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/UI/Icons/import.png"/>
+                  <Image iconType="3" name="/View/Icons/import.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Nh&#x1ead;p h&#xe0;ng"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -281,7 +281,7 @@
                   <Font name="Segoe UI Black" size="12" style="0"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/UI/Icons/account_test.png"/>
+                  <Image iconType="3" name="/View/Icons/account_test.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="T&#xe0;i kho&#x1ea3;n:"/>
                 <Property name="verticalAlignment" type="int" value="1"/>
@@ -290,7 +290,7 @@
             <Component class="javax.swing.JButton" name="logoutButton">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/UI/Icons/shutdown.png"/>
+                  <Image iconType="3" name="/View/Icons/shutdown.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="&#x110;&#x103;ng xu&#x1ea5;t"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">

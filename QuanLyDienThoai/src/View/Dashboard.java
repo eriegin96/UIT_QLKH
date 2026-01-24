@@ -1,4 +1,4 @@
-package UI;
+package View;
 
 import DAO.UserDAO;
 import Model.User;
@@ -131,7 +131,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         navPanel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        homeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/dashboard.png"))); // NOI18N
+        homeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/Icons/dashboard.png"))); // NOI18N
         homeButton.setText("Thống kê");
         homeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         homeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -140,7 +140,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        prodButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/product.png"))); // NOI18N
+        prodButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/Icons/product.png"))); // NOI18N
         prodButton.setText("Sản phẩm");
         prodButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         prodButton.addActionListener(new java.awt.event.ActionListener() {
@@ -149,7 +149,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        stockButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/stock.png"))); // NOI18N
+        stockButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/Icons/stock.png"))); // NOI18N
         stockButton.setText("Tồn kho");
         stockButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         stockButton.addActionListener(new java.awt.event.ActionListener() {
@@ -158,7 +158,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        custButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/account.png"))); // NOI18N
+        custButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/Icons/account.png"))); // NOI18N
         custButton.setText("Khách hàng");
         custButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         custButton.addActionListener(new java.awt.event.ActionListener() {
@@ -167,7 +167,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        suppButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/supplier.png"))); // NOI18N
+        suppButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/Icons/supplier.png"))); // NOI18N
         suppButton.setText("Nhà cung cấp");
         suppButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         suppButton.addActionListener(new java.awt.event.ActionListener() {
@@ -176,7 +176,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        salesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/sell.png"))); // NOI18N
+        salesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/Icons/sell.png"))); // NOI18N
         salesButton.setText("Bán hàng");
         salesButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         salesButton.addActionListener(new java.awt.event.ActionListener() {
@@ -185,7 +185,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        usersButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/account_test.png"))); // NOI18N
+        usersButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/Icons/account_test.png"))); // NOI18N
         usersButton.setText("Tài khoản");
         usersButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         usersButton.addActionListener(new java.awt.event.ActionListener() {
@@ -194,7 +194,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        purchaseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/import.png"))); // NOI18N
+        purchaseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/Icons/import.png"))); // NOI18N
         purchaseButton.setText("Nhập hàng");
         purchaseButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         purchaseButton.addActionListener(new java.awt.event.ActionListener() {
@@ -247,11 +247,11 @@ public class Dashboard extends javax.swing.JFrame {
         userPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         nameLabel.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        nameLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/account_test.png"))); // NOI18N
+        nameLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/Icons/account_test.png"))); // NOI18N
         nameLabel.setText("Tài khoản:");
         nameLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/shutdown.png"))); // NOI18N
+        logoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/Icons/shutdown.png"))); // NOI18N
         logoutButton.setText("Đăng xuất");
         logoutButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         logoutButton.addActionListener(new java.awt.event.ActionListener() {

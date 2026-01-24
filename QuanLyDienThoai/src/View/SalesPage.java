@@ -1,4 +1,4 @@
-package UI;
+package View;
 
 import DAO.CustomerDAO;
 import DAO.ProductDAO;
@@ -261,7 +261,7 @@ public class SalesPage extends javax.swing.JPanel {
         jLabel7.setText("Tìm kiếm");
 
         refreshButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        refreshButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UI/Icons/refresh.png"))); // NOI18N
+        refreshButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/View/Icons/refresh.png"))); // NOI18N
         refreshButton.setText("LÀM MỚI");
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -2,7 +2,7 @@ package DAO;
 
 import Model.User;
 import Database.ConnectionFactory;
-import UI.UsersPage;
+import View.UsersPage;
 import Util.PasswordHasher;
 
 import javax.swing.*;
