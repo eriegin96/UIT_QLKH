@@ -250,6 +250,9 @@
         <Component class="javax.swing.JTextField" name="costText">
         </Component>
         <Component class="javax.swing.JTextField" name="brandText">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="purchaseButton">
           <Properties>

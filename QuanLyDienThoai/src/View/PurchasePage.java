@@ -65,6 +65,7 @@ public class PurchasePage extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -125,6 +126,8 @@ public class PurchasePage extends javax.swing.JPanel {
                 nameTextActionPerformed(evt);
             }
         });
+
+        brandText.setEnabled(false);
 
         purchaseButton.setBackground(new java.awt.Color(0, 202, 78));
         purchaseButton.setForeground(new java.awt.Color(51, 51, 51));
