@@ -24,6 +24,7 @@ public class Dashboard extends javax.swing.JFrame {
      */
     public Dashboard(String username, User userDTO) {
         initComponents();
+        setLocationRelativeTo(null);
 
         // Scale all icons to 20x20
         homeButton.setIcon(IconScaler.scaleIcon20("/View/Icons/dashboard.png"));
@@ -59,6 +60,8 @@ public class Dashboard extends javax.swing.JFrame {
         displayPanel.add("Inventory", new InventoryPage(username));
         displayPanel.add("Sales", new SalesPage(username, this));
         displayPanel.add("Purchase", new PurchasePage(this));
+
+        showInitialPageByRole();
 
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -431,6 +434,15 @@ public class Dashboard extends javax.swing.JFrame {
             // purchaseButton and stockButton remain visible
         }
         // ADMIN sees everything (default - no changes needed)
+    }
+
+    // Method to show initial page based on user role
+    private void showInitialPageByRole() {
+        if ("ADMIN".equals(userType)) {
+            layout.show(displayPanel, "Home");
+        } else {
+            layout.show(displayPanel, "Inventory");
+        }
     }
 
     // Method to display the user currently logged in
