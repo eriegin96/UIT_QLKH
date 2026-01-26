@@ -3,6 +3,7 @@ package View;
 import DAO.UserDAO;
 import Model.User;
 import Util.IconScaler;
+import Util.ThemeUtil;
 import javax.swing.*;
 import java.awt.CardLayout;
 import java.awt.event.WindowAdapter;
@@ -37,6 +38,9 @@ public class Dashboard extends javax.swing.JFrame {
         purchaseButton.setIcon(IconScaler.scaleIcon20("/View/Icons/import.png"));
         nameLabel.setIcon(IconScaler.scaleIcon20("/View/Icons/account_test.png"));
         logoutButton.setIcon(IconScaler.scaleIcon20("/View/Icons/shutdown.png"));
+
+        // Apply theme to menu buttons
+        applyTheme();
 
         layout = new CardLayout();
         this.username = username;
@@ -76,6 +80,28 @@ public class Dashboard extends javax.swing.JFrame {
         setTitle("QUẢN LÝ CỬA HÀNG ĐIỆN THOẠI");
         setResizable(false); // Disable window resizing and maximize button
         setVisible(true);
+    }
+
+    // Apply theme to all navigation buttons
+    private void applyTheme() {
+        // Apply secondary button style to navigation buttons
+        ThemeUtil.applySecondaryButtonStyle(homeButton);
+        ThemeUtil.applySecondaryButtonStyle(prodButton);
+        ThemeUtil.applySecondaryButtonStyle(stockButton);
+        ThemeUtil.applySecondaryButtonStyle(custButton);
+        ThemeUtil.applySecondaryButtonStyle(suppButton);
+        ThemeUtil.applySecondaryButtonStyle(salesButton);
+        ThemeUtil.applySecondaryButtonStyle(usersButton);
+        ThemeUtil.applySecondaryButtonStyle(purchaseButton);
+        
+        // Apply logout button style to logout button
+        ThemeUtil.applyLogoutButtonStyle(logoutButton);
+        
+        // Apply white background to panels
+        ThemeUtil.applyWhiteBackground(displayPanel);
+        ThemeUtil.applyWhiteBackground(mainPanel);
+        ThemeUtil.applyWhiteBackground(navPanel);
+        ThemeUtil.applyWhiteBackground(userPanel);
     }
 
     // Methods to display different sections in the mainframe

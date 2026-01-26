@@ -2,6 +2,7 @@ package View;
 
 import DAO.StatisticsDAO;
 import Util.IconScaler;
+import Util.ThemeUtil;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -40,6 +41,9 @@ public class HomePage extends javax.swing.JPanel {
     // Chart panels
     private ChartPanel revenueChartPanel;
     private ChartPanel topProductsChartPanel;
+    
+    // Content panel
+    private JPanel contentPanel;
 
     /**
      * Creates new form StatsPage
@@ -51,32 +55,21 @@ public class HomePage extends javax.swing.JPanel {
         statisticsDAO = new StatisticsDAO();
         refreshButton.setIcon(IconScaler.scaleIcon16("/View/Icons/refresh.png"));
         setupStatistics();
+        applyTheme();
         loadStatistics();
         updateCharts();
     }
 
-    private void styleRefreshButton() {
-        // Style the refresh button from the form
-        refreshButton.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        refreshButton.setBackground(new Color(46, 204, 113));
-        refreshButton.setForeground(Color.WHITE);
-        refreshButton.setFocusPainted(false);
-        refreshButton.setBorderPainted(false);
-        refreshButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        refreshButton.setOpaque(true);
-        refreshButton.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(39, 174, 96), 1),
-                BorderFactory.createEmptyBorder(5, 15, 5, 15)));
-        // Add hover effect
-        refreshButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                refreshButton.setBackground(new Color(39, 174, 96));
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                refreshButton.setBackground(new Color(46, 204, 113));
-            }
-        });
+    // Apply theme to all components
+    private void applyTheme() {
+        // Apply white background to panels
+        ThemeUtil.applyWhiteBackground(this);
+        if (contentPanel != null) {
+            ThemeUtil.applyWhiteBackground(contentPanel);
+        }
+        
+        // Apply refresh button style
+        ThemeUtil.applyRefreshButtonStyle(refreshButton);
     }
 
     /**
@@ -152,7 +145,7 @@ public class HomePage extends javax.swing.JPanel {
 
     private void setupStatistics() {
         // Create main content panel with explicit preferred height
-        JPanel contentPanel = new JPanel();
+        contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 

@@ -3,6 +3,7 @@ package View;
 import DAO.UserDAO;
 import Model.User;
 import Util.IconScaler;
+import Util.ThemeUtil;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -20,8 +21,33 @@ public class UsersPage extends javax.swing.JPanel {
         userTable.setDefaultEditor(Object.class, null);
         userTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         refreshButton.setIcon(IconScaler.scaleIcon16("/View/Icons/refresh.png"));
+        applyTheme();
         initTable();
         loadDataSet();
+    }
+    
+    // Apply theme to all components
+    private void applyTheme() {
+        // Apply white background to panels
+        ThemeUtil.applyWhiteBackground(this);
+        ThemeUtil.applyWhiteBackground(entryPanel);
+        
+        // Apply button styles
+        ThemeUtil.applySuccessButtonStyle(addButton);
+        ThemeUtil.applyWarningButtonStyle(editButton);
+        ThemeUtil.applyDangerButtonStyle(deleteButton);
+        ThemeUtil.applyRefreshButtonStyle(refreshButton);
+        
+        // Apply table style
+        ThemeUtil.applyTableStyle(userTable);
+        
+        // Apply text field styles
+        ThemeUtil.applyTextFieldStyle(nameText);
+        ThemeUtil.applyTextFieldStyle(locationText);
+        ThemeUtil.applyTextFieldStyle(phoneText);
+        ThemeUtil.applyTextFieldStyle(usernameText);
+        ThemeUtil.applyPasswordFieldStyle(passText);
+        ThemeUtil.applyComboBoxStyle(userTypeCombo);
     }
 
     public final void initTable() {
@@ -92,36 +118,21 @@ public class UsersPage extends javax.swing.JPanel {
 
         userTypeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "SALER", "PURCHASER" }));
 
-        addButton.setBackground(new java.awt.Color(0, 202, 78));
-        addButton.setForeground(new java.awt.Color(51, 51, 51));
         addButton.setText("Thêm");
-        addButton.setBorderPainted(false);
-        addButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        addButton.setOpaque(true);
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonActionPerformed(evt);
             }
         });
 
-        editButton.setBackground(new java.awt.Color(255, 189, 68));
-        editButton.setForeground(new java.awt.Color(51, 51, 51));
         editButton.setText("Sửa");
-        editButton.setBorderPainted(false);
-        editButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        editButton.setOpaque(true);
         editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editButtonActionPerformed(evt);
             }
         });
 
-        deleteButton.setBackground(new java.awt.Color(255, 96, 92));
-        deleteButton.setForeground(new java.awt.Color(51, 51, 51));
         deleteButton.setText("Xóa");
-        deleteButton.setBorderPainted(false);
-        deleteButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        deleteButton.setOpaque(true);
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteButtonActionPerformed(evt);

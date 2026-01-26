@@ -5,6 +5,7 @@ import DAO.SupplierDAO;
 import Model.Product;
 import Util.DateTimeUtil;
 import Util.IconScaler;
+import Util.ThemeUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,10 +36,35 @@ public class PurchasePage extends javax.swing.JPanel {
         purchaseTable.setDefaultEditor(Object.class, null);
         purchaseTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         refreshButton.setIcon(IconScaler.scaleIcon16("/View/Icons/refresh.png"));
+        applyTheme();
         initTable();
         loadComboBox();
         loadProductComboBox();
         loadDataSet();
+    }
+    
+    // Apply theme to all components
+    private void applyTheme() {
+        // Apply white background to panels
+        ThemeUtil.applyWhiteBackground(this);
+        ThemeUtil.applyWhiteBackground(jPanel1);
+        
+        // Apply button styles
+        ThemeUtil.applySuccessButtonStyle(purchaseButton);
+        ThemeUtil.applyDangerButtonStyle(deleteButton);
+        ThemeUtil.applyRefreshButtonStyle(refreshButton);
+        
+        // Apply table style
+        ThemeUtil.applyTableStyle(purchaseTable);
+        
+        // Apply text field styles
+        ThemeUtil.applyTextFieldStyle(quantityText);
+        ThemeUtil.applyTextFieldStyle(costText);
+        ThemeUtil.applyComboBoxStyle(prodCombo);
+        ThemeUtil.applyComboBoxStyle(suppCombo);
+        
+        // Apply date picker style
+        ThemeUtil.applyDatePickerStyle(jDateChooser1);
     }
 
     public final void initTable() {
@@ -129,22 +155,14 @@ public class PurchasePage extends javax.swing.JPanel {
 
         brandText.setEnabled(false);
 
-        purchaseButton.setBackground(new java.awt.Color(0, 202, 78));
-        purchaseButton.setForeground(new java.awt.Color(51, 51, 51));
         purchaseButton.setText("NHẬP");
-        purchaseButton.setBorderPainted(false);
-        purchaseButton.setOpaque(true);
         purchaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 purchaseButtonActionPerformed(evt);
             }
         });
 
-        deleteButton.setBackground(new java.awt.Color(255, 96, 92));
-        deleteButton.setForeground(new java.awt.Color(51, 51, 51));
         deleteButton.setText("Xóa");
-        deleteButton.setBorderPainted(false);
-        deleteButton.setOpaque(true);
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteButtonActionPerformed(evt);

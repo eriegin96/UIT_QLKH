@@ -5,6 +5,7 @@ import DAO.ProductDAO;
 import Model.Product;
 import Util.DateTimeUtil;
 import Util.IconScaler;
+import Util.ThemeUtil;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -34,12 +35,37 @@ public class SalesPage extends javax.swing.JPanel {
         salesTable.setDefaultEditor(Object.class, null);
         salesTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         refreshButton.setIcon(IconScaler.scaleIcon16("/View/Icons/refresh.png"));
+        applyTheme();
         initTable();
         custNameLabel.setVisible(false);
         prodNameLabel.setVisible(false);
         loadCustomerComboBox();
         loadProductComboBox();
         loadDataSet();
+    }
+    
+    // Apply theme to all components
+    private void applyTheme() {
+        // Apply white background to panels
+        ThemeUtil.applyWhiteBackground(this);
+        ThemeUtil.applyWhiteBackground(sellPanel);
+        
+        // Apply button styles
+        ThemeUtil.applySuccessButtonStyle(sellButton);
+        ThemeUtil.applyDangerButtonStyle(deleteButton);
+        ThemeUtil.applyPrimaryButtonStyle(addCustButton);
+        ThemeUtil.applyRefreshButtonStyle(refreshButton);
+        
+        // Apply table style
+        ThemeUtil.applyTableStyle(salesTable);
+        
+        // Apply text field styles
+        ThemeUtil.applyTextFieldStyle(quantityText);
+        ThemeUtil.applyComboBoxStyle(custCombo);
+        ThemeUtil.applyComboBoxStyle(prodCombo);
+        
+        // Apply date picker style
+        ThemeUtil.applyDatePickerStyle(jDateChooser1);
     }
 
     public final void initTable() {
@@ -122,25 +148,14 @@ public class SalesPage extends javax.swing.JPanel {
             }
         });
 
-        sellButton.setBackground(new java.awt.Color(0, 202, 78));
-        sellButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        sellButton.setForeground(new java.awt.Color(51, 51, 51));
         sellButton.setText("BÁN");
-        sellButton.setBorderPainted(false);
-        sellButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        sellButton.setOpaque(true);
         sellButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sellButtonActionPerformed(evt);
             }
         });
 
-        deleteButton.setBackground(new java.awt.Color(255, 96, 92));
-        deleteButton.setForeground(new java.awt.Color(51, 51, 51));
         deleteButton.setText("Xóa");
-        deleteButton.setBorderPainted(false);
-        deleteButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        deleteButton.setOpaque(true);
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteButtonActionPerformed(evt);
@@ -148,7 +163,6 @@ public class SalesPage extends javax.swing.JPanel {
         });
 
         addCustButton.setText("Thêm Khách hàng mới");
-        addCustButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addCustButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addCustButtonActionPerformed(evt);

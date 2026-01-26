@@ -2,6 +2,7 @@ package View;
 
 import DAO.ProductDAO;
 import Util.IconScaler;
+import Util.ThemeUtil;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
@@ -21,8 +22,21 @@ public class InventoryPage extends javax.swing.JPanel {
         this.username = username;
         stockTable.setDefaultEditor(Object.class, null);
         refreshButton.setIcon(IconScaler.scaleIcon16("/View/Icons/refresh.png"));
+        applyTheme();
         initTable();
         loadDataSet();
+    }
+    
+    // Apply theme to all components
+    private void applyTheme() {
+        // Apply white background to panel
+        ThemeUtil.applyWhiteBackground(this);
+        
+        // Apply refresh button style
+        ThemeUtil.applyRefreshButtonStyle(refreshButton);
+        
+        // Apply table style
+        ThemeUtil.applyTableStyle(stockTable);
     }
 
     public final void initTable() {

@@ -2,6 +2,7 @@ package View;
 
 import Model.User;
 import Database.ConnectionFactory;
+import Util.ThemeUtil;
 import java.time.LocalDateTime;
 import javax.swing.*;
 
@@ -18,7 +19,27 @@ public class LoginPage extends javax.swing.JFrame {
     public LoginPage() {
         initComponents();
         setLocationRelativeTo(null);
+        applyTheme();
         userDTO = new User();
+    }
+    
+    // Apply theme using ThemeUtil
+    private void applyTheme() {
+        // Set content pane background
+        getContentPane().setBackground(ThemeUtil.BACKGROUND_LIGHT);
+        
+        // Style buttons using ThemeUtil
+        ThemeUtil.applySuccessButtonStyle(loginButton);
+        ThemeUtil.applyDangerButtonStyle(clearButton);
+        
+        // Style text fields
+        ThemeUtil.applyTextFieldStyle(userText);
+        ThemeUtil.applyPasswordFieldStyle(passText);
+        
+        // Style labels
+        ThemeUtil.applyLabelStyle(jLabel1);
+        ThemeUtil.applyLabelStyle(jLabel2);
+        ThemeUtil.applyHeaderLabelStyle(jLabel3);
     }
 
     /**
